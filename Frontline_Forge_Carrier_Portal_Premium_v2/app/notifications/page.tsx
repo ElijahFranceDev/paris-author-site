@@ -1,0 +1,3 @@
+import { requireProfile } from "@/lib/auth";
+import { Nav } from "@/components/nav";
+export default async function NotificationsPage(){const {supabase,profile}=await requireProfile();const {data}=await supabase.from("notifications").select("*").order("created_at",{ascending:false});return <><Nav profile={profile}/><main className="container"><div className="page-head"><div><div className="eyebrow">Portal alerts</div><h1>Notifications</h1></div></div><div className="grid">{(data||[]).map(n=><div className="card notification" key={n.id}><strong>{n.title}</strong><p>{n.message}</p><div className="muted">{new Date(n.created_at).toLocaleString()}</div></div>)}</div></main></>}
