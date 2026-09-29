@@ -1,0 +1,618 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --thriller-bg: #070708;
+  --thriller-panel: #0d0d0f;
+  --thriller-panel-soft: #121215;
+  --thriller-ink: #f0ede7;
+  --thriller-muted: #aaa7a1;
+  --thriller-red: #7a151b;
+  --thriller-red-bright: #a92a31;
+  --thriller-line: rgba(240, 237, 231, 0.12);
+  --thriller-line-strong: rgba(240, 237, 231, 0.22);
+  --thriller-shadow: 0 32px 90px rgba(0, 0, 0, 0.72);
+}
+
+body.thriller-home {
+  margin: 0;
+  color: var(--thriller-ink);
+  background:
+    radial-gradient(circle at 82% 8%, rgba(122, 21, 27, 0.16), transparent 28%),
+    radial-gradient(circle at 8% 42%, rgba(255, 255, 255, 0.035), transparent 30%),
+    linear-gradient(180deg, #050506 0%, #09090b 48%, #050506 100%);
+  font-family: 'Inter', Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+body.thriller-home::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  z-index: 9999;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.012) 1px, transparent 1px);
+  background-size: 4px 4px;
+  mix-blend-mode: soft-light;
+}
+
+.thriller-home .navbar {
+  height: 78px;
+  background: rgba(5, 5, 6, 0.88);
+  border-bottom: 1px solid var(--thriller-line);
+  backdrop-filter: blur(18px);
+}
+
+.thriller-home .logo {
+  color: var(--thriller-ink);
+  font-family: 'Inter', sans-serif;
+  letter-spacing: .22em;
+  font-size: 1.05rem;
+}
+
+.thriller-home .logo span {
+  color: var(--thriller-red-bright);
+}
+
+.thriller-home .menu-button {
+  color: var(--thriller-ink);
+  background: transparent;
+  border: 1px solid var(--thriller-line-strong);
+  border-radius: 3px;
+  padding: 11px 16px;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-size: .72rem;
+}
+
+.thriller-home .menu-button:hover {
+  border-color: rgba(169, 42, 49, 0.72);
+  background: rgba(122, 21, 27, 0.11);
+}
+
+.thriller-home .dropdown {
+  border-radius: 4px;
+  background: rgba(10,10,12,.985);
+  border: 1px solid var(--thriller-line);
+}
+
+.thriller-home .dropdown a {
+  border-radius: 2px;
+  font-size: .88rem;
+}
+
+.thriller-home .dropdown a:hover {
+  background: rgba(122, 21, 27, 0.16);
+}
+
+.thriller-shell {
+  width: min(1240px, 88%);
+  margin: 0 auto;
+}
+
+.thriller-hero {
+  position: relative;
+  min-height: calc(100vh - 78px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--thriller-line);
+}
+
+.thriller-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.48) 52%, rgba(0,0,0,.78) 100%),
+    repeating-linear-gradient(90deg, transparent 0, transparent 88px, rgba(255,255,255,.025) 89px, transparent 90px);
+}
+
+.thriller-hero::after {
+  content: 'P.M. FRANCE';
+  position: absolute;
+  right: -1.5vw;
+  bottom: -3.5vw;
+  color: rgba(255,255,255,.022);
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: clamp(5rem, 16vw, 15rem);
+  white-space: nowrap;
+  letter-spacing: -.06em;
+}
+
+.hero-v2-grid {
+  position: relative;
+  z-index: 2;
+  width: min(1240px, 88%);
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
+  gap: 72px;
+  align-items: center;
+  padding: 90px 0;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #c7c3bd;
+  text-transform: uppercase;
+  letter-spacing: .24em;
+  font-size: .72rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 42px;
+  height: 1px;
+  background: var(--thriller-red-bright);
+}
+
+.thriller-hero h1 {
+  margin: 0 0 26px;
+  max-width: 900px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(4.5rem, 9.2vw, 9rem);
+  line-height: .82;
+  letter-spacing: -.055em;
+  text-transform: none;
+  color: var(--thriller-ink);
+  background: none;
+  -webkit-text-fill-color: initial;
+  text-shadow: none;
+  filter: none;
+}
+
+.thriller-hero h1 em {
+  color: var(--thriller-red-bright);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.hero-v2-copy {
+  color: var(--thriller-muted);
+  max-width: 680px;
+  font-size: 1.08rem;
+  line-height: 1.85;
+  margin-bottom: 34px;
+}
+
+.thriller-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.thriller-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 0 22px;
+  border-radius: 2px;
+  border: 1px solid var(--thriller-line-strong);
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: .74rem;
+  font-weight: 700;
+  transition: .25s ease;
+}
+
+.thriller-btn.primary {
+  background: var(--thriller-red);
+  border-color: var(--thriller-red);
+  color: #fff;
+}
+
+.thriller-btn.secondary {
+  background: rgba(255,255,255,.025);
+  color: var(--thriller-ink);
+}
+
+.thriller-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--thriller-red-bright);
+}
+
+.hero-sigil {
+  position: relative;
+  width: min(380px, 78vw);
+  aspect-ratio: 1;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+}
+
+.hero-sigil::before,
+.hero-sigil::after {
+  content: '';
+  position: absolute;
+  inset: 7%;
+  border: 1px solid var(--thriller-line);
+  transform: rotate(45deg);
+}
+
+.hero-sigil::after {
+  inset: 20%;
+  border-color: rgba(169,42,49,.35);
+  transform: rotate(45deg);
+}
+
+.sigil-center {
+  position: relative;
+  z-index: 2;
+  width: 54%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.17);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(122,21,27,.12), rgba(8,8,9,.2) 60%, transparent 72%);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(3rem, 7vw, 5.6rem);
+  letter-spacing: -.04em;
+}
+
+.sigil-center small {
+  position: absolute;
+  bottom: 22%;
+  font-family: 'Inter', sans-serif;
+  font-size: .55rem;
+  text-transform: uppercase;
+  letter-spacing: .32em;
+  color: var(--thriller-muted);
+}
+
+.thriller-section {
+  padding: 112px 0;
+  border-bottom: 1px solid var(--thriller-line);
+}
+
+.section-label {
+  color: var(--thriller-red-bright);
+  text-transform: uppercase;
+  letter-spacing: .24em;
+  font-size: .72rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.thriller-title {
+  margin: 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(3rem, 6vw, 6.2rem);
+  line-height: .92;
+  font-weight: 600;
+  letter-spacing: -.04em;
+}
+
+.section-intro {
+  color: var(--thriller-muted);
+  max-width: 700px;
+  line-height: 1.85;
+  margin-top: 22px;
+}
+
+.release-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, .78fr) minmax(0, 1.22fr);
+  gap: clamp(42px, 7vw, 100px);
+  align-items: center;
+}
+
+.smile-cover {
+  position: relative;
+  width: min(420px, 100%);
+  aspect-ratio: 2 / 3;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.18);
+  background:
+    radial-gradient(circle at 50% 28%, rgba(169,42,49,.28), transparent 17%),
+    linear-gradient(145deg, rgba(255,255,255,.05), transparent 30%),
+    #09090a;
+  box-shadow: var(--thriller-shadow);
+}
+
+.smile-cover::before {
+  content: '';
+  position: absolute;
+  top: 14%;
+  left: 15%;
+  right: 15%;
+  height: 22%;
+  border-top: 1px solid rgba(255,255,255,.14);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  transform: skewY(-7deg);
+}
+
+.smile-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(255,255,255,.018) 4px);
+  pointer-events: none;
+}
+
+.smile-cover-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10%;
+}
+
+.smile-cover-copy .cover-author {
+  text-transform: uppercase;
+  letter-spacing: .28em;
+  font-size: .68rem;
+  color: #bbb7b0;
+}
+
+.smile-cover-copy h3 {
+  margin: 0;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(3.1rem, 7vw, 6.2rem);
+  line-height: .78;
+  font-weight: 600;
+  letter-spacing: -.06em;
+}
+
+.smile-cover-copy h3 span {
+  display: block;
+  color: var(--thriller-red-bright);
+  font-style: italic;
+}
+
+.smile-cover-copy .cover-footer {
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  font-size: .62rem;
+  color: #8d8984;
+}
+
+.release-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 25px 0;
+}
+
+.release-meta span {
+  padding: 8px 11px;
+  border: 1px solid var(--thriller-line);
+  color: #bbb7b0;
+  font-size: .69rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.release-copy p {
+  color: var(--thriller-muted);
+  line-height: 1.88;
+  font-size: 1.04rem;
+  max-width: 720px;
+}
+
+.universe-panel {
+  position: relative;
+  overflow: hidden;
+  margin-top: 44px;
+  border: 1px solid var(--thriller-line);
+  background: linear-gradient(135deg, rgba(255,255,255,.035), rgba(122,21,27,.045));
+  padding: clamp(28px, 5vw, 60px);
+}
+
+.universe-panel::after {
+  content: 'THE CALM UNIVERSE';
+  position: absolute;
+  right: -1rem;
+  bottom: -1.5rem;
+  font-size: clamp(3.2rem, 10vw, 9rem);
+  font-weight: 700;
+  color: rgba(255,255,255,.022);
+  white-space: nowrap;
+}
+
+.universe-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--thriller-line);
+  border: 1px solid var(--thriller-line);
+}
+
+.universe-card {
+  min-height: 210px;
+  background: #0a0a0c;
+  padding: 28px;
+}
+
+.universe-card .number {
+  color: var(--thriller-red-bright);
+  font-size: .72rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.universe-card h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2rem;
+  margin: 26px 0 12px;
+  font-weight: 600;
+}
+
+.universe-card p {
+  color: var(--thriller-muted);
+  line-height: 1.7;
+  font-size: .94rem;
+}
+
+.legacy-grid {
+  margin-top: 44px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.legacy-card {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 24px;
+  align-items: center;
+  padding: 18px;
+  background: rgba(255,255,255,.024);
+  border: 1px solid var(--thriller-line);
+  transition: .25s ease;
+}
+
+.legacy-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(169,42,49,.55);
+}
+
+.legacy-card img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  box-shadow: 0 20px 55px rgba(0,0,0,.5);
+}
+
+.legacy-card h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 2.1rem;
+  margin: 0 0 8px;
+}
+
+.legacy-card .legacy-label {
+  color: var(--thriller-red-bright);
+  text-transform: uppercase;
+  letter-spacing: .17em;
+  font-size: .65rem;
+}
+
+.legacy-card p {
+  color: var(--thriller-muted);
+  line-height: 1.7;
+}
+
+.author-shift {
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  gap: clamp(36px, 7vw, 90px);
+  align-items: start;
+}
+
+.author-monogram {
+  border: 1px solid var(--thriller-line);
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(135deg, transparent 48%, rgba(169,42,49,.16) 49%, rgba(169,42,49,.16) 51%, transparent 52%),
+    #0a0a0c;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(5rem, 11vw, 10rem);
+  letter-spacing: -.08em;
+}
+
+.author-copy p {
+  color: var(--thriller-muted);
+  line-height: 1.9;
+  max-width: 720px;
+}
+
+.reader-cta {
+  text-align: center;
+  padding: clamp(70px, 10vw, 130px) 5%;
+  background:
+    radial-gradient(circle at center, rgba(122,21,27,.13), transparent 38%),
+    #070708;
+}
+
+.reader-cta .thriller-title {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.reader-cta p {
+  margin: 24px auto 32px;
+  max-width: 640px;
+  color: var(--thriller-muted);
+  line-height: 1.8;
+}
+
+.thriller-home .footer {
+  background: #050506;
+  border-top: 1px solid var(--thriller-line);
+  color: #85817c;
+}
+
+.thriller-home .footer strong {
+  color: var(--thriller-ink);
+  letter-spacing: .1em;
+}
+
+@media (max-width: 900px) {
+  .hero-v2-grid,
+  .release-grid,
+  .author-shift {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-v2-grid {
+    gap: 30px;
+    padding: 72px 0;
+  }
+
+  .hero-sigil {
+    margin: 12px auto 0;
+    width: min(320px, 72vw);
+  }
+
+  .universe-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .legacy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .thriller-shell,
+  .hero-v2-grid {
+    width: min(92%, 1240px);
+  }
+
+  .thriller-hero h1 {
+    font-size: clamp(4rem, 18vw, 6rem);
+  }
+
+  .thriller-section {
+    padding: 78px 0;
+  }
+
+  .legacy-card {
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+  }
+
+  .legacy-card p {
+    display: none;
+  }
+
+  .author-monogram {
+    min-height: 260px;
+  }
+}
