@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Books | Paris M. France</title>
+  <meta name="description" content="Browse novels and earlier works by P.M. France." />
+  <title>Books | P.M. France</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -12,9 +13,9 @@
 
 <header class="page-hero">
   <div>
-    <div class="kicker">Book Store</div>
-    <h1>Books</h1>
-    <p>Browse current and upcoming stories by Paris M. France.</p>
+    <div class="kicker">The Books</div>
+    <h1>Start Anywhere.</h1>
+    <p>Standalone novels, dark fiction, and earlier works by P.M. France. Pick the story that pulls you in first.</p>
     <a href="cart.html" class="btn secondary">View Cart</a>
   </div>
 </header>
@@ -23,20 +24,35 @@
   <div class="book-grid">
 
     <div class="book-card">
+      <a href="quiet-days.html" aria-label="View The Quiet Days">
+        <div class="placeholder-cover">
+          <div class="placeholder-copy">
+            <small>Cover Being Added</small>
+            <strong>The Quiet Days</strong>
+            <span>A Novel by P.M. France</span>
+          </div>
+        </div>
+      </a>
+
+      <div class="book-info">
+        <h3>The Quiet Days</h3>
+        <h4>Standalone Novel</h4>
+        <p>A psychological story built around silence, unease, and the details people learn to ignore until they cannot anymore.</p>
+        <a href="quiet-days.html" class="btn secondary">Open Book Page</a>
+      </div>
+    </div>
+
+    <div class="book-card">
       <a href="if-love.html">
         <img class="book-cover" src="images/if-love.png" alt="If Love Could Talk cover" />
       </a>
 
       <div class="book-info">
         <h3>If Love Could Talk</h3>
-        <h4>Book 1</h4>
-        <p>Dark romance tragedy. Emotional. Intimate. Painful. Built around the words love never got to say.</p>
-
+        <h4>Earlier Work</h4>
+        <p>Dark romance tragedy. Emotional, intimate, and built around the words love never got to say.</p>
         <a href="if-love.html" class="btn secondary">Open Book Page</a>
-
-        <button class="btn primary" onclick="addToCart('if-love', 'If Love Could Talk', 15.99)">
-          Add to Cart - $15.99
-        </button>
+        <button class="btn primary" onclick="addToCart('if-love', 'If Love Could Talk', 15.99)">Add to Cart - $15.99</button>
       </div>
     </div>
 
@@ -47,14 +63,10 @@
 
       <div class="book-info">
         <h3>Summer Kings</h3>
-        <h4>Leek</h4>
-        <p>A tragic street drama about Leek and Nyia and the crew struggling with loyalty, ambition, betrayal, and survival.</p>
-
+        <h4>Earlier Work • Leek</h4>
+        <p>A tragic street drama about loyalty, ambition, betrayal, love, and survival.</p>
         <a href="summer-kings.html" class="btn secondary">Open Book Page</a>
-
-        <button class="btn primary" onclick="addToCart('summer-kings', 'Summer Kings', 25.99)">
-          Add to Cart - $25.99
-        </button>
+        <button class="btn primary" onclick="addToCart('summer-kings', 'Summer Kings', 25.99)">Add to Cart - $25.99</button>
       </div>
     </div>
 
@@ -67,8 +79,8 @@
 </div>
 
 <footer class="footer">
-  <p><strong>Paris M. France</strong></p>
-  <p>Official Book Store</p>
+  <p><strong>P.M. FRANCE</strong> — Official Author Site</p>
+  <p>Psychological Thrillers • Dark Fiction • Standalone Stories</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
