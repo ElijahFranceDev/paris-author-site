@@ -1,33 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const navPlaceholder = document.getElementById("navbar-placeholder");
+  document.body.classList.add("pmf-theme-v2");
 
+  document.title = document.title.replace(/Paris M\. France/g, "P.M. France");
+
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach((node) => {
+    if (node.nodeValue && node.nodeValue.includes("Paris M. France")) {
+      node.nodeValue = node.nodeValue.replace(/Paris M\. France/g, "P.M. France");
+    }
+  });
+
+  const navPlaceholder = document.getElementById("navbar-placeholder");
   if (!navPlaceholder) return;
 
   navPlaceholder.innerHTML = `
     <nav class="navbar">
-      <a href="index.html" class="logo">Paris M. <span>France</span></a>
+      <a href="index.html" class="logo">P.M. <span>France</span></a>
 
       <div class="menu-wrap">
-        <button class="menu-button">Menu</button>
+        <button class="menu-button" aria-label="Open site menu">Menu</button>
         <div class="dropdown">
+          <a href="index.html">Home</a>
+          <a href="books.html">Books</a>
+          <a href="smile-for-me.html">Smile For Me</a>
+          <a href="events.html">Events & Signings</a>
+          <a href="index.html#about">About P.M. France</a>
+          <a href="preorder.html">Preorders</a>
+          <a href="newsletter.html">Reader List</a>
+          <a href="short-stories.html">Short Stories</a>
+          <a href="special-editions.html">Special Editions</a>
+          <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
           <a href="login.html" id="login-link">Login</a>
           <a href="signup.html" id="signup-link">Sign Up</a>
           <a href="members.html" id="account-link" style="display:none;">Account</a>
           <a href="#" id="logout-link" style="display:none;">Logout</a>
-          <a href="index.html">Home</a>
-          <a href="books.html">Books</a>
-          <a href="programs.html">Program List</a>
-          <a href="notifications.html">Notifications</a>
-          <a href="subscriptions.html">My Subscriptions</a>
-          <a href="ways-to-pay.html">Ways to Pay</a>
-          <a href="preorder.html">Preorder</a>
-          <a href="delivery.html">Delivery</a>
-          <a href="members.html">Members Home</a>
-          <a href="program-library.html">Program Library</a>
-          <a href="short-stories.html">Short Stories</a>
-          <a href="special-editions.html">Special Editions</a>
-          <a href="m-list.html">The M Vault</a>
-          <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
         </div>
       </div>
     </nav>
@@ -36,18 +44,21 @@ document.addEventListener("DOMContentLoaded", () => {
   if (typeof updateCartCount === "function") {
     updateCartCount();
   }
-});
-if (window.supabaseClient) {
-  supabaseClient.auth.getSession().then(({ data }) => {
-    const loggedIn = !!data.session;
 
-    document.getElementById("login-link").style.display = loggedIn ? "none" : "block";
-    document.getElementById("signup-link").style.display = loggedIn ? "none" : "block";
-    document.getElementById("account-link").style.display = loggedIn ? "block" : "none";
-    document.getElementById("logout-link").style.display = loggedIn ? "block" : "none";
-  });
+  if (window.supabaseClient) {
+    supabaseClient.auth.getSession().then(({ data }) => {
+      const loggedIn = !!data.session;
+      const login = document.getElementById("login-link");
+      const signup = document.getElementById("signup-link");
+      const account = document.getElementById("account-link");
+      const logout = document.getElementById("logout-link");
 
-  setTimeout(() => {
+      if (login) login.style.display = loggedIn ? "none" : "block";
+      if (signup) signup.style.display = loggedIn ? "none" : "block";
+      if (account) account.style.display = loggedIn ? "block" : "none";
+      if (logout) logout.style.display = loggedIn ? "block" : "none";
+    });
+
     const logout = document.getElementById("logout-link");
     if (logout) {
       logout.addEventListener("click", async (e) => {
@@ -56,5 +67,5 @@ if (window.supabaseClient) {
         window.location.href = "index.html";
       });
     }
-  }, 100);
-}
+  }
+});
