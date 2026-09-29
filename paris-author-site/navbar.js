@@ -20,8 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
       <a href="index.html" class="logo">P.M. <span>France</span></a>
 
       <div class="menu-wrap">
-        <button class="menu-button" aria-label="Open site menu">Menu</button>
-        <div class="dropdown">
+        <button
+          class="menu-button"
+          type="button"
+          aria-label="Open site menu"
+          aria-expanded="false"
+          aria-controls="site-dropdown"
+        >Menu</button>
+        <div class="dropdown" id="site-dropdown">
           <a href="index.html">Home</a>
           <a href="books.html">Books</a>
           <a href="smile-for-me.html">Smile For Me</a>
@@ -40,6 +46,48 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     </nav>
   `;
+
+  const menuWrap = navPlaceholder.querySelector(".menu-wrap");
+  const menuButton = navPlaceholder.querySelector(".menu-button");
+  const dropdown = navPlaceholder.querySelector(".dropdown");
+  let clickLockedOpen = false;
+
+  const setClickLockedState = (open) => {
+    clickLockedOpen = open;
+    menuButton.setAttribute("aria-expanded", String(open));
+    menuButton.setAttribute("aria-label", open ? "Close site menu" : "Open site menu");
+
+    if (open) {
+      dropdown.style.display = "grid";
+      dropdown.style.gap = "5px";
+    } else {
+      dropdown.style.display = "";
+      dropdown.style.gap = "";
+    }
+  };
+
+  menuButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setClickLockedState(!clickLockedOpen);
+  });
+
+  dropdown.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+
+  document.addEventListener("click", (event) => {
+    if (clickLockedOpen && !menuWrap.contains(event.target)) {
+      setClickLockedState(false);
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && clickLockedOpen) {
+      setClickLockedState(false);
+      menuButton.focus();
+    }
+  });
 
   if (typeof updateCartCount === "function") {
     updateCartCount();
