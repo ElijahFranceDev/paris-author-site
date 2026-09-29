@@ -31,16 +31,23 @@
     <div class="meta-row">
       <span class="meta-pill">Standalone Novel</span>
       <span class="meta-pill">Psychological Fiction</span>
+      <span class="meta-pill">$28.00</span>
       <span class="meta-pill">Originally Published as Paris M. France</span>
     </div>
     <p>A psychological story built around silence, unease, and the details people learn to ignore until they cannot anymore. <em>The Quiet Days</em> is written to be experienced on its own, with no required reading before it.</p>
     <p>This edition remains part of the author's earlier catalog under Paris M. France while the current author identity continues as P.M. France.</p>
     <div class="btn-row" style="justify-content:flex-start;">
-      <a href="books.html" class="btn primary">Browse The Books</a>
+      <button class="btn primary" onclick="addToCart('quiet-days', 'The Quiet Days', 28.00)">Add to Cart - $28.00</button>
+      <a href="books.html" class="btn secondary">Browse The Books</a>
       <a href="newsletter.html" class="btn secondary">Get Author Updates</a>
     </div>
   </div>
 </main>
+
+<div id="cart-toast" class="cart-toast">
+  <strong>Added to cart</strong>
+  <p id="cart-toast-text">The Quiet Days was added successfully.</p>
+</div>
 
 <footer class="footer">
   <p><strong>P.M. FRANCE</strong> — Official Author Site</p>
@@ -49,6 +56,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="auth.js"></script>
+<script src="prices.js"></script>
 <script src="script.js"></script>
 <script src="navbar.js"></script>
 </body>
