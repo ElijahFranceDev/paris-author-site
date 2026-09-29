@@ -1,5 +1,10 @@
 const SITE_PRICES = {
   books: {
+    quietDays: {
+      id: "quiet-days",
+      title: "The Quiet Days",
+      price: 28.00
+    },
     ifLove: {
       id: "if-love",
       title: "If Love Could Talk",
@@ -31,6 +36,10 @@ function formatPrice(price) {
 function loadSitePrices() {
   document.querySelectorAll("[data-price]").forEach(el => {
     const key = el.dataset.price;
+
+    if (key === "quiet-days") {
+      el.textContent = formatPrice(SITE_PRICES.books.quietDays.price);
+    }
 
     if (key === "if-love") {
       el.textContent = formatPrice(SITE_PRICES.books.ifLove.price);
