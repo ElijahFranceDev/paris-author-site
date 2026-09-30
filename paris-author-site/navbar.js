@@ -1,17 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("pmf-theme-v2");
 
-  document.title = document.title.replace(/Paris M\. France/g, "P.M. France");
-
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  const nodes = [];
-  while (walker.nextNode()) nodes.push(walker.currentNode);
-  nodes.forEach((node) => {
-    if (node.nodeValue && node.nodeValue.includes("Paris M. France")) {
-      node.nodeValue = node.nodeValue.replace(/Paris M\. France/g, "P.M. France");
-    }
-  });
-
   const navPlaceholder = document.getElementById("navbar-placeholder");
   if (!navPlaceholder) return;
 
@@ -29,10 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
         >Menu</button>
         <div class="dropdown" id="site-dropdown">
           <a href="index.html">Home</a>
+          <a href="pm-france.html">About P.M. France</a>
           <a href="books.html">Books</a>
           <a href="smile-for-me.html">Smile For Me</a>
+          <a href="quiet-days.html">The Quiet Days</a>
           <a href="events.html">Events & Signings</a>
-          <a href="index.html#about">About P.M. France</a>
           <a href="preorder.html">Preorders</a>
           <a href="newsletter.html">Reader List</a>
           <a href="short-stories.html">Short Stories</a>
