@@ -86,24 +86,9 @@ function loadCart() {
     row.append(details, cartElement("strong", "store-price", money(p.cents * item.quantity)));root.append(row);
   });
 }
-async function checkoutCart() {
-  const cart = getCart(), button = document.getElementById("cart-checkout"), error = document.getElementById("cart-error");
-  if (!cart.length) return;
-  if (button) {button.disabled = true;button.textContent = "Opening secure checkout…";}
-  if (error) error.textContent = "";
-  try {
-    const response = await fetch("/.netlify/functions/create-checkout", {
-      method: "POST",headers:{ "Content-Type":"application/json" },
-      body:JSON.stringify({ cart:cart.map(({bookId,quantity}) => ({bookId,quantity})) })
-    });
-    const data = await response.json();
-    if (!response.ok || !data.url) throw new Error(data.error || "Checkout is temporarily unavailable.");
-    window.location.assign(data.url);
-  } catch (err) {
-    if (error) error.textContent = err.message;
-    else alert(err.message);
-    if (button) {button.disabled = false;button.textContent = "Proceed to secure checkout";}
-  }
+function checkoutCart() {
+  if (!getCart().length) return;
+  window.location.assign("checkout.html");
 }
 async function loadStoreSettings() {
   try {
