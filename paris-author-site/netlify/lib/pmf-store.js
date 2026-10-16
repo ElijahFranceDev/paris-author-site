@@ -1,5 +1,6 @@
 "use strict";
 const crypto = require("node:crypto");
+const {seedProductionCatalog}=require("./pmf-seed");
 const CATEGORIES=["book","merchandise","collectible","bundle","other"];
 const FORMATS=["Paperback","Hardcover","Ebook","Signed edition","Special edition","Physical product","Digital product","Other"];
 const SHIPPING=["free-us","square-calculated","digital"];
@@ -39,6 +40,7 @@ function normalize(input,prior){
   author:str(input.author,120),priceCents:cents,shipping,
   trackStock:tracked,stock:tracked?stock:null,preorder,
   published,squarePaymentUrl:pay,imageId,
+  imagePath:prior?.imagePath||"",
   createdAt:prior?.createdAt||new Date().toISOString(),
   updatedAt:new Date().toISOString()
  };
@@ -51,6 +53,7 @@ async function store(event){
   return getDeployStore({name:"pmf-catalog-preview",consistency:"strong"});
 }
 async function list(storeHandle,{publicOnly=false}={}){
+  await seedProductionCatalog(storeHandle);
   let cursor,items=[],pages=0;
   do {
     const response=await storeHandle.list({prefix:"products/",...(cursor?{cursor}:{})});
@@ -71,7 +74,7 @@ const display=p=>({
   author:p.author,priceCents:p.priceCents,sku:p.sku,shipping:p.shipping,
   preorder:p.preorder,stock:p.trackStock?p.stock:null,trackStock:p.trackStock,published:p.published,
   squarePaymentUrl:p.squarePaymentUrl,
-  imageUrl:p.imageId?"/.netlify/functions/pmf-store-image?id="+encodeURIComponent(p.imageId):null,
+  imageUrl:p.imageId?"/.netlify/functions/pmf-store-image?id="+encodeURIComponent(p.imageId):(p.imagePath||null),
   imageId:p.imageId,createdAt:p.createdAt,updatedAt:p.updatedAt,
   // Preorders are information-only until an inventory-safe sale flow is approved.
   canBuy:p.published&&!p.preorder&&(!p.trackStock||p.stock>0)&&Boolean(p.squarePaymentUrl)
