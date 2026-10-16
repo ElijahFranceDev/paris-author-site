@@ -1,61 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cart | Paris M. France</title>
-
-  <!-- ✅ CSS GOES HERE -->
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div id="navbar-placeholder"></div>
-
-<header class="page-hero">
-  <div>
-    
-    <div class="kicker">Your Cart</div>
-    <h1>Cart</h1>
-    <p>Review your books before checkout.</p>
-  </div>
-</header>
-
-<main class="section page-shell">
-
-  <div class="cart-layout">
-
-    <!-- LEFT: ITEMS -->
-    <div id="cart-items" class="cart-items"></div>
-
-    <!-- RIGHT: SUMMARY -->
-    <div class="cart-summary">
-      <h2>Order Summary</h2>
-
-      <div class="summary-row">
-        <span>Total</span>
-        <span id="cart-total">$0.00</span>
-      </div>
-
-      <button class="btn primary checkout-btn" onclick="checkoutCart()">
-        Checkout
-      </button>
-    </div>
-
-  </div>
-<script src="script.js"></script>
-<script src="script.js"></script>
-<script src="navbar.js"></script>
-<!-- SUPABASE FIRST -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js"></script>
-
-<script src="prices.js"></script>
-<script src="script.js"></script>
-<script src="navbar.js"></script>
-
-<!-- THEN YOUR SITE SCRIPTS -->
-<script src="script.js"></script>
-<script src="navbar.js"></script>
-<body>
-</main>
-
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Review your P.M. France book orders and proceed to secure checkout."/>
+<title>Shopping Cart | P.M. France</title><link rel="stylesheet" href="style.css"/><link rel="stylesheet" href="store.css"/></head>
+<body><div id="navbar-placeholder"></div>
+<header class="page-hero"><div><div class="kicker">Your bookstore</div><h1>Your Cart</h1><p>Choose your stories. We'll handle the rest.</p></div></header>
+<main class="section page-shell store-page">
+<div class="cart-layout">
+<section aria-label="Items in your cart">
+<div class="store-section-heading"><h2>Review your order</h2><span id="cart-item-count">0 items</span></div>
+<div id="cart-items" class="store-stack"></div>
+<a href="books.html" class="store-link">← Continue shopping</a>
+</section>
+<aside class="cart-summary store-panel" aria-label="Order summary">
+<h2>Order summary</h2>
+<div class="store-total-line"><span>Subtotal</span><strong id="cart-total">$0.00</strong></div>
+<div class="store-total-line"><span>Shipping</span><span id="cart-shipping">—</span></div>
+<p class="store-note" id="cart-preorder-note" hidden>One or more items are PREORDERS. Preorder and in-stock items may ship separately after they become available.</p>
+<p class="store-note">Secure checkout collects your U.S. shipping address and shows the final total, including any applicable taxes.</p>
+<p id="cart-error" class="store-error" role="alert"></p>
+<button type="button" id="cart-checkout" class="btn primary store-cta" onclick="checkoutCart()">Proceed to secure checkout</button>
+<p class="store-note">Payments are processed securely by Stripe. We never store card details on this website.</p>
+</aside>
+</div></main>
+<footer class="footer"><p><strong>P.M. FRANCE</strong> — Official author-direct bookstore</p></footer>
+<script src="script.js"></script><script src="navbar.js"></script></body></html>
