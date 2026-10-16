@@ -1,90 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Preorder | Paris M. France</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-
-<div id="navbar-placeholder"></div>
-
-<header class="page-hero">
-  <div>
-    <div class="kicker">Author Academy</div>
-    <h1>Pre-order</h1>
-    <p>
-      Secure your copy early and be the first to experience new releases from Paris M. France.
-    </p>
-    <a href="cart.html" class="btn secondary">View Cart</a>
-  </div>
-</header>
-
-<main class="section page-shell">
-  <div class="card-grid">
-
-    <div class="card">
-      <h3>If Love Could Talk</h3>
-      <h4>Book 1</h4>
-      <p>Pre-order now and be first to experience this dark romance tragedy.</p>
-
-      <button class="btn primary" onclick="addToCart('if-love', 'If Love Could Talk', 15.99)">
-        Add to Cart - $15.99
-      </button>
-    </div>
-
-    <div class="card">
-      <h3>Summer Kings</h3>
-      <h4>Leek</h4>
-      <p>A tragic street drama. Lock in your copy before release.</p>
-
-      <button class="btn primary" onclick="addToCart('summer-kings', 'Summer Kings', 25.99)">
-        Add to Cart - $25.99
-      </button>
-    </div>
-
-  </div>
-</main>
-
-<footer class="footer">
-  <p><strong>Paris M. France</strong></p>
-  <p>Official Preorder Page</p>
-</footer>
-<div id="cart-toast" class="cart-toast">
-  <strong>Added to cart</strong>
-  <p id="cart-toast-text">Item added successfully.</p>
-</div>
-
-<!-- CHECKOUT FUNCTION -->
-<script>
-async function checkout(book) {
-  const response = await fetch("/.netlify/functions/create-checkout", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ book })
-  });
-
-  const data = await response.json();
-
-  if (data.url) {
-    window.location.href = data.url;
-  } else {
-    alert("Checkout error: " + (data.error || "Failed"));
-  }
-}
-</script>
-
-<script src="prices.js"></script>
-<script src="script.js"></script>
-<script src="navbar.js"></script>
-<!-- SCRIPTS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js"></script>
-<script src="script.js"></script>
-<script src="navbar.js"></script>
-
-</body>
-</html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Founding Reader Mystery Box for Smile For Me by P.M. France — planned limited first run."/>
+<title>Smile For Me Preorders | P.M. France</title><link rel="stylesheet" href="style.css"/><link rel="stylesheet" href="store.css"/></head>
+<body><div id="navbar-placeholder"></div>
+<header class="page-hero"><div><div class="kicker">Smile For Me • A founding reader edition</div><h1>Not Everything Comes in Plain Packaging.</h1>
+<p>Be among the first readers of P.M. France's upcoming psychological thriller.</p></div></header>
+<main class="section page-shell store-page">
+<div class="store-product-feature">
+<section class="store-panel"><div class="store-mystery-art"><span>THE FOUNDING READER EDITION</span><strong>SMILE<br/>FOR ME</strong><small>A MYSTERY BOX BY P.M. FRANCE</small></div></section>
+<section class="store-panel">
+<p class="store-eyebrow">PLANNED FIRST RUN • 25 BOXES</p><h2>Founding Reader Mystery Box</h2>
+<p class="store-large-price">$21.99 <span>shipping included in the U.S.</span></p>
+<p>Each box is planned to contain the paperback, one collectible, two small mystery extras, and distinctive themed packaging.</p>
+<p class="store-note">This is an author-direct preorder, separate from retailer preorders. Publication is planned for October 31, 2026, but the shipping date will be confirmed after final printing and packing arrangements.</p>
+<p class="store-note">The Golden Envelope reward, if offered, will be announced separately. No prize is included or promised in this listing.</p>
+<button id="smile-box-buy" class="btn primary store-cta" onclick="addToCart('smile-box')" hidden>Add Mystery Box to Cart — $21.99</button>
+<a id="smile-box-waitlist" class="btn primary store-cta" href="newsletter.html">Get Notified When Preorders Open</a>
+<a href="cart.html" class="btn secondary store-cta">View Shopping Cart</a>
+<p class="store-note">Preorders will open only after production, inventory controls, and terms are confirmed. No payment is taken while the preorder button is unavailable.</p>
+</section></div></main>
+<div id="cart-toast" class="cart-toast"><strong>Added to cart</strong><p id="cart-toast-text"></p></div>
+<script src="script.js"></script><script src="navbar.js"></script></body></html>
