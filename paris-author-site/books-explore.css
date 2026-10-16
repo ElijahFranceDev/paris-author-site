@@ -1,0 +1,34 @@
+/* Discovery only: an editorial book shelf, distinct from the shopping Store. */
+.explore-book-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  max-width:1180px;
+  margin-inline:auto;
+  gap:26px;
+  align-items:stretch;
+}
+.explore-book-grid .book-card{
+  display:grid;
+  grid-template-columns:minmax(135px,190px) minmax(0,1fr);
+  gap:22px;
+  min-width:0;
+  align-items:start;
+  padding:22px;
+}
+.explore-book-grid .book-card > a{display:block;min-width:0}
+.explore-book-grid .book-cover,
+.explore-book-grid .placeholder-cover{width:100%;height:auto;aspect-ratio:2/3;object-fit:cover}
+.explore-book-grid .book-info{min-width:0;justify-content:start;gap:12px}
+.explore-book-grid .book-info h3{font-size:clamp(1.4rem,2.25vw,2rem);overflow-wrap:normal}
+.explore-book-grid .book-info h4{font-size:.72rem;line-height:1.55;letter-spacing:.07em}
+.explore-book-grid .book-info p{font-size:.94rem;line-height:1.6}
+.explore-book-grid .book-info .btn{align-self:flex-start;margin-top:8px}
+@media(max-width:1020px){
+  .explore-book-grid{grid-template-columns:1fr;max-width:680px}
+  .explore-book-grid .book-card{grid-template-columns:minmax(135px,190px) minmax(0,1fr)}
+}
+@media(max-width:560px){
+  .explore-book-grid .book-card{grid-template-columns:1fr}
+  .explore-book-grid .book-card > a{max-width:220px}
+  .explore-book-grid .book-info h3{font-size:1.7rem}
+}
