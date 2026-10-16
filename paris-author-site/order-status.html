@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Check the status of your P.M. France author-direct book purchase or preorder."/>
+<title>Track Your Book Order | P.M. France</title><link rel="stylesheet" href="style.css"/><link rel="stylesheet" href="store.css"/></head>
+<body><div id="navbar-placeholder"></div>
+<header class="page-hero"><div><div class="kicker">Order tracking</div><h1>Where's My Book?</h1><p>Follow your author-direct purchase or preorder from order received to shipment.</p></div></header>
+<main class="section page-shell store-page">
+<div class="store-track-layout"><section class="store-panel"><h2>Find your order</h2><p class="store-note">Enter the full order reference shown after checkout and the email address used for payment.</p>
+<form id="track-form" class="store-stack">
+<label class="store-field"><span>Order reference</span><input id="track-order" type="text" required autocomplete="off" placeholder="cs_live_…"/></label>
+<label class="store-field"><span>Email used at checkout</span><input id="track-email" type="email" required autocomplete="email" placeholder="reader@example.com"/></label>
+<button class="btn primary store-cta" type="submit">Check Order Status</button></form>
+<p id="track-error" class="store-error" role="alert"></p></section>
+<section id="track-result" class="store-panel" hidden aria-live="polite">
+<div class="kicker">Order status</div><h2 id="track-status"></h2><p id="track-placed" class="store-note"></p>
+<div id="track-items" class="store-stack"></div><div id="track-shipment"></div></section></div>
+<p class="store-note">Shipment tracking will appear after a carrier and tracking number have been assigned. Preorders remain in preorder status until production and fulfillment move forward.</p>
+</main><script src="navbar.js"></script><script src="store-track.js"></script></body></html>

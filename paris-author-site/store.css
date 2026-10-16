@@ -1,0 +1,65 @@
+/* Author-direct bookstore. Extends existing burgundy/black P.M. France theme. */
+.store-page{max-width:1240px;margin:0 auto}
+.store-page h1,.store-page h2,.store-page h3{font-family:var(--serif)}
+.store-page h1{font-size:clamp(2.2rem,5vw,3.8rem);margin:10px 0 16px}
+.store-page h2{font-size:clamp(1.35rem,3vw,2rem);margin-bottom:16px}
+.store-page p{line-height:1.7}
+.store-head{margin-bottom:28px}
+.store-panel{padding:clamp(22px,4vw,36px);background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 12px 40px rgba(0,0,0,.12)}
+.store-page .cart-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(290px,1fr);gap:clamp(20px,4vw,45px);align-items:start}
+.store-section-heading,.store-total-line,.store-cart-item{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.store-section-heading{padding-bottom:16px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.store-section-heading h2{margin:0}
+.store-section-heading>span,.store-note{color:var(--muted);font-size:.9rem}
+.store-stack{display:grid;gap:14px}
+.store-cart-item{padding:25px 0;border-bottom:1px solid var(--line)}
+.store-item-text{min-width:0}
+.store-item-text h3{font-size:clamp(1.05rem,2vw,1.4rem);line-height:1.3}
+.store-item-text p{margin:8px 0 12px}
+.store-cart-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.store-qty{border:1px solid var(--line-strong);border-radius:10px;background:rgba(157,49,61,.13);width:34px;height:34px;cursor:pointer}
+.store-quantity{min-width:20px;text-align:center}
+.store-remove{border:none;background:none;color:#e7a3a9;text-decoration:underline;cursor:pointer}
+.store-price{font-size:1.1rem;white-space:nowrap}
+.store-total-line{padding:15px 0;border-bottom:1px solid var(--line)}
+.store-total-line span:last-child{font-weight:700}
+.store-cta{display:block;width:100%;margin-top:20px;text-align:center;cursor:pointer}
+.store-cta:disabled,.store-qty:disabled{opacity:.5;cursor:not-allowed}
+.store-error{color:#ffafb3;min-height:22px;margin:12px 0}
+.store-link{display:inline-block;color:#eaa4af;margin-top:24px;text-decoration:underline;text-underline-offset:4px}
+.store-empty{padding:35px 12px;text-align:center}
+.store-empty p{margin-bottom:20px}
+.store-product-feature{display:grid;grid-template-columns:minmax(280px,1fr) minmax(320px,1fr);gap:28px;align-items:stretch}
+.store-product-feature .store-panel{display:flex;flex-direction:column;gap:14px}
+.store-eyebrow{color:#eaa4af;font-weight:800;font-size:.78rem;letter-spacing:.16em}
+.store-large-price{font-size:2.6rem;font-weight:800;letter-spacing:-.03em}
+.store-large-price span{font-size:.87rem;font-weight:400;color:var(--muted);letter-spacing:0;display:block}
+.store-mystery-art{min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:48px 18px;text-align:center;border:1px solid rgba(234,164,175,.38);border-radius:16px;background:radial-gradient(circle at 50% 30%,rgba(125,31,46,.43),transparent 60%),linear-gradient(145deg,#1b1116,#070709);box-shadow:inset 0 0 60px rgba(0,0,0,.35)}
+.store-mystery-art span,.store-mystery-art small{letter-spacing:.2em;font-size:.7rem;color:#e8bfc4}
+.store-mystery-art strong{font-family:var(--serif);font-size:clamp(3rem,5vw,5.6rem);line-height:1.1;letter-spacing:.06em}
+.store-confirmation{max-width:810px;margin:auto}
+.store-confirmation h1{margin-bottom:20px}
+.store-order-id{overflow-wrap:anywhere;padding:16px;background:rgba(255,255,255,.04);border-radius:12px;font-family:ui-monospace,monospace;color:#edbbc1}
+.store-track-layout{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.store-field{display:grid;gap:7px;margin:12px 0 18px;font-size:.9rem;color:#e1dcd6}
+.store-field input,.store-field select,#admin-token{background:#0d0d11;color:var(--text);border:1px solid var(--line-strong);border-radius:11px;width:100%;min-width:0;padding:14px}
+.store-field input:focus,.store-field select:focus,#admin-token:focus{outline:2px solid #c65a66;outline-offset:2px}
+.store-highlight{color:#f0bac0;font-weight:700}
+#orders{margin-top:28px}
+#orders .store-panel .btn{margin-top:15px}
+@media(max-width:850px){.store-page .cart-layout,.store-product-feature,.store-track-layout{grid-template-columns:1fr}}
+@media(max-width:480px){.store-cart-item{align-items:flex-start;flex-direction:column}.store-price{align-self:flex-end}.store-panel{padding:20px}.store-mystery-art{min-height:340px}}
+
+/* Branded secure checkout powered by embedded Stripe Elements */
+.store-checkout-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(290px,.75fr);gap:clamp(18px,4vw,34px);align-items:start}
+.store-checkout-layout h3{font-size:1.22rem;margin:28px 0 12px}
+.store-checkout-layout .store-panel{min-width:0}
+.store-checkout-layout #contact-details-element,.store-checkout-layout #shipping-address-element,.store-checkout-layout #payment-element{min-height:40px}
+.store-or-divider{position:relative;text-align:center;color:var(--muted);margin:28px 0 18px;font-size:.82rem}
+.store-or-divider::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid var(--line)}
+.store-or-divider span{position:relative;padding:0 12px;background:#111115}
+.store-checkout-layout #express-area h3{margin-top:12px}
+.store-checkout-layout .store-total-line span{max-width:70%}
+.store-checkout-layout .store-panel>p.store-note{margin:16px 0}
+.store-checkout-layout .store-error{margin-top:16px}
+@media(max-width:850px){.store-checkout-layout{grid-template-columns:1fr}}

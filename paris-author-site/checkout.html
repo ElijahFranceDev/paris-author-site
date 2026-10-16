@@ -1,22 +1,47 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Checkout</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<h1>Checkout</h1>
-
-<div id="orderSummary"></div>
-
-<button>Pay Now (Stripe/Gumroad later)</button>
-
-<script>
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-  document.getElementById("orderSummary").innerHTML = cart.join("<br>");
-</script>
-
-</body>
-</html>
+<html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Complete your P.M. France bookstore purchase with a secure, branded checkout."/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Secure Checkout | P.M. France</title>
+<link rel="stylesheet" href="style.css"/><link rel="stylesheet" href="store.css"/>
+<script src="https://js.stripe.com/endive/stripe.js" defer></script>
+</head><body>
+<div id="navbar-placeholder"></div>
+<header class="page-hero"><div><div class="kicker">Official P.M. France Bookstore</div>
+<h1>Secure Checkout</h1><p>A quieter way to shop for darker stories.</p></div></header>
+<main class="section page-shell store-page">
+<div class="store-checkout-layout">
+<section class="store-panel" aria-label="Payment and shipping">
+<div class="store-section-heading"><h2>Checkout Details</h2><span>Secured by Stripe</span></div>
+<p id="checkout-message" role="status" class="store-note">Preparing your secure checkout…</p>
+<div id="checkout-form" hidden>
+<div id="express-area">
+<h3>Express checkout</h3>
+<p class="store-note">Available payment buttons depend on your device and eligibility.</p>
+<div id="express-checkout-element"></div>
+<div class="store-or-divider"><span>Or enter your details</span></div>
+</div>
+<form id="checkout-payment-form" novalidate>
+<h3>Contact</h3><div id="contact-details-element"></div>
+<h3>Shipping to the United States</h3><div id="shipping-address-element"></div>
+<h3>Payment</h3><div id="payment-element"></div>
+<p id="payment-message" class="store-error" role="alert"></p>
+<button class="btn primary store-cta" type="submit" id="pay-button" disabled>Complete Secure Payment</button>
+</form>
+</div>
+<a href="cart.html" class="store-link">← Back to cart</a>
+</section>
+<aside class="store-panel">
+<div class="store-section-heading"><h2>Your Books</h2><span id="checkout-count"></span></div>
+<div id="checkout-items" class="store-stack"></div>
+<div class="store-total-line"><span>Subtotal</span><strong id="checkout-subtotal">—</strong></div>
+<div class="store-total-line"><span>Shipping</span><span id="checkout-shipping">Calculated securely</span></div>
+<p class="store-note">Applicable taxes, if any, will be displayed by the secure payment form.</p>
+<p id="checkout-preorder" class="store-highlight" hidden>PREORDER — shipment timing is confirmed separately. Buy-now-pay-later methods are not offered on preorder transactions.</p>
+<p class="store-note">We do not collect or store your card information. Payments and wallet eligibility are managed by the payment processor.</p>
+</aside>
+</div></main>
+<footer class="footer"><p><strong>P.M. FRANCE</strong> — Official author-direct bookstore</p></footer>
+<script src="script.js"></script><script src="navbar.js"></script><script src="store-checkout.js"></script>
+</body></html>
