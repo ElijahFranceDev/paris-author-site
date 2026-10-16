@@ -16,7 +16,7 @@ exports.handler=async(event)=>{
    else if(bytes.toString("ascii",0,4)==="RIFF"&&bytes.toString("ascii",8,12)==="WEBP")type="image/webp";
    else return auth.json(400,{error:"Use a JPG, PNG or WebP image."});
    const id=uuid();
-   const handle=await store();
+   const handle=await store(event);
    await handle.set("images/"+id,bytes,{metadata:{type}});
    return auth.json(200,{imageId:id,imageUrl:"/.netlify/functions/pmf-store-image?id="+id});
  }catch(err){console.error("Image upload error",err);return auth.json(500,{error:"Upload failed. Please try again."})}
