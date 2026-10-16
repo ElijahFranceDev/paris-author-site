@@ -6,7 +6,7 @@ exports.handler=async(event)=>{
  const method=event.httpMethod;
  if(!["GET","POST"].includes(method))return auth.json(405,{error:"Method not allowed"});
  try{
-   const handle=await store();
+   const handle=await store(event);
    if(method==="GET")return auth.json(200,{products:(await list(handle)).map(display)});
    if((event.body||"").length>19000)return auth.json(413,{error:"Product data is too large."});
    const body=JSON.parse(event.body||"{}");
