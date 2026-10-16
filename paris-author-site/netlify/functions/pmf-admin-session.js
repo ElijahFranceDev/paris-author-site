@@ -1,7 +1,18 @@
 const auth=require("../lib/pmf-admin-auth");
 exports.handler=async(event)=>{
  const method=event.httpMethod;
- if(method==="GET")return auth.json(200,{signedIn:auth.authorized(event),configured:auth.ready()});
+ if(method==="GET"){
+   const status={signedIn:auth.authorized(event),configured:auth.ready()};
+   // Public preview diagnostics: booleans only, never secrets or exact lengths.
+   if(process.env.CONTEXT==="deploy-preview"){
+     status.setupChecks={
+       passwordHashPresent:Boolean(process.env.PMF_ADMIN_PASSWORD_HASH),
+       sessionSecretPresent:Boolean(process.env.PMF_ADMIN_SESSION_SECRET),
+       sessionSecretLongEnough:Boolean(process.env.PMF_ADMIN_SESSION_SECRET&&process.env.PMF_ADMIN_SESSION_SECRET.length>=32)
+     };
+   }
+   return auth.json(200,status);
+ }
  if(method!=="POST")return auth.json(405,{error:"Method not allowed"});
  if(!auth.sameOrigin(event))return auth.json(403,{error:"Invalid request origin"});
  if(!auth.ready())return auth.json(503,{error:"The administrator login has not been configured in Netlify."});
