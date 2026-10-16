@@ -32,7 +32,8 @@
     const count = cart.reduce((acc, item) => acc + item.quantity, 0);
     $("checkout-count").textContent = count + (count === 1 ? " item" : " items");
     $("checkout-subtotal").textContent = fmt(cart.reduce((sum, item) => sum + PMF_PRODUCTS[item.bookId].cents * item.quantity, 0));
-    $("checkout-preorder").hidden = !cart.some(item => item.bookId === "smile-box");
+    const hasPreorder = cart.some(item => item.bookId === "smile-box");
+    $("checkout-preorder").hidden = !hasPreorder;
     try {
       const response = await fetch("/.netlify/functions/store-settings", {cache:"no-store"});
       const settings = await response.json();
@@ -73,14 +74,15 @@
       const shipping = checkout.createShippingAddressElement();
       shipping.mount("#shipping-address-element");
       const payment = checkout.createPaymentElement({
-        layout:{type:"accordion",visibleAccordionItemsCount:0}
+        layout:{type:"accordion",visibleAccordionItemsCount:0},
+        ...(hasPreorder ? {wallets:{link:"never"}} : {})
       });
       payment.mount("#payment-element");
       // Express buttons render only on supported devices and eligible transactions.
       const express = checkout.createExpressCheckoutElement({
         buttonHeight:48,
         layout:{maxColumns:2,maxRows:3},
-        paymentMethods:{applePay:"always",googlePay:"always"}
+        paymentMethods:{applePay:"always",googlePay:"always",...(hasPreorder ? {link:"never"} : {})}
       });
       express.on("ready", ({availablePaymentMethods}) => {
         if (!availablePaymentMethods || Object.keys(availablePaymentMethods).length===0) {
