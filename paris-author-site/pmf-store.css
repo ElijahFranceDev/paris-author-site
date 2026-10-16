@@ -1,3 +1,5 @@
+/* Hidden UI panels stay hidden even when form layout CSS sets display. */
+.admin-shell [hidden], .pmf-store [hidden]{display:none!important}
 :root{--pmf-red:#9d313d;--pmf-line:rgba(230,204,207,.16)}
 .pmf-store,.admin-shell{width:min(1240px,90%);margin:auto}
 .pmf-store h2,.admin-shell h2,.pmf-product-card h2{font-family:var(--serif)}
