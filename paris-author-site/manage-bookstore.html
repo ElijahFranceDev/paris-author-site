@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/><title>Order Fulfillment | P.M. France</title>
+<link rel="stylesheet" href="style.css"/><link rel="stylesheet" href="store.css"/></head>
+<body><div id="navbar-placeholder"></div>
+<main class="section page-shell store-page"><div class="store-head"><div class="kicker">Author private operations</div><h1>Bookstore Orders</h1>
+<p>Enter the private order-management token from Netlify settings. Do not share or save it in this browser.</p></div>
+<section class="store-panel"><label for="admin-token">Order-management token</label><input id="admin-token" type="password" autocomplete="off" placeholder="Private token"/>
+<button class="btn primary" id="load-orders" type="button">Load paid orders</button><p id="admin-message" role="status"></p></section>
+<section id="orders" class="store-stack" aria-live="polite"></section>
+<p class="store-note">Only the most recent 100 Stripe checkout sessions are scanned. View the full history, shipping addresses, refunds, and disputes in your Stripe dashboard. Update status here after fulfilling each order. Preorder inventory limits are not enforced yet.</p>
+</main>
+<script src="navbar.js"></script><script src="store-admin.js"></script></body></html>
