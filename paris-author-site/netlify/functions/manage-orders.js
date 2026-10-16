@@ -1,7 +1,7 @@
 // Protected owner-only fulfillment updates. Configure BOOKSTORE_ADMIN_TOKEN
 // in Netlify environment variables. Never put this secret in public JS.
 const crypto = require("node:crypto");
-const { stripeClient, json } = require("./_store");
+const { stripeClient, json } = require("../lib/store");
 function authorized(header) {
   const token = process.env.BOOKSTORE_ADMIN_TOKEN;
   const supplied = typeof header === "string" && header.startsWith("Bearer ") ? header.slice(7) : "";
