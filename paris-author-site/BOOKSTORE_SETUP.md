@@ -41,3 +41,19 @@ Tracking is manually entered and then surfaced to readers; this version does NOT
 The Stripe subscription webhook is not changed; maintain it separately.
 Order numbers are full Stripe checkout session references, not short custom numbers. Customers should copy/save these at confirmation.
 Netlify deployment settings and payment secrets have not been verified here, so the system is not guaranteed production-ready.
+## Custom branded Checkout + wallets (Oct 16)
+- The cart now opens /checkout.html, a P.M. France-branded page with Stripe Checkout Sessions + Elements (`ui_mode: elements`). Payments use Stripe-hosted secure components inside the author's site.
+- Enter both STRIPE_PUBLISHABLE_KEY (public browser key, stored in Netlify env) and STRIPE_SECRET_KEY (secret Netlify server key). They must belong to the same test/live account.
+- The Stripe API package was upgraded to major version 23 on the development branch. Test the unrelated existing subscription flows for compatibility before merging.
+- Stripe Payment Element and Express Checkout Element can offer Apple Pay, Link, Google Pay, cards, Klarna and Afterpay/Clearpay when supported and enabled in Dashboard; they are not guaranteed for every buyer, browser, cart or country.
+- Register and verify parisfrance.shop in Stripe Payment Method Domains for wallet buttons and configure enabled methods in Stripe Dashboard for both test and live contexts.
+- For carts containing preorders, the server explicitly restricts to card-based payment methods (which can expose Apple Pay and Google Pay) until BNPL eligibility/terms are reviewed. Afterpay prohibits preorders outright; don't promote it on mystery-box products. Link can expose third-party BNPL funding, so it is not explicitly enabled for preorders.
+- In-stock items can use dynamic eligible payment methods from your Stripe account. Activate Klarna and Afterpay in the Stripe Dashboard; their absence on an unsupported transaction is expected.
+- Verify both Stripe test cards and device/browser wallet tests. Stripe-hosted redirects are still possible when PayPal, Klarna, or Afterpay needs its own authentication.
+- The on-site checkout returns to /success.html where the server verifies paid status. This is not a fulfillment webhook; implement a payment-completed webhook and dedicated order database before trusting it for automated stock decrement or shipping emails.
+- Before enabling a first-batch preorder, implement atomic inventory reservation with race-condition prevention (e.g., Postgres orders, inventory, reservations, webhook idempotency). The present site does NOT enforce a 25-unit cap, and the preorder feature switch must remain false.
+- Finalize returns policy, shipping expectations, any Stripe Tax settings, payment-method specific disclosures and launch test strategy.
+
+### Architecture target
+Browser /cart.html -> /checkout.html (first-party UI + Stripe Elements) -> Netlify Functions (catalog, authoritative totals, Stripe Checkout session) -> Stripe payments -> verified webhook -> Postgres orders & atomic inventory -> private fulfillment panel -> carrier tracking and transactional customer emails.
+Current PR implements the UI and the basic Stripe-based order-management path but not the database-backed inventory/webhook/email pipeline.
