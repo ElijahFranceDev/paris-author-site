@@ -1,44 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Payment Successful | Paris M. France</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<nav class="navbar">
-  <a href="index.html" class="logo">Paris M. <span>France</span></a>
-</nav>
-
-<header class="page-hero">
-  <div>
-    <div class="kicker">Preorder Complete</div>
-    <h1>THANK YOU</h1>
-
-<p>Your preorder is confirmed.</p>
-
-<p>
-You’ll receive an email confirmation shortly.
-<br><br>
-As an early supporter, you’ll get:
-<br>
-• First access when your book is released  
-• Exclusive updates and content  
-• Early drops before the public
-</p>
-
-<p>
-Release updates will be sent directly to your email.
-</p>
-
-<a href="books.html" class="btn primary">Continue Browsing</a>
-    <a href="index.html" class="btn primary">Back Home</a>
-  </div>
-</header>
-
-<script src="script.js"></script>
-<script src="navbar.js"></script>
-
-</body>
-</html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/><title>Order Confirmation | P.M. France</title>
+<link rel="stylesheet" href="style.css"/><link rel="stylesheet" href="store.css"/></head>
+<body><div id="navbar-placeholder"></div>
+<main class="section page-shell store-page"><section class="store-panel store-confirmation">
+<div class="kicker">Author-direct bookstore</div><h1 id="success-title">Checking your payment…</h1>
+<p id="success-message" role="status">We’re verifying your payment securely.</p>
+<div id="success-order" hidden><p><strong>Order reference</strong></p><p id="order-number" class="store-order-id"></p>
+<button class="btn secondary" type="button" id="copy-order">Copy order reference</button>
+<div id="success-items" class="store-stack"></div>
+<a id="tracking-link" class="btn primary store-cta" href="order-status.html">Track Your Order</a>
+<p class="store-note">Save your order reference and use the email you entered at checkout to check its progress. Payment receipts and shipping updates depend on your configured provider and fulfillment process.</p></div>
+<a href="books.html" class="store-link">Continue browsing books</a></section></main>
+<script src="navbar.js"></script><script src="store-success.js"></script></body></html>
