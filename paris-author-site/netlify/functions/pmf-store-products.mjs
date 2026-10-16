@@ -1,7 +1,8 @@
 import { toLegacyEvent, fromLegacyResponse } from "../lib/pmf-v2-bridge.mjs";
 import catalog from "../lib/pmf-store.js";
 const {store,list,display}=catalog;
-const {json}=require("../lib/pmf-admin-auth");
+import auth from "../lib/pmf-admin-auth.js";
+const {json}=auth;
 const legacyHandler=async(event)=>{
  if(event.httpMethod!=="GET")return json(405,{error:"Method not allowed"});
  try{
