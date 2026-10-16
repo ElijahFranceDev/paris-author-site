@@ -1,7 +1,7 @@
 const auth=require("../lib/pmf-admin-auth");
 const {store,list,normalize,display,validId}=require("../lib/pmf-store");
 exports.handler=async(event)=>{
- const denied=auth.reject(event);
+ const denied=event.httpMethod==="GET" ? (!auth.authorized(event)?auth.json(401,{error:"Sign in to your bookstore dashboard."}):null) : auth.reject(event);
  if(denied)return denied;
  const method=event.httpMethod;
  if(!["GET","POST"].includes(method))return auth.json(405,{error:"Method not allowed"});
