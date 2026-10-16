@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           <a href="login.html" id="login-link">Login</a>
           <a href="signup.html" id="signup-link">Sign Up</a>
+          <a href="admin.html" id="author-admin-link" aria-label="Author Admin Portal sign in">Author Admin Portal</a>
           <a href="members.html" id="account-link" style="display:none;">Account</a>
           <a href="#" id="logout-link" style="display:none;">Logout</a>
         </div>
