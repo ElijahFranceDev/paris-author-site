@@ -49,3 +49,17 @@
 #orders .store-panel .btn{margin-top:15px}
 @media(max-width:850px){.store-page .cart-layout,.store-product-feature,.store-track-layout{grid-template-columns:1fr}}
 @media(max-width:480px){.store-cart-item{align-items:flex-start;flex-direction:column}.store-price{align-self:flex-end}.store-panel{padding:20px}.store-mystery-art{min-height:340px}}
+
+/* Branded secure checkout powered by embedded Stripe Elements */
+.store-checkout-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(290px,.75fr);gap:clamp(18px,4vw,34px);align-items:start}
+.store-checkout-layout h3{font-size:1.22rem;margin:28px 0 12px}
+.store-checkout-layout .store-panel{min-width:0}
+.store-checkout-layout #contact-details-element,.store-checkout-layout #shipping-address-element,.store-checkout-layout #payment-element{min-height:40px}
+.store-or-divider{position:relative;text-align:center;color:var(--muted);margin:28px 0 18px;font-size:.82rem}
+.store-or-divider::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:1px solid var(--line)}
+.store-or-divider span{position:relative;padding:0 12px;background:#111115}
+.store-checkout-layout #express-area h3{margin-top:12px}
+.store-checkout-layout .store-total-line span{max-width:70%}
+.store-checkout-layout .store-panel>p.store-note{margin:16px 0}
+.store-checkout-layout .store-error{margin-top:16px}
+@media(max-width:850px){.store-checkout-layout{grid-template-columns:1fr}}
