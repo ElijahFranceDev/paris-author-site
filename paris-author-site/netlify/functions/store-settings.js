@@ -1,4 +1,4 @@
-const { products, allowProduct, json } = require("./_store");
+const { products, allowProduct, json } = require("../lib/store");
 exports.handler = async (event) => {
   if (event.httpMethod !== "GET") return json(405, { error: "Method not allowed" });
   return json(200, {
