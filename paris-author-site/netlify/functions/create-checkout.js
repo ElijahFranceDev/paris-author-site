@@ -42,8 +42,13 @@ exports.handler = async (event) => {
     }));
 
     const shippingCost = needsShippingCharge ? Number(fee) : 0;
+    const embedded = input.uiMode === "elements";
+    // Checkout Sessions + Elements keeps the reader on parisfrance.shop.
+    // Afterpay explicitly prohibits preorders; restrict preorder methods to cards and Link.
     const checkout = await stripeClient().checkout.sessions.create({
       mode: "payment",
+      ...(embedded ? { ui_mode: "elements" } : {}),
+      ...(preorders.length ? { payment_method_types: ["card", "link"] } : {}),
       line_items,
       billing_address_collection: "auto",
       customer_creation: "always",
@@ -69,10 +74,16 @@ exports.handler = async (event) => {
       custom_text: preorders.length ? {
         submit: { message: "This order includes a PREORDER. In-stock and preorder items may ship separately. We will send fulfillment updates when available." }
       } : undefined,
-      success_url: origin() + "/success.html?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: origin() + "/cart.html?checkout=cancelled"
+      ...(embedded
+        ? { return_url: origin() + "/success.html?session_id={CHECKOUT_SESSION_ID}" }
+        : {
+            success_url: origin() + "/success.html?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url: origin() + "/cart.html?checkout=cancelled"
+          })
     });
-    return json(200, { url: checkout.url });
+    return json(200, embedded
+      ? { clientSecret: checkout.client_secret }
+      : { url: checkout.url });
   } catch (err) {
     console.error("Bookstore checkout failed", err);
     return json(500, { error: "We couldn't open secure checkout. Please try again or contact the author." });
