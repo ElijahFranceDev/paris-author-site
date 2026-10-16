@@ -44,11 +44,11 @@ exports.handler = async (event) => {
     const shippingCost = needsShippingCharge ? Number(fee) : 0;
     const embedded = input.uiMode === "elements";
     // Checkout Sessions + Elements keeps the reader on parisfrance.shop.
-    // Afterpay explicitly prohibits preorders; restrict preorder methods to cards and Link.
+    // Afterpay prohibits preorders. Restrict preorders to card-based payments pending BNPL policy review;\n    // Apple Pay and Google Pay can be presented through the card method on supported devices.
     const checkout = await stripeClient().checkout.sessions.create({
       mode: "payment",
       ...(embedded ? { ui_mode: "elements" } : {}),
-      ...(preorders.length ? { payment_method_types: ["card", "link"] } : {}),
+      ...(preorders.length ? { payment_method_types: ["card"] } : {}),
       line_items,
       billing_address_collection: "auto",
       customer_creation: "always",
