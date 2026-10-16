@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/><title>Bookstore Manager | P.M. France</title>
+<link rel="stylesheet" href="style.css"/><link rel="stylesheet" href="pmf-store.css"/>
+</head><body>
+<div id="navbar-placeholder"></div>
+<header class="page-hero"><div><div class="kicker">Private • P.M. France</div><h1>Bookstore Manager</h1><p>Your catalog, covers and products. Square payments stay as they are.</p></div></header>
+<main class="section page-shell admin-shell">
+<div id="admin-notice" class="pmf-notice" role="status"></div>
+<section id="admin-login" class="pmf-panel pmf-login" hidden>
+<h2>Author sign-in</h2><p>Use your bookstore admin password. This is separate from reader accounts.</p>
+<form id="login-form" class="pmf-stack">
+<label>Password<input type="password" id="admin-password" autocomplete="current-password" required minlength="12"/></label>
+<button type="submit" class="btn primary">Unlock My Bookstore</button></form>
+<p class="pmf-muted">Your password is verified securely on the server and isn't saved in the browser.</p>
+</section>
+<div id="admin-workspace" hidden>
+<div class="pmf-dashboard-head">
+<div><h2>Manage Products</h2><p>Add books, signed copies, collectibles, bundles and merchandise.</p></div>
+<div class="pmf-actions"><a href="store.html" class="btn secondary">View Store</a>
+<button type="button" class="btn secondary" id="admin-logout">Sign Out</button></div>
+</div>
+<div class="pmf-metrics">
+<div class="pmf-panel"><span>Products</span><strong id="stat-total">0</strong></div>
+<div class="pmf-panel"><span>Published</span><strong id="stat-published">0</strong></div>
+<div class="pmf-panel"><span>Drafts</span><strong id="stat-drafts">0</strong></div>
+</div>
+<div class="pmf-admin-grid">
+<section class="pmf-panel" id="editor-panel">
+<div class="pmf-panel-head"><h2 id="editor-heading">Add a product</h2><button type="button" class="pmf-minor" id="reset-editor">New Product</button></div>
+<form id="product-form" class="pmf-stack">
+<input type="hidden" id="product-id"/>
+<label>Product title <span>*</span><input id="product-title" type="text" maxlength="150" required placeholder="e.g. Smile For Me — Signed Paperback"/></label>
+<div class="pmf-form-row">
+<label>Category <select id="product-category"><option value="book">Book</option><option value="merchandise">Merchandise</option><option value="collectible">Collectible</option><option value="bundle">Bundle / Box</option><option value="other">Other</option></select></label>
+<label>Format <select id="product-format"><option>Paperback</option><option>Hardcover</option><option>Ebook</option><option>Signed edition</option><option>Special edition</option><option>Physical product</option><option>Digital product</option><option>Other</option></select></label>
+</div>
+<div class="pmf-form-row">
+<label>Price (USD) <span>*</span><input id="product-price" type="number" min="0" max="10000" step="0.01" value="0.00" required/></label>
+<label>SKU (optional)<input id="product-sku" type="text" maxlength="60" placeholder="PMF-BOOK-001"/></label>
+</div>
+<label>Author / creator<input id="product-author" type="text" maxlength="120" placeholder="P.M. France"/></label>
+<label>Description<textarea id="product-description" rows="5" maxlength="4000" placeholder="Tell readers what is included…"></textarea></label>
+<div class="pmf-form-row">
+<label>Shipping policy <select id="product-shipping"><option value="free-us">Free U.S. shipping</option><option value="square-calculated">Calculated in Square</option><option value="digital">Digital delivery</option></select></label>
+<label class="pmf-check"><input id="product-track-stock" type="checkbox"/> Track stock manually</label>
+</div>
+<label id="stock-wrap" hidden>Units available<input id="product-stock" type="number" min="0" max="1000000" step="1" value="0"/></label>
+<label class="pmf-check"><input id="product-preorder" type="checkbox"/> Mark as a preorder (display only; checkout disabled)</label>
+<div class="pmf-upload-box">
+<label for="product-image">Cover or product photo (JPG, PNG or WebP, up to 3 MB)</label>
+<input type="file" id="product-image" accept="image/png,image/jpeg,image/webp"/>
+<div class="pmf-image-preview"><img id="product-image-preview" alt="Product image preview" hidden/><div id="product-image-placeholder">No image uploaded</div></div>
+<button type="button" class="btn secondary" id="upload-image">Upload Image</button>
+<p id="image-status" class="pmf-muted" role="status">Upload the image before saving your product.</p>
+</div>
+<label>Square payment link<input id="product-square" type="url" placeholder="https://square.link/u/…"/></label>
+<p class="pmf-muted">Create your product's Square Payment Link in Square Dashboard, then paste it here. Without a link, customers see the product but can't purchase it. Preorders remain display-only for safety.</p>
+<label class="pmf-check"><input id="product-published" type="checkbox"/> Publish in my bookstore</label>
+<div class="pmf-actions">
+<button class="btn primary" type="submit" id="save-product">Save Product</button>
+<button class="btn secondary" type="button" id="cancel-edit">Clear Form</button>
+</div>
+</form>
+</section>
+<section class="pmf-panel">
+<div class="pmf-panel-head"><h2>Your inventory</h2><button type="button" class="pmf-minor" id="refresh-products">Refresh</button></div>
+<p class="pmf-muted">Select Edit to change a listing. Archive removes it from the public store without deleting the record.</p>
+<div id="admin-products" class="pmf-stack" aria-live="polite"></div>
+</section>
+</div></div>
+</main>
+<script src="navbar.js"></script><script src="pmf-admin.js"></script>
+</body></html>

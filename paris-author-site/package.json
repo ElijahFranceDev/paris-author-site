@@ -1,6 +1,10 @@
 {
   "dependencies": {
     "stripe": "^17.7.0",
-    "@supabase/supabase-js": "^2.49.1"
+    "@supabase/supabase-js": "^2.49.1",
+    "@netlify/blobs": "11.1.4"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.cjs"
   }
 }

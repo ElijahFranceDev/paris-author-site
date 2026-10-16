@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <a href="index.html">Home</a>
           <a href="pm-france.html">About P.M. France</a>
           <a href="books.html">Books</a>
+          <a href="store.html">Author Store</a>
           <a href="smile-for-me.html">Smile For Me</a>
           <a href="quiet-days.html">The Quiet Days</a>
           <a href="events.html">Events & Signings</a>

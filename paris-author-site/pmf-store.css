@@ -1,0 +1,65 @@
+/* Hidden UI panels stay hidden even when form layout CSS sets display. */
+.admin-shell [hidden], .pmf-store [hidden]{display:none!important}
+:root{--pmf-red:#9d313d;--pmf-line:rgba(230,204,207,.16)}
+.pmf-store,.admin-shell{width:min(1240px,90%);margin:auto}
+.pmf-store h2,.admin-shell h2,.pmf-product-card h2{font-family:var(--serif)}
+.pmf-panel{padding:clamp(20px,3vw,30px);border-radius:18px;border:1px solid var(--pmf-line);background:rgba(255,255,255,.033)}
+.pmf-notice{padding:12px 17px;border:1px solid var(--pmf-line);border-radius:12px;background:rgba(157,49,61,.08);margin-bottom:23px;min-height:46px}
+.pmf-error{color:#ffbec3;border-color:rgba(244,95,109,.4)}
+.pmf-stack{display:grid;gap:18px}
+.pmf-login{max-width:520px;margin:auto}
+.pmf-login>p{margin:16px 0;color:var(--muted)}
+.pmf-login form{margin-top:24px}
+.pmf-muted{color:var(--muted);font-size:.88rem;line-height:1.6}
+.pmf-emphasis{color:#e4a9b0;font-size:.83rem}
+.admin-shell label{display:grid;gap:9px;font-size:.9rem;font-weight:650}
+.admin-shell label span{color:#e2a1a8}
+.admin-shell label input,.admin-shell label select,.admin-shell label textarea,.pmf-shop-head select{
+ display:block;width:100%;background:#121216;color:var(--text);border:1px solid rgba(233,190,196,.25);
+ padding:12px 14px;border-radius:11px;min-width:0
+}
+.admin-shell label input:focus,.admin-shell label select:focus,.admin-shell label textarea:focus,.pmf-shop-head select:focus{outline:2px solid #a94a57}
+.admin-shell .pmf-check{display:flex;align-items:center;gap:12px;font-weight:500}
+.pmf-check input{width:auto!important;accent-color:#b44c5a}
+.pmf-form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.pmf-dashboard-head,.pmf-panel-head,.pmf-shop-head{display:flex;justify-content:space-between;align-items:center;gap:22px;margin-bottom:25px}
+.pmf-dashboard-head h2,.pmf-shop-head h2{font-size:clamp(1.8rem,4vw,2.5rem)}
+.pmf-dashboard-head p{color:var(--muted);margin-top:8px}
+.pmf-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pmf-actions .btn{font-size:.85rem}
+.pmf-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.pmf-metrics .pmf-panel{display:grid;gap:8px}
+.pmf-metrics span{font-size:.8rem;color:var(--muted)}
+.pmf-metrics strong{font-family:var(--serif);font-size:2.25rem}
+.pmf-admin-grid{display:grid;grid-template-columns:minmax(320px,1.1fr) minmax(310px,.9fr);gap:24px;align-items:start}
+.pmf-panel-head{margin-bottom:20px}
+.pmf-panel-head h2{font-size:1.6rem}
+.pmf-minor{border:0;background:transparent;color:#e5afb5;cursor:pointer;text-decoration:underline;padding:9px}
+.pmf-minor:disabled{opacity:.3;cursor:not-allowed}
+.pmf-upload-box{padding:18px;border:1px dashed rgba(233,190,196,.3);border-radius:14px;display:grid;gap:14px}
+.pmf-image-preview{min-height:140px;display:grid;place-items:center;background:rgba(0,0,0,.2);border-radius:12px;color:var(--muted);font-size:.85rem}
+.pmf-image-preview img{max-height:260px;max-width:100%;object-fit:contain}
+.pmf-admin-item{padding:18px 0;border-bottom:1px solid var(--pmf-line)}
+.pmf-admin-item-head{display:flex;align-items:flex-start;gap:14px}
+.pmf-admin-item-main{min-width:0}
+.pmf-admin-item h3{font-family:var(--serif);font-size:1.13rem;margin-bottom:5px}
+.pmf-admin-item .pmf-actions{margin-top:13px}
+.pmf-thumb{height:90px;width:65px;object-fit:cover;border-radius:6px}
+.pmf-shop-head{margin-bottom:30px;align-items:flex-end}
+.pmf-shop-head label{display:grid;gap:8px;font-size:.83rem;color:var(--muted);min-width:220px}
+.pmf-product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.pmf-product-card{overflow:hidden;border:1px solid var(--pmf-line);background:rgba(255,255,255,.035);border-radius:19px;display:flex;flex-direction:column}
+.pmf-product-photo{width:100%;height:340px;object-fit:contain;padding:20px;background:radial-gradient(circle at top,rgba(157,49,61,.2),#080709 70%)}
+.pmf-product-no-photo{height:280px;display:grid;place-items:center;letter-spacing:.22em;font-family:var(--serif);font-size:1.05rem;background:radial-gradient(circle at top,#3f1921,#080708 75%);color:#e6c6cb}
+.pmf-product-detail{padding:24px;display:flex;flex-direction:column;flex:1;gap:12px}
+.pmf-product-detail h2{font-size:1.6rem}
+.pmf-label{font-size:.72rem;color:#e4a3ab;letter-spacing:.16em;font-weight:800}
+.pmf-description{color:#c6bdba;white-space:pre-wrap;line-height:1.65;flex:1;font-size:.93rem}
+.pmf-product-bottom{display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:auto}
+.pmf-product-price{font-size:1.3rem}
+.pmf-product-buy{width:100%;text-align:center;margin-top:6px}
+.pmf-unavailable{border:1px solid var(--pmf-line);padding:13px;text-align:center;color:var(--muted);border-radius:12px}
+.pmf-shop-info{margin-top:36px;padding:20px;border:1px solid var(--pmf-line);border-radius:14px}
+.pmf-shop-info p{font-size:.88rem;color:var(--muted);line-height:1.7}
+@media(max-width:1050px){.pmf-admin-grid{grid-template-columns:1fr}.pmf-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.pmf-form-row,.pmf-metrics,.pmf-product-grid{grid-template-columns:1fr}.pmf-dashboard-head,.pmf-panel-head,.pmf-shop-head{align-items:flex-start;flex-direction:column}.pmf-product-photo{height:290px}.pmf-shop-head label{width:100%}}
