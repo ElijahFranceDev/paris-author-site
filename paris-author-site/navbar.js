@@ -80,9 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  if (typeof updateCartCount === "function") {
-    updateCartCount();
-  }
 
   if (window.supabaseClient) {
     supabaseClient.auth.getSession().then(({ data }) => {
