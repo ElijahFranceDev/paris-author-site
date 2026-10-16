@@ -43,8 +43,9 @@ function normalize(input,prior){
   updatedAt:new Date().toISOString()
  };
 }
-async function store(){
-  const {getStore,getDeployStore}=await import("@netlify/blobs");
+async function store(event){
+  const {getStore,getDeployStore,connectLambda}=await import("@netlify/blobs");
+  if(typeof connectLambda==="function" && event)connectLambda(event);
   // Branch/deploy previews must never write to live product records.
   if(process.env.CONTEXT==="production")return getStore({name:"pmf-catalog-live",consistency:"strong"});
   return getDeployStore({name:"pmf-catalog-preview",consistency:"strong"});
