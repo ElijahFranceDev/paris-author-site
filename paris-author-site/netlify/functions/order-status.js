@@ -1,4 +1,4 @@
-const { stripeClient, json } = require("./_store");
+const { stripeClient, json } = require("../lib/store");
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return json(405, { error: "Method not allowed" });
   try {
