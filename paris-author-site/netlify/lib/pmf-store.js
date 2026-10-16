@@ -45,7 +45,7 @@ function normalize(input,prior){
 }
 async function store(event){
   const {getStore,getDeployStore,connectLambda}=await import("@netlify/blobs");
-  if(typeof connectLambda==="function" && event)connectLambda(event);
+  if(typeof connectLambda==="function" && event?.blobs)connectLambda(event);
   // Branch/deploy previews must never write to live product records.
   if(process.env.CONTEXT==="production")return getStore({name:"pmf-catalog-live",consistency:"strong"});
   return getDeployStore({name:"pmf-catalog-preview",consistency:"strong"});
