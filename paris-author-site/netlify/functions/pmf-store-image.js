@@ -4,7 +4,7 @@ exports.handler=async(event)=>{
  const id=event.queryStringParameters?.id;
  if(!validId(id))return{statusCode:400,body:"Invalid image"};
  try{
-   const handle=await store();
+   const handle=await store(event);
    const image=await handle.get("images/"+id,{type:"arrayBuffer"});
    if(!image)return{statusCode:404,body:"Image not found"};
    const bytes=Buffer.from(image);
