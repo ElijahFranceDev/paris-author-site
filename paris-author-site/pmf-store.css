@@ -63,3 +63,9 @@
 .pmf-shop-info p{font-size:.88rem;color:var(--muted);line-height:1.7}
 @media(max-width:1050px){.pmf-admin-grid{grid-template-columns:1fr}.pmf-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.pmf-form-row,.pmf-metrics,.pmf-product-grid{grid-template-columns:1fr}.pmf-dashboard-head,.pmf-panel-head,.pmf-shop-head{align-items:flex-start;flex-direction:column}.pmf-product-photo{height:290px}.pmf-shop-head label{width:100%}}
+
+/* Keep long back-cover descriptions from making storefront product tiles excessively tall. */
+.pmf-description.pmf-clamped{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;line-clamp:5;overflow:hidden;white-space:pre-line}
+.pmf-description.pmf-expanded{display:block;overflow:visible;white-space:pre-wrap}
+.pmf-read-more{border:0;background:none;text-decoration:underline;text-underline-offset:3px;color:#e4a3ab;text-align:left;cursor:pointer;padding:6px 0;font-size:.9rem}
+.pmf-read-more:focus-visible{outline:2px solid #e4a3ab;outline-offset:2px}

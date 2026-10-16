@@ -18,7 +18,22 @@
    content.append(el("p","pmf-label",p.category.toUpperCase()+(p.preorder?" • UPCOMING PREORDER":"")));
    content.append(el("h2","",p.title));
    if(p.author)content.append(el("p","pmf-muted",p.author));
-   if(p.description)content.append(el("p","pmf-description",p.description));
+   if(p.description){
+     const desc=el("p","pmf-description",p.description);
+     content.append(desc);
+     if(p.description.length>260){
+       desc.classList.add("pmf-clamped");
+       const more=el("button","pmf-read-more","Read full description");
+       more.type="button";
+       more.setAttribute("aria-expanded","false");
+       more.addEventListener("click",()=>{
+         const expanded=desc.classList.toggle("pmf-expanded");
+         more.textContent=expanded?"Show less":"Read full description";
+         more.setAttribute("aria-expanded",String(expanded));
+       });
+       content.append(more);
+     }
+   }
    const bottom=el("div","pmf-product-bottom");
    bottom.append(el("strong","pmf-product-price",fmt(p.priceCents)));
    const ship=p.shipping==="free-us"?"Free U.S. shipping":p.shipping==="digital"?"Digital product":"Shipping calculated by Square";

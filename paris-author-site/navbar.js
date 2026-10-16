@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <a href="newsletter.html">Reader List</a>
           <a href="short-stories.html">Short Stories</a>
           <a href="special-editions.html">Special Editions</a>
-          <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+
           <a href="login.html" id="login-link">Login</a>
           <a href="signup.html" id="signup-link">Sign Up</a>
           <a href="members.html" id="account-link" style="display:none;">Account</a>
@@ -80,9 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  if (typeof updateCartCount === "function") {
-    updateCartCount();
-  }
 
   if (window.supabaseClient) {
     supabaseClient.auth.getSession().then(({ data }) => {

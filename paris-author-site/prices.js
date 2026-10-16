@@ -3,7 +3,7 @@ const SITE_PRICES = {
     quietDays: {
       id: "quiet-days",
       title: "The Quiet Days",
-      price: 28.00
+      price: 28.99
     },
     ifLove: {
       id: "if-love",
