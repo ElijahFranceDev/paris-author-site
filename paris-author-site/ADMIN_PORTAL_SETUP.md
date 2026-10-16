@@ -62,3 +62,6 @@ If a link is empty, the public listing has no Buy button. The product can still 
 - Confirm subscription/payment and old cart paths still function; they are deliberately unchanged.
 - Confirm Netlify Blobs storage usage and bandwidth under your plan before publishing lots of images.
 - Back up products/images from the Netlify Blobs UI regularly (Blobs isn't a substitute for inventory accounting).
+
+## Updating your chosen admin password
+After replacing `PMF_ADMIN_PASSWORD_HASH` in Netlify's Environment variables, trigger a fresh Deploy Preview build. Log in using the exact plain-language password you entered locally when generating that hash (never the hash itself). `PMF_ADMIN_SESSION_SECRET` does not need to change. Keep credentials private.
