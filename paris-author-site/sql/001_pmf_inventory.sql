@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS pmf_inventory (
  stock_total INTEGER NOT NULL CHECK (stock_total >= 0),
  stock_sold INTEGER NOT NULL DEFAULT 0 CHECK (stock_sold >= 0),
  stock_reserved INTEGER NOT NULL DEFAULT 0 CHECK (stock_reserved >= 0),
+ version INTEGER NOT NULL DEFAULT 0 CHECK (version >= 0),
  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
  CONSTRAINT pmf_inventory_nonnegative CHECK (stock_total >= stock_sold + stock_reserved)
 );
