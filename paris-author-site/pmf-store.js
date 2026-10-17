@@ -15,7 +15,7 @@
    if(p.imageUrl){const image=el("img","pmf-product-photo");image.src=p.imageUrl;image.alt=p.title+" product photo";image.loading="lazy";card.append(image);}
    else{card.append(el("div","pmf-product-no-photo","P.M. FRANCE"));}
    const content=el("div","pmf-product-detail");
-   content.append(el("p","pmf-label",p.category.toUpperCase()+(p.preorder?" • UPCOMING PREORDER":p.comingSoon?" • COMING SOON":"")));
+   content.append(el("p","pmf-label",p.category.toUpperCase()+(p.preorder?" • LIMITED PREORDER":p.comingSoon?" • COMING SOON":!cartEnabled&&!p.canBuy?" • CHECKOUT SETUP":"")));
    content.append(el("h2","",p.title));
    if(p.author)content.append(el("p","pmf-muted",p.author));
    if(p.description){
@@ -55,7 +55,7 @@
      const buy=el("a","btn primary pmf-product-buy","Buy Securely with Square");
      buy.href=p.squarePaymentUrl;buy.target="_blank";buy.rel="noopener noreferrer";content.append(buy);
    }
-   else{content.append(el("span","pmf-unavailable",cartEnabled&&!p.trackStock&&p.shipping!=="digital"?"Confirm inventory in Admin to start checkout":"Not yet available for purchase"));}
+   else{content.append(el("span","pmf-unavailable",cartEnabled&&!p.trackStock&&p.shipping!=="digital"?"Confirm inventory in Admin to start checkout":"Secure checkout being activated"));}
    card.append(content);list.append(card);
   }
  }
