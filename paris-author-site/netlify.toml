@@ -1,9 +1,14 @@
 # Ensure dependencies such as pg are installed before Netlify packages functions.
 # The site's base/publish directories remain set in the Netlify project.
 [build]
-  command = "npm install --no-audit --no-fund"
+  command = "npm install --no-audit --no-fund && node -e 'require(\"pg\")'"
 
-# Inventory-backed functions bundle the PostgreSQL driver inside the deployed Lambda.
+# Bundle the PostgreSQL driver for every inventory-related serverless function.
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["node_modules/pg/**", "node_modules/pg-*/**"]
+
+# Per-function bundler overrides.
 # This file intentionally doesn't override the existing Netlify UI build or publish paths.
 [functions."pmf-admin-products"]
   node_bundler = "esbuild"
