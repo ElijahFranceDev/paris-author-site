@@ -2,7 +2,7 @@ import { toLegacyEvent, fromLegacyResponse } from "../lib/pmf-v2-bridge.mjs";
 import auth from "../lib/pmf-admin-auth.js";
 import catalog from "../lib/pmf-store.js";
 import stockDB from "../lib/pmf-inventory.js";
-const {store,list,normalize,display,validId}=catalog;
+const {store,list,normalize,display,validId,isProductionDeploy}=catalog;
 const legacyHandler=async(event)=>{
  const denied=event.httpMethod==="GET" ? (!auth.authorized(event)?auth.json(401,{error:"Sign in to your bookstore dashboard."}):null) : auth.reject(event);
  if(denied)return denied;
@@ -10,7 +10,7 @@ const legacyHandler=async(event)=>{
  if(!["GET","POST"].includes(method))return auth.json(405,{error:"Method not allowed"});
  try{
    const handle=await store(event);
-   if(method==="GET")return auth.json(200,{products:(await stockDB.availability(await list(handle))).map(display)});
+   if(method==="GET")return auth.json(200,{products:(await stockDB.availability(await list(handle,{production:isProductionDeploy(event)}))).map(display)});
    if((event.body||"").length>19000)return auth.json(413,{error:"Product data is too large."});
    const body=JSON.parse(event.body||"{}");
    if(body.action==="archive"){
@@ -43,7 +43,7 @@ const legacyHandler=async(event)=>{
  }
 };
 
-export default async function handler(request) {
-  const event = await toLegacyEvent(request);
+export default async function handler(request, context) {
+  const event = await toLegacyEvent(request, context);
   return fromLegacyResponse(await legacyHandler(event));
 }
