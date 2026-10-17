@@ -25,6 +25,7 @@ const calculateOrder=(cart,products,{flatShippingCents,atomicStock=false}={})=>{
    const p=byId.get(c.id);
    if(!p||!p.published)throw new CartError("An item in your cart is no longer listed. Please refresh.");
    if(p.preorder)throw new CartError("Preorders cannot be purchased until officially opened.");
+   if(p.comingSoon)throw new CartError("This title is coming soon and cannot be purchased yet.");
    if(p.trackStock && p.stock<c.quantity)throw new CartError(p.title+" has fewer units available than requested.");
    if(atomicStock && p.shipping!=="digital" && !p.trackStock)throw new CartError("Please set up stock tracking for "+p.title+" before checkout.",503);
    if(p.trackStock&&!atomicStock)throw new CartError(p.title+" requires a protected stock reservation.",503);
