@@ -28,7 +28,7 @@ const products=[
    id:"0f3d3023-3395-4bc7-ad09-41c698ea9a19",title:"Smile For Me — Founding Reader Mystery Box",
    author:"P.M. France",sku:"PMF-SFM-FRMB-001",category:"bundle",format:"Special edition",
    priceCents:2199,shipping:"free-us",
-   description:"Limited Founding Reader Mystery Box preorder preview — planned edition of only 25 boxes. Includes one copy of Smile For Me, an author collectible, two small mystery items, and distinctive packaging. $21.99 includes free standard U.S. shipping. Contents and dispatch details will be finalized before payment opens. Preorders are not yet accepting payment.",
+   description:"Limited Founding Reader Mystery Box preorder preview — planned edition of only 25 boxes. Includes one copy of Smile For Me, an author collectible, two small mystery items, and distinctive packaging. $21.99 includes free standard U.S. shipping. Release date: November 7, 2026. Paid preorders ship November 14–17, 2026 (7–10 calendar days after release). Paid checkout activates only when Square payments and inventory are ready.",
    imagePath:"",stock:25,trackStock:true,preorder:true,comingSoon:false,published:true
  }
 ];
