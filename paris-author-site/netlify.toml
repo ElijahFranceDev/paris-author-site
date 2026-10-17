@@ -24,6 +24,3 @@
 
 [functions."pmf-reconcile-checkouts"]
   node_bundler = "esbuild"
-
-[functions."pmf-inventory-health"]
-  node_bundler = "esbuild"
