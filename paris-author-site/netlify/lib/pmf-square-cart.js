@@ -17,14 +17,21 @@ const parseCart=(raw)=>{
  if(units>40)throw new CartError("Please contact the author for orders over 40 items.");
  return cart;
 };
-const calculateOrder=(cart,products,{flatShippingCents,atomicStock=false}={})=>{
+const MYSTERY_BOX_ID="0f3d3023-3395-4bc7-ad09-41c698ea9a19";
+const calculateOrder=(cart,products,{flatShippingCents,atomicStock=false,allowMysteryPreorder=false,preorderAccepted=false}={})=>{
  const byId=new Map(products.map(p=>[p.id,p]));
- let subtotal=0,physical=0,shippingProfile="free-us";
+ let subtotal=0,physical=0,shippingProfile="free-us",preorderItems=0;
  const items=[];
  for(const c of cart){
    const p=byId.get(c.id);
    if(!p||!p.published)throw new CartError("An item in your cart is no longer listed. Please refresh.");
-   if(p.preorder)throw new CartError("Preorders cannot be purchased until officially opened.");
+   if(p.preorder){
+     if(p.id!==MYSTERY_BOX_ID || p.sku!=="PMF-SFM-FRMB-001" || !allowMysteryPreorder)
+       throw new CartError("This preorder is not open for payment yet.");
+     if(!preorderAccepted)
+       throw new CartError("Please confirm the November 14–17, 2026 shipping terms before placing a preorder.");
+     preorderItems++;
+   }
    if(p.comingSoon)throw new CartError("This title is coming soon and cannot be purchased yet.");
    if(p.trackStock && p.stock<c.quantity)throw new CartError(p.title+" has fewer units available than requested.");
    if(atomicStock && p.shipping!=="digital" && !p.trackStock)throw new CartError("Please set up stock tracking for "+p.title+" before checkout.",503);
@@ -35,9 +42,12 @@ const calculateOrder=(cart,products,{flatShippingCents,atomicStock=false}={})=>{
    if(p.shipping==="square-calculated")shippingProfile="square-calculated";
    const line=p.priceCents*c.quantity; subtotal+=line;
    if(!Number.isSafeInteger(subtotal)||subtotal>1000000)throw new CartError("Your order total exceeds online checkout limits.");
-   items.push({id:c.id,name:p.title,qty:c.quantity,cents:p.priceCents,shipping:p.shipping});
+   items.push({id:c.id,name:p.title,qty:c.quantity,cents:p.priceCents,shipping:p.shipping,
+     preorder:p.preorder===true});
  }
  if(physical>0 && physical!==items.length)throw new CartError("Digital and shipped products must be ordered separately for now.");
+ if(preorderItems>0 && preorderItems!==items.length)
+   throw new CartError("Mystery Box preorders ship after release. Please check out preorder boxes separately from available books.");
  let shippingCents=0;
  if(shippingProfile==="square-calculated"){
    if(!Number.isSafeInteger(flatShippingCents)||flatShippingCents<0||flatShippingCents>25000)
@@ -54,7 +64,7 @@ const squareRequest=(order,locationId,siteOrigin,requestId=crypto.randomUUID())=
    order:{
      location_id:locationId,
      line_items:order.items.map(i=>({
-       name:i.name,
+       name:i.preorder ? i.name+" — PREORDER: ships Nov 14–17, 2026" : i.name,
        quantity:String(i.qty),
        base_price_money:money(i.cents)
      }))
@@ -65,7 +75,9 @@ const squareRequest=(order,locationId,siteOrigin,requestId=crypto.randomUUID())=
      enable_coupon:false,
      redirect_url:siteOrigin+"/square-return.html"
    },
-   payment_note:"P.M. France author-direct web store"
+   payment_note:order.items.some(i=>i.preorder)
+     ?"PREORDER charged at checkout. Smile For Me releases Nov 7, 2026. Boxes ship Nov 14–17, 2026 (not delivered by). Free standard U.S. shipping."
+     :"P.M. France author-direct web store"
  };
  if(order.shippingCents>0)link.checkout_options.shipping_fee={
    name:"Standard U.S. shipping",
@@ -73,4 +85,4 @@ const squareRequest=(order,locationId,siteOrigin,requestId=crypto.randomUUID())=
  };
  return link;
 };
-module.exports={CartError,parseCart,calculateOrder,squareRequest};
+module.exports={CartError,MYSTERY_BOX_ID,parseCart,calculateOrder,squareRequest};
