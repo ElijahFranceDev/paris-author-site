@@ -19,7 +19,8 @@ Return the shopping cart to `parisfrance.shop` so buyers can add multiple eligib
 - `SQUARE_LOCATION_ID` — Square location accepting payment.
 - `SQUARE_ENVIRONMENT` — either `sandbox` or `production` for each deployment context. Use **sandbox for all Deploy Previews** and preserve the existing production account setting.
 - **New** `PMF_SQUARE_CART_ENABLED=true` — activates Square link creation. Keep **unset/false** on production until the go-live checks are complete.
-- **New** `PMF_STANDARD_US_SHIPPING_CENTS` — merchant-approved flat U.S. shipping in cents for items labeled Standard U.S. shipping. Required only for carts containing those items. **Do not invent or set a fee** without confirming it. Carts where all products have Free U.S. shipping add $0 shipping.
+- **Merchant-approved shipping policy:** Standard U.S. shipping is **$3.99 once per order (399 cents)** whenever the cart contains one or more paid-shipping products, even if the order also contains free-shipping items. A cart containing only free-shipping products has **$0** shipping.
+- **Optional override:** `PMF_STANDARD_US_SHIPPING_CENTS` — leave unset to use the approved 399-cent default. Only change it with merchant approval; if set it must be a nonnegative integer in cents. The storefront/cart will need to be updated together if this value changes so estimates remain accurate.
 
 ## Critical operations rules
 
@@ -31,7 +32,7 @@ Return the shopping cart to `parisfrance.shop` so buyers can add multiple eligib
 6. Tax treatment, coupons and per-product shipping tiers need merchant approval; site should display applicable final amounts in Square Checkout. The site subtotal preview is not a receipt.
 7. Manual testing must include a Square **sandbox** purchase with multiple different items, shipping, quantity changes, declined payments, cancellation, and return. Verify total charged and receipt line items in Square Sandbox Dashboard.
 8. Proper paid-order history, status tracking, stock decrement and fulfillment emails require Square payment/order **webhook verification** and a transactional order database. This MVP does NOT create those mechanisms and must not claim a return page is proof of a completed sale.
-9. Check desktop/mobile/cart keyboard inputs, published/unpublished products and prices changed in admin while carts are open. Do not activate production until merchant explicitly approves the merchant rules.
+9. Check desktop/mobile/cart keyboard inputs, published/unpublished products and prices changed in admin while carts are open. Do not activate production until merchant explicitly approves the merchant rules. The $3.99 rate is approved; verification of U.S.-only fulfillment, actual carrier costs, taxes and secure payment behavior remains outstanding.
 
 ## Developer testing
 
