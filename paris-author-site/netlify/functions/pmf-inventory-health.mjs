@@ -19,9 +19,11 @@ export default async function handler(request) {
   } catch (error) {
     console.error("Inventory preview diagnostic:",error?.name || "Error",error?.code || "unknown");
     const detail=String(error?.message||"");
-    const category=/Cannot find (?:module|package)|Cannot resolve|Could not resolve|MODULE_NOT_FOUND|ERR_MODULE_NOT_FOUND/i.test(detail)?"missing dependency"
-      :/Unexpected token|Unexpected \\./i.test(detail)?"parse error"
-      :/ESM|CommonJS|require\\(/i.test(detail)?"module format error":"other import or connection error";
+    const category=(detail.includes("Cannot find module") || detail.includes("Cannot find package") || detail.includes("Could not resolve") || detail.includes("MODULE_NOT_FOUND") || detail.includes("ERR_MODULE_NOT_FOUND"))
+      ? "missing dependency"
+      : (detail.includes("Unexpected token") || detail.includes("Unexpected .")) ? "parse error"
+      : (detail.includes("CommonJS") || detail.includes("ESM")) ? "module format error"
+      : "other import or connection error";
     return new Response(JSON.stringify({...result,errorStage:result.stage,failed:true,errorCategory:category}),{
        status:200,headers:{"Content-Type":"application/json","Cache-Control":"no-store"}
     });
