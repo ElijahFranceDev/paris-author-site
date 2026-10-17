@@ -6,7 +6,7 @@
 # Bundle the PostgreSQL driver for every inventory-related serverless function.
 [functions]
   node_bundler = "esbuild"
-  included_files = ["node_modules/pg/**", "node_modules/pg-*/**"]
+  included_files = ["node_modules/pg/**", "node_modules/pg-*/**", "node_modules/pgpass/**", "node_modules/postgres-*/**", "node_modules/packet-reader/**", "node_modules/split2/**", "node_modules/xtend/**"]
 
 # Per-function bundler overrides.
 # This file intentionally doesn't override the existing Netlify UI build or publish paths.
