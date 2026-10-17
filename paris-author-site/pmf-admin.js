@@ -16,7 +16,7 @@
  function setAuthenticated(yes){loginPane.hidden=!!yes;workspace.hidden=!yes;}
  const field=(id)=>byId("product-"+id);
  function reset(){
-  byId("product-form").reset();field("id").value="";uploadedImageId="";
+  byId("product-form").reset();field("id").value="";uploadedImageId="";stockRevision=null;
   byId("editor-heading").textContent="Add a product";
   byId("stock-wrap").hidden=true;field("price").value="0.00";
   field("image-preview").hidden=true;field("image-preview").removeAttribute("src");
@@ -27,7 +27,7 @@
   field("image-preview").hidden=false;field("image-placeholder").hidden=true;
  }
  function selectProduct(p){
-  field("id").value=p.id;field("title").value=p.title;
+  stockRevision=p.inventoryVersion??null;field("id").value=p.id;field("title").value=p.title;
   field("category").value=p.category;field("format").value=p.format;
   field("price").value=(p.priceCents/100).toFixed(2);
   field("sku").value=p.sku||"";field("author").value=p.author||"";
