@@ -13,7 +13,7 @@ function db(){
  if(!pool)pool=new Pool({
   connectionString:process.env.PMF_INVENTORY_DATABASE_URL,
   max:3,connectionTimeoutMillis:6000,idleTimeoutMillis:15000,
-  ssl:(process.env.PMF_INVENTORY_LOCAL_TEST==='true' && process.env.CONTEXT!=='production' && /@(?:localhost|127\\.0\\.0\\.1):5432\\//.test(process.env.PMF_INVENTORY_DATABASE_URL)) ? false : {rejectUnauthorized:true}
+  ssl:{rejectUnauthorized:true}
  });
  return pool;
 }
