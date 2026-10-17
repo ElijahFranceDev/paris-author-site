@@ -23,7 +23,7 @@ const squareCheckoutUrl=(raw,environment)=>{
 };
 export default async function handler(request,context){
   if(request.method!=="POST")return response(405,{error:"Method not allowed."});
-  if(!inventory.databaseReady()||!process.env.PMF_SQUARE_WEBHOOK_SIGNATURE_KEY)return response(503,{error:"Inventory/payment protection has not been configured."});
+  if(!inventory.databaseReady()||!process.env.PMF_SQUARE_WEBHOOK_SIGNATURE_KEY||!process.env.PMF_SQUARE_WEBHOOK_NOTIFICATION_URL)return response(503,{error:"Inventory/payment protection has not been configured."});
   if(process.env.PMF_SQUARE_CART_ENABLED!=="true")
     return response(503,{error:"Combined checkout is not open yet. Please check back shortly."});
   const environment=(process.env.SQUARE_ENVIRONMENT||"").toLowerCase();
