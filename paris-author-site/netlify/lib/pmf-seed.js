@@ -15,8 +15,12 @@ const description=[
   "",
   "Some stories stay with you long after the final page. This is one of them."
 ].join("\n");
-async function seedProductionCatalog(handle) {
-  if(process.env.CONTEXT!=="production") return;
+async function seedProductionCatalog(handle, isProduction=false) {
+  if(!isProduction) return;
+  // Seed only a genuinely empty production catalog. Do not modify existing products
+  // or re-create a product an author has archived or edited.
+  const current=await handle.list({prefix:"products/"});
+  if((current.blobs||[]).length>0)return;
   const key="products/"+INITIAL_ID;
   if(await handle.get(key,{type:"json",consistency:"strong"}))return;
   const now=new Date().toISOString();
