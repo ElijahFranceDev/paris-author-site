@@ -5,7 +5,7 @@
         count=byId("pmf-cart-count"),subtotal=byId("pmf-cart-subtotal"),
         shippingLabel=byId("pmf-cart-shipping"),estimatedTotal=byId("pmf-cart-total"),
         button=byId("pmf-checkout-button"),error=byId("pmf-checkout-error");
-  let catalog=[],busy=false;
+  let catalog=[],busy=false,cartEnabled=false;
   const money=c=>(c/100).toLocaleString("en-US",{style:"currency",currency:"USD"});
   const el=(tag,cls,txt)=>{
     const node=document.createElement(tag);
@@ -23,7 +23,7 @@
       status.textContent="Your cart is empty. Find your next read in the Author Store.";
       button.disabled=true;
     }else{
-      status.textContent="Review quantities before continuing to one Square checkout.";
+      status.textContent=cartEnabled?"Review quantities before continuing to one Square checkout.":"Combined checkout is undergoing final testing. You can save your selections, but payments are not open yet.";
       for(const item of items){
         const product=getProduct(item.id);
         if(!product||!product.published||product.preorder){
@@ -60,7 +60,7 @@
         controls.append(remove);details.append(controls);line.append(details);root.append(line);
         quantity+=item.quantity;
       }
-      button.disabled=busy||problems.length>0;
+      button.disabled=!cartEnabled||busy||problems.length>0;
     }
     count.textContent=String(quantity);
     subtotal.textContent=money(sum);
@@ -76,12 +76,13 @@
       const response=await fetch("/.netlify/functions/pmf-store-products",{cache:"no-store"});
       if(!response.ok)throw Error("Unable to load current product prices.");
       const body=await response.json();
+      cartEnabled=body.cartEnabled===true;
       catalog=body.products||[];
       render();
     }catch(e){status.textContent="Your cart cannot be checked right now. Please try again later.";button.disabled=true;}
   }
   async function checkout(){
-    if(busy||!cart().length)return;
+    if(busy||!cartEnabled||!cart().length)return;
     busy=true;button.disabled=true;error.textContent="";button.textContent="Preparing your Square order…";
     try{
       const response=await fetch("/.netlify/functions/pmf-square-checkout",{
