@@ -91,3 +91,9 @@
 .pmf-cart-cta{width:100%;text-align:center}
 @media(max-width:850px){.pmf-checkout-columns{grid-template-columns:1fr}.pmf-checkout-columns aside{position:static}}
 @media(max-width:560px){.pmf-shop-controls{width:100%}.pmf-shop-controls .btn{width:100%;text-align:center}}
+
+/* Prepaid Mystery Box confirmation, present only for eligible preorder carts. */
+.pmf-preorder-notice{border:1px solid #99586b;border-radius:12px;background:rgba(146,56,80,.1);padding:15px 17px;margin:16px 0;color:var(--text)}
+.pmf-preorder-notice p{line-height:1.6;margin:0 0 12px}
+.pmf-preorder-acknowledge{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:.9rem;line-height:1.5}
+.pmf-preorder-acknowledge input{margin-top:4px;flex:none;width:17px;height:17px}
