@@ -24,7 +24,7 @@ const legacyHandler=async(event)=>{
  }catch(err){console.error("Image upload error",err);return auth.json(500,{error:"Upload failed. Please try again."})}
 };
 
-export default async function handler(request) {
-  const event = await toLegacyEvent(request);
+export default async function handler(request, context) {
+  const event = await toLegacyEvent(request, context);
   return fromLegacyResponse(await legacyHandler(event));
 }
