@@ -57,7 +57,7 @@
    const info=el("div","pmf-admin-item-main");
    info.append(el("h3","",p.title),el("p","pmf-muted",money(p.priceCents)+" · "+p.category+" · "+(p.published?"Published":"Draft")));
    if(p.preorder) info.append(el("p","pmf-emphasis","Preorder • checkout closed"));
-   else if(!p.squarePaymentUrl)info.append(el("p","pmf-muted","Square link needed for purchase"));
+   else if(p.published)info.append(el("p","pmf-muted","Available through combined Square cart when checkout is enabled"));
    upper.append(info);card.append(upper);
    const buttons=el("div","pmf-actions");
    const edit=el("button","btn secondary","Edit");edit.type="button";edit.addEventListener("click",()=>selectProduct(p));
