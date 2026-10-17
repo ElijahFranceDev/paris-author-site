@@ -33,7 +33,7 @@
   field("sku").value=p.sku||"";field("author").value=p.author||"";
   field("description").value=p.description||"";field("shipping").value=p.shipping;
   field("track-stock").checked=!!p.trackStock;field("stock").value=p.stock||0;
-  byId("stock-wrap").hidden=!p.trackStock;field("preorder").checked=!!p.preorder;
+  byId("stock-wrap").hidden=!p.trackStock;field("preorder").checked=!!p.preorder;field("coming-soon").checked=!!p.comingSoon;
   field("square").value=p.squarePaymentUrl||"";field("published").checked=!!p.published;
   field("image").value="";uploadedImageId=p.imageId||"";
   byId("editor-heading").textContent="Edit product";
@@ -57,6 +57,7 @@
    const info=el("div","pmf-admin-item-main");
    info.append(el("h3","",p.title),el("p","pmf-muted",money(p.priceCents)+" · "+p.category+" · "+(p.published?"Published":"Draft")));
    if(p.preorder) info.append(el("p","pmf-emphasis","Preorder • checkout closed"));
+   if(p.comingSoon)info.append(el("p","pmf-emphasis","Coming soon • checkout closed"));
    if(p.trackStock)info.append(el("p","pmf-muted","Stock available: "+p.stock));
    else if(!p.squarePaymentUrl)info.append(el("p","pmf-muted","Square link required until combined-cart checkout is activated"));
    upper.append(info);card.append(upper);
@@ -124,7 +125,7 @@
     priceCents:Math.round(price*100),sku:field("sku").value,author:field("author").value,
     description:field("description").value,shipping:field("shipping").value,
     trackStock:field("track-stock").checked,stock:Number(field("stock").value),
-    preorder:field("preorder").checked,squarePaymentUrl:field("square").value,
+    preorder:field("preorder").checked,comingSoon:field("coming-soon").checked,squarePaymentUrl:field("square").value,
     published:field("published").checked,imageId:uploadedImageId,inventoryVersion:stockRevision
   };
   button.disabled=true;button.textContent="Saving…";
