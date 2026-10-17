@@ -18,8 +18,8 @@ export default async function handler(request) {
     return new Response(JSON.stringify(result), {status:200,headers:{"Content-Type":"application/json","Cache-Control":"no-store"}});
   } catch (error) {
     console.error("Inventory preview diagnostic:",error?.name || "Error",error?.code || "unknown");
-    return new Response(JSON.stringify({...result,errorStage:result.stage}),{
-       status:503,headers:{"Content-Type":"application/json","Cache-Control":"no-store"}
+    return new Response(JSON.stringify({...result,errorStage:result.stage,failed:true}),{
+       status:200,headers:{"Content-Type":"application/json","Cache-Control":"no-store"}
     });
   }
 }
