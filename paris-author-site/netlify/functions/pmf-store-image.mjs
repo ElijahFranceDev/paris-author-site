@@ -19,7 +19,7 @@ const legacyHandler=async(event)=>{
  }catch(err){console.error("Image read error",err);return{statusCode:503,body:"Image temporarily unavailable"}}
 };
 
-export default async function handler(request) {
-  const event = await toLegacyEvent(request);
+export default async function handler(request, context) {
+  const event = await toLegacyEvent(request, context);
   return fromLegacyResponse(await legacyHandler(event));
 }
