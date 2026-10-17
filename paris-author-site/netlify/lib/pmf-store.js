@@ -45,15 +45,20 @@ function normalize(input,prior){
   updatedAt:new Date().toISOString()
  };
 }
+function isProductionDeploy(event){
+  const ctx=event?.deployContext;
+  if(ctx) return ctx==="production";
+  return process.env.CONTEXT==="production";
+}
 async function store(event){
   const {getStore,getDeployStore,connectLambda}=await import("@netlify/blobs");
   if(typeof connectLambda==="function" && event?.blobs)connectLambda(event);
   // Branch/deploy previews must never write to live product records.
-  if(process.env.CONTEXT==="production")return getStore({name:"pmf-catalog-live",consistency:"strong"});
+  if(isProductionDeploy(event))return getStore({name:"pmf-catalog-live",consistency:"strong"});
   return getDeployStore({name:"pmf-catalog-preview",consistency:"strong"});
 }
-async function list(storeHandle,{publicOnly=false}={}){
-  await seedProductionCatalog(storeHandle);
+async function list(storeHandle,{publicOnly=false,production=false}={}){
+  await seedProductionCatalog(storeHandle,production);
   let cursor,items=[],pages=0;
   do {
     const response=await storeHandle.list({prefix:"products/",...(cursor?{cursor}:{})});
@@ -79,4 +84,4 @@ const display=p=>({
   // Preorders are information-only until an inventory-safe sale flow is approved.
   canBuy:p.published&&!p.preorder&&(!p.trackStock||p.stock>0)&&Boolean(p.squarePaymentUrl)
 });
-module.exports={uuid,validId,normalize,store,list,display};
+module.exports={uuid,validId,normalize,store,list,display,isProductionDeploy};
