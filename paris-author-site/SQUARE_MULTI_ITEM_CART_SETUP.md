@@ -43,6 +43,13 @@ Square official documentation:
 - https://developer.squareup.com/reference/square/checkout/create-payment-link
 - https://developer.squareup.com/docs/checkout-api/optional-checkout-configurations
 
+## Safe production release
+- The code may be deployed with `PMF_SQUARE_CART_ENABLED` **unset/false**. This is the default and does **not** launch combined checkout.
+- When disabled, the public Store **retains existing Square buy links** for products that have them and does not display the multi-item Cart as a supported payment method. The Admin Portal remains usable.
+- Once a verified Square Sandbox checkout and merchant tax/U.S.-only shipping policies pass, set `PMF_SQUARE_CART_ENABLED=true` in **production Functions** and trigger a fresh Netlify production deploy. This flips Store buttons to Add to Cart and enables one hosted Square checkout.
+- Do not enable the production flag before checking Square API permissions, shipping collection, tax calculations and actual Square order/receipt.
+- If a checkout problem appears, restore `PMF_SQUARE_CART_ENABLED=false` and redeploy to return immediately to existing individual Square links.
+
 ## Rollout plan
 
 - Keep this draft PR unmerged until approved and sandbox-tested.
