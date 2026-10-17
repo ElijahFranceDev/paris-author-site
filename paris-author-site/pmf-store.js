@@ -15,7 +15,7 @@
    if(p.imageUrl){const image=el("img","pmf-product-photo");image.src=p.imageUrl;image.alt=p.title+" product photo";image.loading="lazy";card.append(image);}
    else{card.append(el("div","pmf-product-no-photo","P.M. FRANCE"));}
    const content=el("div","pmf-product-detail");
-   content.append(el("p","pmf-label",p.category.toUpperCase()+(p.preorder?" • UPCOMING PREORDER":"")));
+   content.append(el("p","pmf-label",p.category.toUpperCase()+(p.preorder?" • UPCOMING PREORDER":p.comingSoon?" • COMING SOON":"")));
    content.append(el("h2","",p.title));
    if(p.author)content.append(el("p","pmf-muted",p.author));
    if(p.description){
@@ -39,7 +39,7 @@
    const ship=p.shipping==="free-us"?"Free U.S. shipping":p.shipping==="digital"?"Digital product":"Standard U.S. shipping at checkout";
    bottom.append(el("span","pmf-muted",ship));content.append(bottom);
    const available=!p.trackStock||p.stock>0;
-   if(p.preorder){const upcoming=el("a","btn secondary pmf-product-buy","Preorder Updates");upcoming.href="newsletter.html";content.append(upcoming);}
+   if(p.preorder||p.comingSoon){const upcoming=el("a","btn secondary pmf-product-buy",p.preorder?"Preorder Updates":"Release Updates");upcoming.href="newsletter.html";content.append(upcoming);}
    else if(!available){content.append(el("span","pmf-unavailable","Currently sold out"));}
    else if(cartEnabled && p.published && (p.trackStock || p.shipping==="digital")){
      const add=el("button","btn primary pmf-product-buy","Add to Cart");
