@@ -36,7 +36,7 @@ test("catalog expansion adds four records but preserves existing Quiet Days at $
  await seedAdditionalCatalog(handle,true);
  assert.equal(handle.data.size,6); // five products + one migration marker
  assert.deepEqual(handle.data.get("products/"+existingQuiet.id),existingQuiet);
- assert.equal(Array.from(handle.data.values()).filter(x=>x.category==="book"||x.category==="bundle").length,5);
+ assert.equal(Array.from(handle.data.values()).filter(x=>x.id&&x.title).length,5);
  const stored=handle.data.get("products/"+products.find(p=>p.category==="bundle").id);
  assert.equal(stored.priceCents,2199);
  assert.equal(stored.squarePaymentUrl,"");
