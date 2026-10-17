@@ -3,7 +3,7 @@
  const byId=id=>document.getElementById(id);
  const notice=byId("admin-notice");
  const endpoint="/.netlify/functions/";
- let products=[],uploadedImageId="";
+ let products=[],uploadedImageId="",stockRevision=null;
  const show=(message,isError=false)=>{notice.textContent=message;notice.className="pmf-notice"+(isError?" pmf-error":"");};
  const money=cents=>(cents/100).toLocaleString("en-US",{style:"currency",currency:"USD"});
  async function api(name,options={}){
