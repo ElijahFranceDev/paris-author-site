@@ -26,6 +26,7 @@ const calculateOrder=(cart,products,{flatShippingCents}={})=>{
    if(!p||!p.published)throw new CartError("An item in your cart is no longer listed. Please refresh.");
    if(p.preorder)throw new CartError("Preorders cannot be purchased until officially opened.");
    if(p.trackStock && p.stock<c.quantity)throw new CartError(p.title+" has fewer units available than requested.");
+   if(p.trackStock)throw new CartError(p.title+" has limited stock. Combined checkout will open for this item after secure inventory reservations are ready.",503);
    if(!Number.isSafeInteger(p.priceCents)||p.priceCents<0)throw new CartError("An item has an invalid price.",503);
    if(!["free-us","square-calculated","digital"].includes(p.shipping))throw new CartError("An item has no shipping rules.",503);
    if(p.shipping!=="digital")physical++;
