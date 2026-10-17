@@ -26,8 +26,12 @@ export default async function handler(request) {
       : "other import or connection error";
     const packageName=detail.includes("'pg'")||detail.includes('"pg"')?"pg"
       :detail.includes("pmf-inventory.js")?"inventory-file":"other";
+    const moduleMatch=detail.match(/Cannot find module ['"]([^'"]{1,90})['"]/);
+    const rawModule=moduleMatch?.[1]||"unknown";
+    const safeModule=/^[@a-zA-Z0-9_./-]+$/.test(rawModule)&&!rawModule.startsWith("/")&&!rawModule.includes("..")
+      ? rawModule : "redacted";
     const code=["MODULE_NOT_FOUND","ERR_MODULE_NOT_FOUND"].includes(error?.code)?error.code:"other";
-    return new Response(JSON.stringify({...result,errorStage:result.stage,failed:true,errorCategory:category,missingPackage:packageName,errorCode:code}),{
+    return new Response(JSON.stringify({...result,errorStage:result.stage,failed:true,errorCategory:category,missingPackage:packageName,missingSpecifier:safeModule,errorCode:code}),{
        status:200,headers:{"Content-Type":"application/json","Cache-Control":"no-store"}
     });
   }
