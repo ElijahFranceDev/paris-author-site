@@ -1,7 +1,7 @@
 import catalog from "../lib/pmf-store.js";
 import pricing from "../lib/pmf-square-cart.js";
 import inventory from "../lib/pmf-inventory.js";
-const {store,list}=catalog;
+const {store,list,isProductionDeploy}=catalog;
 const {CartError,parseCart,calculateOrder,squareRequest}=pricing;
 
 const response=(status,data)=>new Response(JSON.stringify(data),{
@@ -30,7 +30,9 @@ export default async function handler(request,context){
   if(!["production","sandbox"].includes(environment))
     return response(503,{error:"The merchant payment environment is not configured."});
   // A Netlify Deploy Preview must never send real charges.
-  if(process.env.CONTEXT!=="production" && environment!=="sandbox")
+  const deployment={deployContext:context?.deploy?.context||""};
+  const production=isProductionDeploy(deployment);
+  if(!production && environment!=="sandbox")
     return response(503,{error:"Use Square Sandbox for checkout tests on preview sites."});
   const token=process.env.SQUARE_ACCESS_TOKEN,locationId=process.env.SQUARE_LOCATION_ID;
   if(!token||!locationId)return response(503,{error:"The merchant payment connection is incomplete."});
@@ -43,7 +45,7 @@ export default async function handler(request,context){
     if(rawText.length>10000)return response(413,{error:"Cart is too large."});
     const input=JSON.parse(rawText);
     const cart=parseCart(input.cart);
-    const products=await list(await store(),{publicOnly:true});
+    const products=await list(await store(deployment),{publicOnly:true,production});
     // This is the only authoritative price and stock source; the browser never sets price.
     const flat=process.env.PMF_STANDARD_US_SHIPPING_CENTS;
     // Merchant-approved default: a single $3.99 U.S. shipping fee per order
@@ -52,7 +54,7 @@ export default async function handler(request,context){
     const order=calculateOrder(cart,products,{flatShippingCents:shipping,atomicStock:true});
     if(order.totalCents<1)throw new CartError("Free orders need a separate fulfillment process.",400);
     const hostname=new URL(request.url).hostname;
-    const siteOrigin=(process.env.CONTEXT!=="production"&&/^(?:deploy-preview-\d+--)?parismfrancebooks\.netlify\.app$/.test(hostname))
+    const siteOrigin=(!production&&/^(?:deploy-preview-\d+--)?parismfrancebooks\.netlify\.app$/.test(hostname))
       ? origin:"https://parisfrance.shop";
     const reservationId=await inventory.reserve(order,products);
     const checkoutPayload=squareRequest(order,locationId,siteOrigin,reservationId);

@@ -1,11 +1,13 @@
 // Bridge the existing, authenticated bookstore handlers to Netlify's modern
 // Request/Response API so the Blobs SDK receives its runtime context automatically.
-export async function toLegacyEvent(request) {
+export async function toLegacyEvent(request, context) {
   const url = new URL(request.url);
   const headers = Object.fromEntries(request.headers);
   if (!headers.host) headers.host = url.host;
   return {
     httpMethod: request.method,
+    // Trusted Netlify invocation context, not user-supplied headers.
+    deployContext: context?.deploy?.context || "",
     headers,
     queryStringParameters: Object.fromEntries(url.searchParams),
     body: request.method === "GET" || request.method === "HEAD" ? null : await request.text()
