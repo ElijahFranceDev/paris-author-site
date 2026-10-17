@@ -4,7 +4,7 @@
 const KEY="migrations/pmf-box-shipping-append-2026-10-17-v1";
 const BOX_ID="0f3d3023-3395-4bc7-ad09-41c698ea9a19";
 const SKU="PMF-SFM-FRMB-001";
-const TERMS="Release date: November 7, 2026. Once paid preorders officially open, Mystery Boxes are scheduled to ship 7–10 days after each preorder is placed. Paid preorder checkout is not yet open.";
+const TERMS="Release date: November 7, 2026. Paid preorders ship November 14–17, 2026 (7–10 calendar days after release). Paid checkout activates after secure Square setup.";
 async function appendMysteryBoxTerms(handle,production=false){
  if(!production)return;
  if(await handle.get(KEY,{type:"json",consistency:"strong"}))return;
