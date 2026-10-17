@@ -41,7 +41,7 @@
    const available=!p.trackStock||p.stock>0;
    if(p.preorder){const upcoming=el("a","btn secondary pmf-product-buy","Preorder Updates");upcoming.href="newsletter.html";content.append(upcoming);}
    else if(!available){content.append(el("span","pmf-unavailable","Currently sold out"));}
-   else if(cartEnabled && p.published && !p.trackStock){
+   else if(cartEnabled && p.published && (p.trackStock || p.shipping==="digital")){
      const add=el("button","btn primary pmf-product-buy","Add to Cart");
      add.type="button";
      add.addEventListener("click",()=>{
