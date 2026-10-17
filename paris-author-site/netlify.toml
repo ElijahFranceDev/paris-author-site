@@ -1,3 +1,8 @@
+# Ensure dependencies such as pg are installed before Netlify packages functions.
+# The site's base/publish directories remain set in the Netlify project.
+[build]
+  command = "npm install --no-audit --no-fund"
+
 # Inventory-backed functions need the PostgreSQL driver packaged with the deployed Lambda.
 # This file intentionally doesn't override the existing Netlify UI build or publish paths.
 [functions."pmf-admin-products"]
