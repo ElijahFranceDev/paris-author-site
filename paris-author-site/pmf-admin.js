@@ -57,6 +57,7 @@
    const info=el("div","pmf-admin-item-main");
    info.append(el("h3","",p.title),el("p","pmf-muted",money(p.priceCents)+" · "+p.category+" · "+(p.published?"Published":"Draft")));
    if(p.preorder) info.append(el("p","pmf-emphasis","Preorder • checkout closed"));
+   if(p.trackStock)info.append(el("p","pmf-muted","Stock available: "+p.stock));
    else if(!p.squarePaymentUrl)info.append(el("p","pmf-muted","Square link required until combined-cart checkout is activated"));
    upper.append(info);card.append(upper);
    const buttons=el("div","pmf-actions");
@@ -124,7 +125,7 @@
     description:field("description").value,shipping:field("shipping").value,
     trackStock:field("track-stock").checked,stock:Number(field("stock").value),
     preorder:field("preorder").checked,squarePaymentUrl:field("square").value,
-    published:field("published").checked,imageId:uploadedImageId
+    published:field("published").checked,imageId:uploadedImageId,inventoryVersion:stockRevision
   };
   button.disabled=true;button.textContent="Saving…";
   try{
