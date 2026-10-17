@@ -6,15 +6,15 @@ const merch={id:"f4abf206-86fa-4f1b-9e62-4cf1dd002345",title:"P.M. France Bookma
 const item=(p,q=1)=>({id:p.id,quantity:q});
 test("a five-item cart becomes one itemized Square checkout with verified prices",()=>{
  const items=parseCart([item(book,2),item(merch,3)]);
- const order=calculateOrder(items,[book,merch],{flatShippingCents:499});
+ const order=calculateOrder(items,[book,merch],{flatShippingCents:399});
  assert.equal(order.subtotalCents,6695);
- assert.equal(order.shippingCents,499);
- assert.equal(order.totalCents,7194);
+ assert.equal(order.shippingCents,399);
+ assert.equal(order.totalCents,7094);
  const request=squareRequest(order,"SQUARE_LOC","https://parisfrance.shop","test-idempotency-key");
  assert.equal(request.order.line_items.length,2);
  assert.deepEqual(request.order.line_items.map(i=>i.quantity),["2","3"]);
  assert.deepEqual(request.order.line_items.map(i=>i.base_price_money.amount),[2899,299]);
- assert.equal(request.checkout_options.shipping_fee.charge.amount,499);
+ assert.equal(request.checkout_options.shipping_fee.charge.amount,399);
  assert.equal(request.checkout_options.ask_for_shipping_address,true);
  assert.equal(request.idempotency_key,"test-idempotency-key");
 });
@@ -25,7 +25,7 @@ test("free US shipping products together have no added shipping fee",()=>{
  assert.equal(o.shippingCents,0);
  assert.equal(payload.checkout_options.shipping_fee,undefined);
 });
-test("unconfigured paid shipping blocks checkout rather than inventing a fee",()=>{
+test("unconfigured calculation rejects non-approved fee instead of guessing",()=>{
  assert.throws(()=>calculateOrder(parseCart([item(merch)]),[merch]),/not configured/);
 });
 test("prices in browser are ignored and server catalog controls total",()=>{
@@ -48,4 +48,17 @@ test("invalid quantities and duplicate IDs are rejected",()=>{
 test("digital products cannot mix with shipped items before fulfillment rules",()=>{
  const digital={...merch,shipping:"digital"};
  assert.throws(()=>calculateOrder(parseCart([item(book),item(digital)]),[book,digital]),/separately/);
+});
+
+test("one $3.99 fee covers one or multiple paid-shipping items",()=>{
+ const orderSingle=calculateOrder(parseCart([item(merch,1)]),[merch],{flatShippingCents:399});
+ const orderMultiple=calculateOrder(parseCart([item(merch,7)]),[merch],{flatShippingCents:399});
+ assert.equal(orderSingle.shippingCents,399);
+ assert.equal(orderMultiple.shippingCents,399);
+ assert.equal(orderMultiple.totalCents,7*299+399);
+});
+test("free-shipping items combined with paid-shipping items charge $3.99 once",()=>{
+ const order=calculateOrder(parseCart([item(book,4),item(merch,2)]),[book,merch],{flatShippingCents:399});
+ assert.equal(order.shippingCents,399);
+ assert.equal(order.totalCents,4*2899+2*299+399);
 });
