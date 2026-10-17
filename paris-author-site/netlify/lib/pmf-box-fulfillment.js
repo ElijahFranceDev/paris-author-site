@@ -12,7 +12,7 @@ async function appendMysteryBoxTerms(handle,production=false){
  const box=await handle.get(key,{type:"json",consistency:"strong"});
  if(box?.sku===SKU){
    const before=String(box.description||"").trim();
-   if(!before.includes("November 7, 2026") || !before.includes("7–10 days")){
+   if(!before.includes("November 14–17, 2026")){
      await handle.setJSON(key,{
        ...box,description:(before?before+"\n\n":"")+TERMS,
        updatedAt:new Date().toISOString()
