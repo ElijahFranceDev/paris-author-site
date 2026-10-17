@@ -3,6 +3,7 @@
   const byId=id=>document.getElementById(id);
   const root=byId("pmf-cart-lines"),status=byId("pmf-cart-status"),
         count=byId("pmf-cart-count"),subtotal=byId("pmf-cart-subtotal"),
+        shippingLabel=byId("pmf-cart-shipping"),estimatedTotal=byId("pmf-cart-total"),
         button=byId("pmf-checkout-button"),error=byId("pmf-checkout-error");
   let catalog=[],busy=false;
   const money=c=>(c/100).toLocaleString("en-US",{style:"currency",currency:"USD"});
@@ -17,7 +18,7 @@
   function render(){
     const items=cart();
     root.replaceChildren();
-    let quantity=0,sum=0,problems=[];
+    let quantity=0,sum=0,problems=[],hasPaidShipping=false;
     if(!items.length){
       status.textContent="Your cart is empty. Find your next read in the Author Store.";
       button.disabled=true;
@@ -37,6 +38,7 @@
         const details=el("div","pmf-cart-item-content");
         details.append(el("h3","",product?.title||"Unavailable product"));
         if(product){
+          if(product.shipping==="square-calculated")hasPaidShipping=true;
           details.append(el("p","pmf-muted",money(product.priceCents)+" each"));
           const total=item.quantity*product.priceCents;
           sum+=total;
@@ -62,6 +64,11 @@
     }
     count.textContent=String(quantity);
     subtotal.textContent=money(sum);
+    // All-free-shipping carts cost $0 to ship; paid-shipping items add $3.99
+    // ONCE for the whole cart, not per product or per unit.
+    const shippingCents=hasPaidShipping?399:0;
+    shippingLabel.textContent=items.length&&!problems.length?money(shippingCents):"—";
+    estimatedTotal.textContent=items.length&&!problems.length?money(sum+shippingCents):"—";
     if(problems.length){error.textContent=problems.join(" ");}
   }
   async function load(){
