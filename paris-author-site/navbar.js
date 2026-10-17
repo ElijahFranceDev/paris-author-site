@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <a href="pm-france.html">About P.M. France</a>
           <a href="books.html">Books</a>
           <a href="store.html">Author Store</a>
+          <a href="cart.html">Shopping Cart (<span data-pmf-cart-count>0</span>)</a>
           <a href="smile-for-me.html">Smile For Me</a>
           <a href="quiet-days.html">The Quiet Days</a>
           <a href="events.html">Events & Signings</a>
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
 
   const menuWrap = navPlaceholder.querySelector(".menu-wrap");
+  if(window.PMF_CART)navPlaceholder.querySelectorAll("[data-pmf-cart-count]").forEach(el=>el.textContent=String(window.PMF_CART.count()));
   const menuButton = navPlaceholder.querySelector(".menu-button");
   const dropdown = navPlaceholder.querySelector(".dropdown");
   let clickLockedOpen = false;
