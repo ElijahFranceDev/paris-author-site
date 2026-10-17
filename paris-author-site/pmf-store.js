@@ -36,7 +36,7 @@
    }
    const bottom=el("div","pmf-product-bottom");
    bottom.append(el("strong","pmf-product-price",fmt(p.priceCents)));
-   const ship=p.shipping==="free-us"?"Free U.S. shipping":p.shipping==="digital"?"Digital product":"Shipping calculated by Square";
+   const ship=p.shipping==="free-us"?"Free U.S. shipping":p.shipping==="digital"?"Digital product":"Standard U.S. shipping at checkout";
    bottom.append(el("span","pmf-muted",ship));content.append(bottom);
    const available=!p.trackStock||p.stock>0;
    if(p.preorder){const upcoming=el("a","btn secondary pmf-product-buy","Preorder Updates");upcoming.href="newsletter.html";content.append(upcoming);}
