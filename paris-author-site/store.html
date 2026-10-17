@@ -12,11 +12,13 @@
 <a href="books.html" class="btn secondary">Explore the Books</a></div></header>
 <main class="section page-shell pmf-store">
 <div class="pmf-shop-head"><div><h2>Shop The Collection</h2><p id="store-status" class="pmf-muted" role="status">Loading the catalog…</p></div>
+<div class="pmf-shop-controls"><a href="cart.html" class="btn primary pmf-cart-link">View Cart (<span data-pmf-cart-count>0</span>)</a></div>
 <label for="product-filter">Browse by category
 <select id="product-filter"><option value="all">All products</option><option value="book">Books</option><option value="merchandise">Merchandise</option><option value="collectible">Collectibles</option><option value="bundle">Bundles & Boxes</option><option value="other">Other</option></select></label></div>
+<p id="cart-feedback" class="pmf-muted pmf-cart-feedback" role="status" aria-live="polite">Add available books and collectibles to one cart.</p>
 <section id="public-product-list" class="pmf-product-grid" aria-live="polite"></section>
-<div class="pmf-shop-info"><p>Available products use secure Square payment links. Shipping and payment details appear on Square's checkout page. Preorder listings do not accept payment until activated.</p></div>
+<div class="pmf-shop-info"><p>Select available items, then pay once through Square. Your shipping information is collected securely at checkout. Preorders remain closed until officially announced.</p></div>
 </main>
 <footer class="footer"><p><strong>P.M. FRANCE</strong> — Official Author Store</p><p>Previously published as Paris M. France</p><p><a href="admin.html" class="pmf-admin-footer-link">Author Admin Sign In</a></p></footer>
-<script src="pmf-store.js"></script><script src="navbar.js"></script>
+<script src="pmf-cart-core.js"></script><script src="pmf-store.js"></script><script src="navbar.js"></script>
 </body></html>
