@@ -55,7 +55,7 @@
      const buy=el("a","btn primary pmf-product-buy","Buy Securely with Square");
      buy.href=p.squarePaymentUrl;buy.target="_blank";buy.rel="noopener noreferrer";content.append(buy);
    }
-   else{content.append(el("span","pmf-unavailable",cartEnabled&&p.trackStock?"Limited-quantity ordering coming soon":"Not yet available for purchase"));}
+   else{content.append(el("span","pmf-unavailable",cartEnabled&&!p.trackStock&&p.shipping!=="digital"?"Confirm inventory in Admin to start checkout":"Not yet available for purchase"));}
    card.append(content);list.append(card);
   }
  }
