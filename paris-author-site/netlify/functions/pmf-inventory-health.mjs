@@ -24,7 +24,10 @@ export default async function handler(request) {
       : (detail.includes("Unexpected token") || detail.includes("Unexpected .")) ? "parse error"
       : (detail.includes("CommonJS") || detail.includes("ESM")) ? "module format error"
       : "other import or connection error";
-    return new Response(JSON.stringify({...result,errorStage:result.stage,failed:true,errorCategory:category}),{
+    const packageName=detail.includes("'pg'")||detail.includes('"pg"')?"pg"
+      :detail.includes("pmf-inventory.js")?"inventory-file":"other";
+    const code=["MODULE_NOT_FOUND","ERR_MODULE_NOT_FOUND"].includes(error?.code)?error.code:"other";
+    return new Response(JSON.stringify({...result,errorStage:result.stage,failed:true,errorCategory:category,missingPackage:packageName,errorCode:code}),{
        status:200,headers:{"Content-Type":"application/json","Cache-Control":"no-store"}
     });
   }
