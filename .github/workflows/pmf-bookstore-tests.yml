@@ -1,0 +1,22 @@
+name: P.M. France Bookstore Tests
+on:
+  push:
+    branches:
+      - feat/pmf-atomic-inventory-2026-10-17
+  pull_request:
+    paths:
+      - "paris-author-site/**"
+      - ".github/workflows/pmf-bookstore-tests.yml"
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: paris-author-site
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --no-audit --no-fund
+      - run: npm test

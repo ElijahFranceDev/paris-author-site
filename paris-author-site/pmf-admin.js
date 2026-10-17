@@ -3,7 +3,7 @@
  const byId=id=>document.getElementById(id);
  const notice=byId("admin-notice");
  const endpoint="/.netlify/functions/";
- let products=[],uploadedImageId="";
+ let products=[],uploadedImageId="",stockRevision=null;
  const show=(message,isError=false)=>{notice.textContent=message;notice.className="pmf-notice"+(isError?" pmf-error":"");};
  const money=cents=>(cents/100).toLocaleString("en-US",{style:"currency",currency:"USD"});
  async function api(name,options={}){
@@ -16,7 +16,7 @@
  function setAuthenticated(yes){loginPane.hidden=!!yes;workspace.hidden=!yes;}
  const field=(id)=>byId("product-"+id);
  function reset(){
-  byId("product-form").reset();field("id").value="";uploadedImageId="";
+  byId("product-form").reset();field("id").value="";uploadedImageId="";stockRevision=null;
   byId("editor-heading").textContent="Add a product";
   byId("stock-wrap").hidden=true;field("price").value="0.00";
   field("image-preview").hidden=true;field("image-preview").removeAttribute("src");
@@ -27,7 +27,7 @@
   field("image-preview").hidden=false;field("image-placeholder").hidden=true;
  }
  function selectProduct(p){
-  field("id").value=p.id;field("title").value=p.title;
+  stockRevision=p.inventoryVersion??null;field("id").value=p.id;field("title").value=p.title;
   field("category").value=p.category;field("format").value=p.format;
   field("price").value=(p.priceCents/100).toFixed(2);
   field("sku").value=p.sku||"";field("author").value=p.author||"";
@@ -57,6 +57,7 @@
    const info=el("div","pmf-admin-item-main");
    info.append(el("h3","",p.title),el("p","pmf-muted",money(p.priceCents)+" · "+p.category+" · "+(p.published?"Published":"Draft")));
    if(p.preorder) info.append(el("p","pmf-emphasis","Preorder • checkout closed"));
+   if(p.trackStock)info.append(el("p","pmf-muted","Stock available: "+p.stock));
    else if(!p.squarePaymentUrl)info.append(el("p","pmf-muted","Square link required until combined-cart checkout is activated"));
    upper.append(info);card.append(upper);
    const buttons=el("div","pmf-actions");
@@ -124,7 +125,7 @@
     description:field("description").value,shipping:field("shipping").value,
     trackStock:field("track-stock").checked,stock:Number(field("stock").value),
     preorder:field("preorder").checked,squarePaymentUrl:field("square").value,
-    published:field("published").checked,imageId:uploadedImageId
+    published:field("published").checked,imageId:uploadedImageId,inventoryVersion:stockRevision
   };
   button.disabled=true;button.textContent="Saving…";
   try{

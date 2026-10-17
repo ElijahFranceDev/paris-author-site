@@ -17,7 +17,7 @@ const parseCart=(raw)=>{
  if(units>40)throw new CartError("Please contact the author for orders over 40 items.");
  return cart;
 };
-const calculateOrder=(cart,products,{flatShippingCents}={})=>{
+const calculateOrder=(cart,products,{flatShippingCents,atomicStock=false}={})=>{
  const byId=new Map(products.map(p=>[p.id,p]));
  let subtotal=0,physical=0,shippingProfile="free-us";
  const items=[];
@@ -26,7 +26,8 @@ const calculateOrder=(cart,products,{flatShippingCents}={})=>{
    if(!p||!p.published)throw new CartError("An item in your cart is no longer listed. Please refresh.");
    if(p.preorder)throw new CartError("Preorders cannot be purchased until officially opened.");
    if(p.trackStock && p.stock<c.quantity)throw new CartError(p.title+" has fewer units available than requested.");
-   if(p.trackStock)throw new CartError(p.title+" has limited stock. Combined checkout will open for this item after secure inventory reservations are ready.",503);
+   if(atomicStock && p.shipping!=="digital" && !p.trackStock)throw new CartError("Please set up stock tracking for "+p.title+" before checkout.",503);
+   if(p.trackStock&&!atomicStock)throw new CartError(p.title+" requires a protected stock reservation.",503);
    if(!Number.isSafeInteger(p.priceCents)||p.priceCents<0)throw new CartError("An item has an invalid price.",503);
    if(!["free-us","square-calculated","digital"].includes(p.shipping))throw new CartError("An item has no shipping rules.",503);
    if(p.shipping!=="digital")physical++;

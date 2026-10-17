@@ -75,7 +75,7 @@ const display=p=>({
   preorder:p.preorder,stock:p.trackStock?p.stock:null,trackStock:p.trackStock,published:p.published,
   squarePaymentUrl:p.squarePaymentUrl,
   imageUrl:p.imageId?"/.netlify/functions/pmf-store-image?id="+encodeURIComponent(p.imageId):(p.imagePath||null),
-  imageId:p.imageId,createdAt:p.createdAt,updatedAt:p.updatedAt,
+  imageId:p.imageId,inventoryVersion:p.inventoryVersion??null,createdAt:p.createdAt,updatedAt:p.updatedAt,
   // Preorders are information-only until an inventory-safe sale flow is approved.
   canBuy:p.published&&!p.preorder&&(!p.trackStock||p.stock>0)&&Boolean(p.squarePaymentUrl)
 });
