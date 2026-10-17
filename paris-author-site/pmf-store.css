@@ -69,3 +69,25 @@
 .pmf-description.pmf-expanded{display:block;overflow:visible;white-space:pre-wrap}
 .pmf-read-more{border:0;background:none;text-decoration:underline;text-underline-offset:3px;color:#e4a3ab;text-align:left;cursor:pointer;padding:6px 0;font-size:.9rem}
 .pmf-read-more:focus-visible{outline:2px solid #e4a3ab;outline-offset:2px}
+
+/* Multi-item Square checkout cart */
+.pmf-shop-controls{display:flex;align-items:end;gap:10px}
+.pmf-cart-feedback{margin:0 0 24px;padding:12px 16px;border:1px solid var(--pmf-line);border-radius:12px}
+.pmf-checkout-columns{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.8fr);gap:24px;align-items:start}
+.pmf-checkout-columns .pmf-panel{min-width:0}
+.pmf-checkout-columns aside{position:sticky;top:24px}
+.pmf-checkout-columns h2{font-size:clamp(1.45rem,2.8vw,1.9rem)}
+.pmf-checkout-columns aside .pmf-muted{margin:16px 0}
+.pmf-cart-item{display:flex;gap:20px;padding:19px 0;border-bottom:1px solid var(--pmf-line);min-width:0}
+.pmf-cart-thumb{width:80px;height:108px;object-fit:contain;flex:none;border-radius:9px;background:rgba(255,255,255,.04)}
+.pmf-cart-item-content{display:grid;gap:8px;min-width:0;flex:1}
+.pmf-cart-item-content h3{font-family:var(--serif);font-size:1.25rem;overflow-wrap:anywhere}
+.pmf-cart-item-controls{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.pmf-quantity-label{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.88rem}
+.pmf-cart-qty{width:70px;padding:9px;border-radius:8px;background:#151418;color:var(--text);border:1px solid var(--pmf-line)}
+.pmf-summary-line{display:flex;justify-content:space-between;gap:14px;margin:16px 0;padding-bottom:14px;border-bottom:1px solid var(--pmf-line)}
+.pmf-checkout-button{width:100%;text-align:center;margin:18px 0 8px}
+.pmf-error-message{color:#ffc6cc;line-height:1.5;font-size:.88rem;min-height:18px}
+.pmf-cart-cta{width:100%;text-align:center}
+@media(max-width:850px){.pmf-checkout-columns{grid-template-columns:1fr}.pmf-checkout-columns aside{position:static}}
+@media(max-width:560px){.pmf-shop-controls{width:100%}.pmf-shop-controls .btn{width:100%;text-align:center}}

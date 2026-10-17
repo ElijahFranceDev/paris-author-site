@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <a href="pm-france.html">About P.M. France</a>
           <a href="books.html">Books</a>
           <a href="store.html">Author Store</a>
+          <a href="cart.html" id="pmf-cart-nav" style="display:none">Shopping Cart (<span data-pmf-cart-count>0</span>)</a>
           <a href="smile-for-me.html">Smile For Me</a>
           <a href="quiet-days.html">The Quiet Days</a>
           <a href="events.html">Events & Signings</a>
@@ -40,6 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
 
   const menuWrap = navPlaceholder.querySelector(".menu-wrap");
+  if(window.PMF_CART)navPlaceholder.querySelectorAll("[data-pmf-cart-count]").forEach(el=>el.textContent=String(window.PMF_CART.count()));
+  const cartNav=navPlaceholder.querySelector("#pmf-cart-nav");
+  const showCart=(enabled)=>{if(cartNav)cartNav.style.display=enabled?"block":"none";};
+  document.addEventListener("pmf-cart-mode",e=>showCart(e.detail?.enabled===true));
+  fetch("/.netlify/functions/pmf-store-products",{cache:"no-store"}).then(r=>r.ok?r.json():{}).then(d=>showCart(d.cartEnabled===true)).catch(()=>showCart(false));
   const menuButton = navPlaceholder.querySelector(".menu-button");
   const dropdown = navPlaceholder.querySelector(".dropdown");
   let clickLockedOpen = false;

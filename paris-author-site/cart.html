@@ -1,8 +1,45 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta http-equiv="refresh" content="0;url=store.html"/>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="robots" content="noindex,follow"/>
-<title>Visit the P.M. France Store</title></head>
-<body><main><h1>Shop at the P.M. France Store</h1>
-<p>The old cart has been retired. Books and author exclusives are available from the <a href="store.html">official store</a>, with secure Square payment links for eligible products.</p>
-</main></body></html>
+<meta name="description" content="Review your P.M. France author-direct bookstore shopping cart and check out securely with Square."/>
+<title>Your Cart | P.M. France Bookstore</title>
+<link rel="stylesheet" href="style.css"/><link rel="stylesheet" href="pmf-store.css"/>
+</head>
+<body>
+<div id="navbar-placeholder"></div>
+<header class="page-hero">
+ <div><div class="kicker">Official P.M. France Bookstore</div>
+ <h1>Your Reading List, Ready to Go.</h1>
+ <p>All your books and author exclusives in one order. Pay once with secure Square checkout.</p>
+ </div>
+</header>
+<main class="section page-shell pmf-store">
+ <div class="pmf-checkout-columns">
+   <section class="pmf-panel">
+     <div class="pmf-panel-head">
+       <h2>Shopping Cart</h2>
+       <a class="btn secondary" href="store.html">Continue Shopping</a>
+     </div>
+     <p id="pmf-cart-status" role="status" aria-live="polite" class="pmf-muted">Loading your cart…</p>
+     <div id="pmf-cart-lines" class="pmf-stack"></div>
+   </section>
+   <aside class="pmf-panel">
+     <h2>Order Summary</h2>
+     <div class="pmf-summary-line"><span>Items</span><span id="pmf-cart-count">0</span></div>
+     <div class="pmf-summary-line"><span>Subtotal</span><strong id="pmf-cart-subtotal">$0.00</strong></div>
+     <div class="pmf-summary-line"><span>Standard U.S. shipping</span><span id="pmf-cart-shipping">—</span></div>
+     <div class="pmf-summary-line"><strong>Estimated total before tax</strong><strong id="pmf-cart-total">—</strong></div>
+     <p class="pmf-muted">Free shipping on orders containing only free-shipping items. If any item requires paid shipping, standard U.S. shipping is $3.99 <strong>once per order</strong>. Final tax and payment details appear in Square before you pay.</p>
+     <button id="pmf-checkout-button" type="button" class="btn primary pmf-checkout-button" disabled>Continue to Square Checkout</button>
+     <p id="pmf-checkout-error" class="pmf-error-message" role="alert" aria-live="polite"></p>
+     <p class="pmf-muted">Preorders are not currently available. Square handles card information and payment confirmation securely.</p>
+   </aside>
+ </div>
+</main>
+<footer class="footer"><p><strong>P.M. FRANCE</strong> — Official Author-Direct Store</p></footer>
+<script src="pmf-cart-core.js"></script>
+<script src="pmf-cart.js"></script>
+<script src="navbar.js"></script>
+</body></html>

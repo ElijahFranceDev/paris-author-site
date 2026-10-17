@@ -1,8 +1,8 @@
 (() => {
  "use strict";
  const $=id=>document.getElementById(id);
- const list=$("public-product-list"),status=$("store-status"),filter=$("product-filter");
- let products=[];
+ const list=$("public-product-list"),status=$("store-status"),filter=$("product-filter"),feedback=$("cart-feedback");
+ let products=[],cartEnabled=false;
  const fmt=c=>(c/100).toLocaleString("en-US",{style:"currency",currency:"USD"});
  const el=(tag,className,text)=>{const e=document.createElement(tag);if(className)e.className=className;if(text!==undefined)e.textContent=text;return e;};
  function render(){
@@ -36,13 +36,26 @@
    }
    const bottom=el("div","pmf-product-bottom");
    bottom.append(el("strong","pmf-product-price",fmt(p.priceCents)));
-   const ship=p.shipping==="free-us"?"Free U.S. shipping":p.shipping==="digital"?"Digital product":"Shipping calculated by Square";
+   const ship=p.shipping==="free-us"?"Free U.S. shipping":p.shipping==="digital"?"Digital product":"Standard U.S. shipping at checkout";
    bottom.append(el("span","pmf-muted",ship));content.append(bottom);
    const available=!p.trackStock||p.stock>0;
    if(p.preorder){const upcoming=el("a","btn secondary pmf-product-buy","Preorder Updates");upcoming.href="newsletter.html";content.append(upcoming);}
    else if(!available){content.append(el("span","pmf-unavailable","Currently sold out"));}
-   else if(p.canBuy){const buy=el("a","btn primary pmf-product-buy","Buy Securely with Square");buy.href=p.squarePaymentUrl;buy.target="_blank";buy.rel="noopener noreferrer";content.append(buy);}
-   else{content.append(el("span","pmf-unavailable","Not yet available for purchase"));}
+   else if(cartEnabled && p.published && !p.trackStock){
+     const add=el("button","btn primary pmf-product-buy","Add to Cart");
+     add.type="button";
+     add.addEventListener("click",()=>{
+       const result=window.PMF_CART.add(p.id,p.trackStock?p.stock:null);
+       feedback.textContent=result.ok?(p.title+" added. View your cart to checkout together."):result.message;
+       if(result.ok){add.textContent="Added ✓";setTimeout(()=>add.textContent="Add to Cart",1300);}
+     });
+     content.append(add);
+   }
+   else if(!cartEnabled && p.canBuy){
+     const buy=el("a","btn primary pmf-product-buy","Buy Securely with Square");
+     buy.href=p.squarePaymentUrl;buy.target="_blank";buy.rel="noopener noreferrer";content.append(buy);
+   }
+   else{content.append(el("span","pmf-unavailable",cartEnabled&&p.trackStock?"Limited-quantity ordering coming soon":"Not yet available for purchase"));}
    card.append(content);list.append(card);
   }
  }
@@ -51,6 +64,15 @@
    const response=await fetch("/.netlify/functions/pmf-store-products",{cache:"no-store"});
    const body=await response.json();
    if(!response.ok)throw Error(body.error||"Store unavailable");
+   cartEnabled=body.cartEnabled===true;
+   const cartUI=document.querySelector(".pmf-shop-controls");
+   if(cartUI)cartUI.hidden=!cartEnabled;
+   if(feedback)feedback.textContent=cartEnabled
+     ?"Add available books and collectibles to one cart and check out once."
+     :"Available items use secure Square payment links while combined-cart checkout completes testing.";
+   const info=document.querySelector(".pmf-shop-info p");
+   if(info && !cartEnabled)info.textContent="Available products use secure Square checkout links. Combined-cart checkout is being tested; preorders are not open yet.";
+   document.dispatchEvent(new CustomEvent("pmf-cart-mode",{detail:{enabled:cartEnabled}}));
    products=body.products||[];render();
   }catch(err){status.textContent="The store catalog is temporarily unavailable. Please try again shortly.";}
  }
