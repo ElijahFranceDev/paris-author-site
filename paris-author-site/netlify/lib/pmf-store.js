@@ -1,6 +1,7 @@
 "use strict";
 const crypto = require("node:crypto");
 const {seedProductionCatalog}=require("./pmf-seed");
+const {seedAdditionalCatalog}=require("./pmf-expand-catalog");
 const CATEGORIES=["book","merchandise","collectible","bundle","other"];
 const FORMATS=["Paperback","Hardcover","Ebook","Signed edition","Special edition","Physical product","Digital product","Other"];
 const SHIPPING=["free-us","square-calculated","digital"];
@@ -34,11 +35,11 @@ function normalize(input,prior){
  if(imageId&&!validId(imageId))throw Error("Invalid uploaded image.");
  const sku=str(input.sku,60);
  if(sku && !/^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,59}$/.test(sku))throw Error("SKU must use letters, numbers, hyphens or dots.");
- const published=input.published===true,preorder=input.preorder===true;
+ const published=input.published===true,preorder=input.preorder===true,comingSoon=input.comingSoon===true;
  return {
   id:prior?.id||uuid(),title,description,category,format,sku,
   author:str(input.author,120),priceCents:cents,shipping,
-  trackStock:tracked,stock:tracked?stock:null,preorder,
+  trackStock:tracked,stock:tracked?stock:null,preorder,comingSoon,
   published,squarePaymentUrl:pay,imageId,
   imagePath:prior?.imagePath||"",
   createdAt:prior?.createdAt||new Date().toISOString(),
@@ -59,6 +60,7 @@ async function store(event){
 }
 async function list(storeHandle,{publicOnly=false,production=false}={}){
   await seedProductionCatalog(storeHandle,production);
+  await seedAdditionalCatalog(storeHandle,production);
   let cursor,items=[],pages=0;
   do {
     const response=await storeHandle.list({prefix:"products/",...(cursor?{cursor}:{})});
@@ -77,11 +79,11 @@ async function list(storeHandle,{publicOnly=false,production=false}={}){
 const display=p=>({
   id:p.id,title:p.title,description:p.description,category:p.category,format:p.format,
   author:p.author,priceCents:p.priceCents,sku:p.sku,shipping:p.shipping,
-  preorder:p.preorder,stock:p.trackStock?p.stock:null,trackStock:p.trackStock,published:p.published,
+  preorder:p.preorder,comingSoon:p.comingSoon===true,stock:p.trackStock?p.stock:null,trackStock:p.trackStock,published:p.published,
   squarePaymentUrl:p.squarePaymentUrl,
   imageUrl:p.imageId?"/.netlify/functions/pmf-store-image?id="+encodeURIComponent(p.imageId):(p.imagePath||null),
   imageId:p.imageId,inventoryVersion:p.inventoryVersion??null,createdAt:p.createdAt,updatedAt:p.updatedAt,
   // Preorders are information-only until an inventory-safe sale flow is approved.
-  canBuy:p.published&&!p.preorder&&(!p.trackStock||p.stock>0)&&Boolean(p.squarePaymentUrl)
+  canBuy:p.published&&!p.preorder&&!p.comingSoon&&(!p.trackStock||p.stock>0)&&Boolean(p.squarePaymentUrl)
 });
 module.exports={uuid,validId,normalize,store,list,display,isProductionDeploy};
