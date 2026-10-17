@@ -51,7 +51,11 @@ export default async function handler(request,context){
     // Merchant-approved default: a single $3.99 U.S. shipping fee per order
     // containing at least one paid-shipping item, never $3.99 per item.
     const shipping=flat===undefined||flat===""?399:Number(flat);
-    const order=calculateOrder(cart,products,{flatShippingCents:shipping,atomicStock:true});
+    const order=calculateOrder(cart,products,{
+      flatShippingCents:shipping,atomicStock:true,
+      allowMysteryPreorder:process.env.PMF_MYSTERY_PREORDER_ENABLED==="true",
+      preorderAccepted:input.confirmPreorderShipping===true
+    });
     if(order.totalCents<1)throw new CartError("Free orders need a separate fulfillment process.",400);
     const hostname=new URL(request.url).hostname;
     const siteOrigin=(!production&&/^(?:deploy-preview-\d+--)?parismfrancebooks\.netlify\.app$/.test(hostname))
