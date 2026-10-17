@@ -38,7 +38,7 @@ test("unpublished and preorder products are never payable",()=>{
  assert.throws(()=>calculateOrder(parseCart([item(book)]),[{...book,preorder:true}]),/Preorders/);
 });
 test("tracked stock products are paused until reservations protect inventory",()=>{
- assert.throws(()=>calculateOrder(parseCart([item(book)]),[{...book,trackStock:true,stock:25}]),/limited stock/);
+ assert.throws(()=>calculateOrder(parseCart([item(book)]),[{...book,trackStock:true,stock:25}]),/protected stock reservation/);
 });
 test("invalid quantities and duplicate IDs are rejected",()=>{
  assert.throws(()=>parseCart([item(book,11)]),/invalid product/);
