@@ -17,7 +17,7 @@
 <div id="admin-workspace" hidden>
 <div class="pmf-dashboard-head">
 <div><h2>Manage Products</h2><p>Add books, signed copies, collectibles, bundles and merchandise.</p></div>
-<div class="pmf-actions"><a href="store.html" class="btn secondary">View Store</a>
+<div class="pmf-actions"><a href="store.html" class="btn secondary">View Store</a><a href="/.netlify/functions/pmf-admin-checkout-status" class="btn secondary" target="_blank" rel="noopener noreferrer">Check Square Readiness</a>
 <button type="button" class="btn secondary" id="admin-logout">Sign Out</button></div>
 </div>
 <div class="pmf-metrics">
@@ -46,7 +46,7 @@
 <label class="pmf-check"><input id="product-track-stock" type="checkbox"/> Track stock manually</label>
 </div>
 <label id="stock-wrap" hidden>Units available<input id="product-stock" type="number" min="0" max="1000000" step="1" value="0"/></label>
-<label class="pmf-check"><input id="product-preorder" type="checkbox"/> Mark as a preorder (display only; checkout disabled)</label>
+<label class="pmf-check"><input id="product-preorder" type="checkbox"/> Mark as a preorder (paid checkout only when separately enabled)</label>
 <label class="pmf-check"><input id="product-coming-soon" type="checkbox"/> Coming soon (visible in store; checkout disabled)</label>
 <div class="pmf-upload-box">
 <label for="product-image">Cover or product photo (JPG, PNG or WebP, up to 3 MB)</label>
@@ -56,7 +56,7 @@
 <p id="image-status" class="pmf-muted" role="status">Upload the image before saving your product.</p>
 </div>
 <label>Square payment link (legacy, optional)<input id="product-square" type="url" placeholder="https://square.link/u/…"/></label>
-<p class="pmf-muted">While combined-cart checkout is being tested, keep a Square Payment Link on every product you want readers to buy. Once the combined cart is activated, the cart uses these catalog prices and creates one Square checkout for the order. Preorders remain display-only.</p>
+<p class="pmf-muted">While combined-cart checkout is being tested, keep a Square Payment Link on every product you want readers to buy. Once the combined cart is activated, the cart uses these catalog prices and creates one Square checkout for the order. Limited Mystery Box preorders are available only after secure prepaid checkout is separately enabled.</p>
 <label class="pmf-check"><input id="product-published" type="checkbox"/> Publish in my bookstore</label>
 <div class="pmf-actions">
 <button class="btn primary" type="submit" id="save-product">Save Product</button>

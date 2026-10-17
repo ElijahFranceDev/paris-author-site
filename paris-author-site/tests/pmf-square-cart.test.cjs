@@ -35,7 +35,7 @@ test("prices in browser are ignored and server catalog controls total",()=>{
 });
 test("unpublished and preorder products are never payable",()=>{
  assert.throws(()=>calculateOrder(parseCart([item(book)]),[{...book,published:false}]),/no longer listed/);
- assert.throws(()=>calculateOrder(parseCart([item(book)]),[{...book,preorder:true}]),/Preorders/);
+ assert.throws(()=>calculateOrder(parseCart([item(book)]),[{...book,preorder:true}]),/preorder is not open/);
 });
 test("tracked stock products are paused until reservations protect inventory",()=>{
  assert.throws(()=>calculateOrder(parseCart([item(book)]),[{...book,trackStock:true,stock:25}]),/protected stock reservation/);

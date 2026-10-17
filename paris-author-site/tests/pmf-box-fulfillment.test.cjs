@@ -12,7 +12,7 @@ test("append release and shipping terms preserving author-edited description and
  const b=s.values.get("products/"+BOX_ID);
  assert.ok(b.description.startsWith(base.description));
  assert.match(b.description,/November 7, 2026/);
- assert.match(b.description,/7–10 days after each preorder is placed/);
+ assert.match(b.description,/November 14–17, 2026/);
  assert.equal(b.stock,25);assert.equal(b.priceCents,2199);assert.equal(b.preorder,true);
  assert.equal(b.squarePaymentUrl,"");
  await appendMysteryBoxTerms(s,true);

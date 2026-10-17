@@ -4,8 +4,9 @@
   const root=byId("pmf-cart-lines"),status=byId("pmf-cart-status"),
         count=byId("pmf-cart-count"),subtotal=byId("pmf-cart-subtotal"),
         shippingLabel=byId("pmf-cart-shipping"),estimatedTotal=byId("pmf-cart-total"),
-        button=byId("pmf-checkout-button"),error=byId("pmf-checkout-error");
-  let catalog=[],busy=false,cartEnabled=false;
+        button=byId("pmf-checkout-button"),error=byId("pmf-checkout-error"),
+        preorderNotice=byId("pmf-preorder-shipping-notice"),preorderConfirm=byId("pmf-preorder-confirm");
+  let catalog=[],busy=false,cartEnabled=false,preorderEnabled=false;
   const money=c=>(c/100).toLocaleString("en-US",{style:"currency",currency:"USD"});
   const el=(tag,cls,txt)=>{
     const node=document.createElement(tag);
@@ -18,7 +19,7 @@
   function render(){
     const items=cart();
     root.replaceChildren();
-    let quantity=0,sum=0,problems=[],hasPaidShipping=false;
+    let quantity=0,sum=0,problems=[],hasPaidShipping=false,preorderUnits=0,regularUnits=0;
     if(!items.length){
       status.textContent="Your cart is empty. Find your next read in the Author Store.";
       button.disabled=true;
@@ -26,7 +27,7 @@
       status.textContent=cartEnabled?"Review quantities before continuing to one Square checkout.":"Combined checkout is undergoing final testing. You can save your selections, but payments are not open yet.";
       for(const item of items){
         const product=getProduct(item.id);
-        if(!product||!product.published||product.preorder){
+        if(!product||!product.published||product.comingSoon||(product.preorder&&!preorderEnabled)){
           problems.push("One product is unavailable. Please remove it.");
         }else if(product.trackStock&&item.quantity>product.stock){
           problems.push(product.title+" is available in a smaller quantity.");
@@ -38,6 +39,8 @@
         const details=el("div","pmf-cart-item-content");
         details.append(el("h3","",product?.title||"Unavailable product"));
         if(product){
+          if(product.preorder)preorderUnits+=item.quantity;
+          else regularUnits+=item.quantity;
           if(product.shipping==="square-calculated")hasPaidShipping=true;
           details.append(el("p","pmf-muted",money(product.priceCents)+" each"));
           const total=item.quantity*product.priceCents;
@@ -60,8 +63,10 @@
         controls.append(remove);details.append(controls);line.append(details);root.append(line);
         quantity+=item.quantity;
       }
-      button.disabled=!cartEnabled||busy||problems.length>0;
+      if(preorderUnits>0&&regularUnits>0)problems.push("Mystery Box preorders must be checked out separately from books shipping now.");
+      button.disabled=!cartEnabled||busy||problems.length>0||(preorderUnits>0&&!preorderConfirm.checked);
     }
+    preorderNotice.hidden=preorderUnits===0;
     count.textContent=String(quantity);
     subtotal.textContent=money(sum);
     // All-free-shipping carts cost $0 to ship; paid-shipping items add $3.99
@@ -77,6 +82,7 @@
       if(!response.ok)throw Error("Unable to load current product prices.");
       const body=await response.json();
       cartEnabled=body.cartEnabled===true;
+      preorderEnabled=cartEnabled&&body.preorderEnabled===true;
       catalog=body.products||[];
       render();
     }catch(e){status.textContent="Your cart cannot be checked right now. Please try again later.";button.disabled=true;}
@@ -86,7 +92,7 @@
     busy=true;button.disabled=true;error.textContent="";button.textContent="Preparing your Square order…";
     try{
       const response=await fetch("/.netlify/functions/pmf-square-checkout",{
-        method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({cart:cart()})
+        method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({cart:cart(),confirmPreorderShipping:preorderConfirm.checked})
       });
       const data=await response.json();
       if(!response.ok||!data.url)throw Error(data.error||"Could not create checkout.");
@@ -101,6 +107,7 @@
       busy=false;button.textContent="Continue to Square Checkout";render();
     }
   }
+  preorderConfirm.addEventListener("change",render);
   button.addEventListener("click",checkout);
   window.addEventListener("storage",render);
   load();

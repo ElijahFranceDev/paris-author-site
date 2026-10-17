@@ -59,5 +59,5 @@ test("upcoming book and mystery preorder cannot enter Square checkout",()=>{
  const coming=products.find(p=>p.category==="book");
  const box=products.find(p=>p.category==="bundle");
  assert.throws(()=>calculateOrder(parseCart([{id:coming.id,quantity:1}]),[coming],{atomicStock:true,flatShippingCents:399}),/coming soon/);
- assert.throws(()=>calculateOrder(parseCart([{id:box.id,quantity:1}]),[box],{atomicStock:true,flatShippingCents:399}),/Preorders/);
+ assert.throws(()=>calculateOrder(parseCart([{id:box.id,quantity:1}]),[box],{atomicStock:true,flatShippingCents:399}),/preorder is not open/);
 });
