@@ -13,7 +13,7 @@ const CHANGES=[
     id:"0f3d3023-3395-4bc7-ad09-41c698ea9a19",
     sku:"PMF-SFM-FRMB-001",
     previous:"Limited Founding Reader Mystery Box preorder preview — planned edition of only 25 boxes. Includes one copy of Smile For Me, an author collectible, two small mystery items, and distinctive packaging. $21.99 includes free standard U.S. shipping. Contents and dispatch details will be finalized before payment opens. Preorders are not yet accepting payment.",
-    updated:"Limited Founding Reader Mystery Box preorder — only 25 boxes. Includes one copy of Smile For Me, an author collectible, two small mystery items, and distinctive packaging. Release date: November 7, 2026. $21.99 includes free standard U.S. shipping. Once paid preorders open, boxes are scheduled to ship 7–10 days after each preorder is placed. Paid preorder checkout is not yet open."
+    updated:"Limited Founding Reader Mystery Box preorder — only 25 boxes. Includes one copy of Smile For Me, an author collectible, two small mystery items, and distinctive packaging. Release date: November 7, 2026. $21.99 includes free standard U.S. shipping. Paid preorders ship November 14–17, 2026 (7–10 calendar days after release). Paid checkout activates after secure Square setup."
   }
 ];
 async function publishUpdatedSmileTerms(handle,isProduction=false){
