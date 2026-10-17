@@ -44,7 +44,9 @@ export default async function handler(request,context){
     const products=await list(await store(),{publicOnly:true});
     // This is the only authoritative price and stock source; the browser never sets price.
     const flat=process.env.PMF_STANDARD_US_SHIPPING_CENTS;
-    const shipping=flat===undefined||flat===""?undefined:Number(flat);
+    // Merchant-approved default: a single $3.99 U.S. shipping fee per order
+    // containing at least one paid-shipping item, never $3.99 per item.
+    const shipping=flat===undefined||flat===""?399:Number(flat);
     const order=calculateOrder(cart,products,{flatShippingCents:shipping});
     if(order.totalCents<1)throw new CartError("Free orders need a separate fulfillment process.",400);
     const hostname=new URL(request.url).hostname;
