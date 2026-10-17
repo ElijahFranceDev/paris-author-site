@@ -9,6 +9,20 @@
 - Shipping date is the carrier handoff window, **not** an estimated arrival guarantee.
 - The standard Smile For Me paperback remains Coming Soon; older available titles can be purchased when Square cart checkout is activated.
 
+## Netlify configuration refresh
+
+When the merchant changes the **production** inventory database URL or Square webhook
+signature/notification URL, trigger a fresh Netlify **production** deployment before
+retesting the private checkout readiness endpoint. The environment variable values
+are read by serverless functions at runtime/deployment, not inferred from GitHub.
+
+Readiness status must show **databaseConnected**, **squareEnvironmentCorrect**,
+**webhookKeyConfigured**, and **webhookUrlConfigured** as true before payment testing.
+The hardcoded `sandboxOrderAndWebhookTestVerified` status flag is informational only;
+it does not independently track tests. Document successful sandbox payment and webhook
+delivery separately. Never turn on `PMF_SQUARE_CART_ENABLED` or
+`PMF_MYSTERY_PREORDER_ENABLED` solely because the configuration checks are green.
+
 ## Merchant payment activation checklist
 
 1. Confirm the **production** Netlify Functions environment has `PMF_INVENTORY_DATABASE_URL` pointing to the main P.M. France bookstore Neon database (never the sandbox branch).
