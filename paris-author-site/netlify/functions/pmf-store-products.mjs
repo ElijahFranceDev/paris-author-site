@@ -7,7 +7,7 @@ const legacyHandler=async(event)=>{
  if(event.httpMethod!=="GET")return json(405,{error:"Method not allowed"});
  try{
    const products=(await list(await store(event),{publicOnly:true})).map(display);
-   return json(200,{products,cartEnabled:process.env.PMF_SQUARE_CART_ENABLED==="true" && (process.env.CONTEXT==="production" || process.env.SQUARE_ENVIRONMENT==="sandbox")},{ "Cache-Control":"no-store" });
+   return json(200,{products,cartEnabled:process.env.PMF_SQUARE_CART_ENABLED==="true" && Boolean(process.env.SQUARE_ACCESS_TOKEN) && Boolean(process.env.SQUARE_LOCATION_ID) && ((process.env.CONTEXT==="production" && process.env.SQUARE_ENVIRONMENT==="production") || (process.env.CONTEXT!=="production" && process.env.SQUARE_ENVIRONMENT==="sandbox"))},{ "Cache-Control":"no-store" });
  }catch(err){
    console.error("Store catalog",err);
    return json(503,{error:"Our catalog is temporarily unavailable. Please try again."});
