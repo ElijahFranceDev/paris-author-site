@@ -41,3 +41,6 @@ Use a separate Neon database or branch with its own URI for preview testing. Do 
 - Tax calculation and restriction to U.S. delivery are not guaranteed by the custom frontend; confirm merchant Square checkout configuration before launch.
 - The admin dashboard's stock field reports *available* units (total minus sold/reserved). Revision checks reject stale edits.
 - Transactional order reporting, fraud controls, rate limits and reader-facing tracking should be added before high-volume campaigns.
+
+## Sandbox connection verification
+After changing Deploy Preview environment variables in Netlify, redeploy this draft preview so the functions use the new scoped values. Verify the storefront's product API responds successfully and the Square webhook endpoint responds with Method Not Allowed to GET before configuring the Sandbox webhook subscription. Never switch on Production cart during this verification.
