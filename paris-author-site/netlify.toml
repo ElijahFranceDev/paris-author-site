@@ -1,0 +1,25 @@
+# Inventory-backed functions need the PostgreSQL driver packaged with the deployed Lambda.
+# This file intentionally doesn't override the existing Netlify UI build or publish paths.
+[functions."pmf-admin-products"]
+  node_bundler = "esbuild"
+  external_node_modules = ["pg"]
+
+[functions."pmf-store-products"]
+  node_bundler = "esbuild"
+  external_node_modules = ["pg"]
+
+[functions."pmf-square-checkout"]
+  node_bundler = "esbuild"
+  external_node_modules = ["pg"]
+
+[functions."pmf-square-inventory-webhook"]
+  node_bundler = "esbuild"
+  external_node_modules = ["pg"]
+
+[functions."pmf-reconcile-checkouts"]
+  node_bundler = "esbuild"
+  external_node_modules = ["pg"]
+
+[functions."pmf-inventory-health"]
+  node_bundler = "esbuild"
+  external_node_modules = ["pg"]
