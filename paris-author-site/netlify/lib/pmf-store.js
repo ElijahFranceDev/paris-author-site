@@ -4,6 +4,7 @@ const {seedProductionCatalog}=require("./pmf-seed");
 const {seedAdditionalCatalog}=require("./pmf-expand-catalog");
 const {setReadyForSale}=require("./pmf-release-status");
 const {correctPreorderFlags}=require("./pmf-preorder-safety");
+const {publishUpdatedSmileTerms}=require("./pmf-smile-release");
 const CATEGORIES=["book","merchandise","collectible","bundle","other"];
 const FORMATS=["Paperback","Hardcover","Ebook","Signed edition","Special edition","Physical product","Digital product","Other"];
 const SHIPPING=["free-us","square-calculated","digital"];
@@ -65,6 +66,7 @@ async function list(storeHandle,{publicOnly=false,production=false}={}){
   await seedAdditionalCatalog(storeHandle,production);
   await setReadyForSale(storeHandle,production);
   await correctPreorderFlags(storeHandle,production);
+  await publishUpdatedSmileTerms(storeHandle,production);
   let cursor,items=[],pages=0;
   do {
     const response=await storeHandle.list({prefix:"products/",...(cursor?{cursor}:{})});
