@@ -14,8 +14,8 @@ test("Nov 7 release, 7-10 day shipping and 25 box cap are preserved",async()=>{
  const box=store.records.get("products/"+CHANGES[1].id);
  assert.match(regular.description,/November 7, 2026/);
  assert.match(box.description,/November 7, 2026/);
- assert.match(box.description,/7–10 days after each preorder is placed/);
- assert.match(box.description,/checkout is not yet open/);
+ assert.match(box.description,/November 14–17, 2026/);
+ assert.match(box.description,/checkout activates after secure Square setup/);
  assert.equal(regular.comingSoon,true);
  assert.equal(regular.preorder,false);
  assert.equal(box.preorder,true);
