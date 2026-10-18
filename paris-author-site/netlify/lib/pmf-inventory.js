@@ -106,6 +106,21 @@ async function confirmPayment({orderId,paymentId,amountCents,currency,locationId
   return {paid:true};
  });
 }
+// Release stock only when Square explicitly rejected payment-link creation.
+// A successful or uncertain gateway response must never release a possibly payable order.
+async function releaseFailedPreparation(id){
+ return transaction(async client=>{
+  const result=await client.query("SELECT status,square_link_id FROM pmf_checkout_reservations WHERE id=$1 FOR UPDATE",[id]);
+  if(!result.rowCount||result.rows[0].status!=="preparing"||result.rows[0].square_link_id!==null)return false;
+  const items=await client.query("SELECT product_id,quantity FROM pmf_reservation_items WHERE reservation_id=$1 AND tracked=true ORDER BY product_id FOR UPDATE",[id]);
+  for(const item of items.rows){
+   const updated=await client.query("UPDATE pmf_inventory SET stock_reserved=stock_reserved-$2,version=version+1,updated_at=now() WHERE product_id=$1 AND stock_reserved >= $2",[item.product_id,item.quantity]);
+   if(updated.rowCount!==1)throw new InventoryError("Failed preparation inventory requires reconciliation.",503);
+  }
+  await client.query("UPDATE pmf_checkout_reservations SET status='released',updated_at=now() WHERE id=$1",[id]);
+  return true;
+ });
+}
 async function pendingExpired(limit=20){
  const {rows}=await db().query("SELECT id::text,square_order_id,square_link_id FROM pmf_checkout_reservations WHERE status='awaiting_payment' AND reserved_until<now() AND square_link_id IS NOT NULL ORDER BY reserved_until ASC LIMIT $1",[limit]);
  return rows;
@@ -122,4 +137,4 @@ async function releaseCancelled(id,orderId){
   return true;
  });
 }
-module.exports={InventoryError,databaseReady,db,transaction,availability,updateStock,reserve,attachSquareLink,confirmPayment,pendingExpired,releaseCancelled};
+module.exports={InventoryError,databaseReady,db,transaction,availability,updateStock,reserve,attachSquareLink,confirmPayment,pendingExpired,releaseCancelled,releaseFailedPreparation};
