@@ -70,7 +70,17 @@ export default async function handler(request,context){
     },body:JSON.stringify(checkoutPayload)});
     const square=await gateway.json().catch(()=>({}));
     if(!gateway.ok){
-      console.error("Square multi-item checkout",gateway.status,(square.errors||[]).map(e=>e.code));
+      // Log only Square's validation category/code/field/detail (never auth headers or request bodies).
+      // The browser still receives a generic message so internal merchant details are not exposed.
+      const errors=Array.isArray(square.errors)?square.errors:[];
+      console.error("Square multi-item checkout",gateway.status,errors.map(e=>({
+        category:String(e.category||"").slice(0,80),
+        code:String(e.code||"").slice(0,80),
+        field:String(e.field||"").slice(0,160),
+        detail:String(e.detail||"").slice(0,350)
+      })));
+      // Square explicitly rejected link creation: no payable order was returned.
+      await inventory.releaseFailedPreparation(reservationId);
       return response(502,{error:"Square checkout is temporarily unavailable. You have not been charged."});
     }
     const checkoutUrl=squareCheckoutUrl(square.payment_link?.url,environment);
