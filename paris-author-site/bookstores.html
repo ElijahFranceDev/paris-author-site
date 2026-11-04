@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Find bookstores and independent retailers carrying books by P.M. France." />
+  <title>Bookstores | P.M. France</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .bookstore-intro{max-width:760px;margin:0 auto 42px;text-align:center;color:var(--muted);line-height:1.8}
+    .bookstore-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+    .bookstore-card{padding:28px;display:flex;flex-direction:column;min-height:300px}
+    .bookstore-card .location{color:#c86a73;text-transform:uppercase;letter-spacing:.13em;font-size:.76rem;font-weight:800;margin-bottom:10px}
+    .bookstore-card h2{font-family:var(--serif);font-size:2rem;line-height:1.08;margin-bottom:14px}
+    .bookstore-card p{color:var(--muted);line-height:1.72;margin-bottom:14px}
+    .bookstore-card .stocked-title{margin-top:auto;padding-top:12px;color:var(--text);font-weight:800}
+    .bookstore-card .btn{margin-top:18px;align-self:flex-start}
+    .empty-bookstores{max-width:880px;margin:0 auto;text-align:center;padding:42px}
+    .empty-bookstores h2{font-family:var(--serif);font-size:clamp(2rem,5vw,4rem);margin-bottom:16px}
+    .empty-bookstores p{max-width:680px;margin:0 auto;color:var(--muted);line-height:1.75}
+  </style>
+</head>
+<body>
+
+<div id="navbar-placeholder"></div>
+
+<header class="page-hero">
+  <div>
+    <div class="kicker">Find The Books</div>
+    <h1>Bookstores</h1>
+    <p>Independent bookstores and retail locations carrying books by P.M. France.</p>
+  </div>
+</header>
+
+<main class="section page-shell">
+  <p class="bookstore-intro">
+    This page highlights confirmed bookstores and retail locations where readers can find P.M. France titles. Availability can vary by location, so readers may want to contact the bookstore before visiting.
+  </p>
+
+  <section id="bookstore-list" class="bookstore-grid" aria-live="polite"></section>
+
+  <div id="bookstore-empty" class="card empty-bookstores">
+    <div class="kicker">Featured Locations</div>
+    <h2>Bookstore Features Are Being Added.</h2>
+    <p>Confirmed bookstores carrying P.M. France titles will appear here with location details and direct links.</p>
+  </div>
+</main>
+
+<footer class="footer">
+  <p><strong>P.M. FRANCE</strong> — Official Author Site</p>
+  <p>Books • Bookstores • Reader Experiences</p>
+</footer>
+
+<script>
+  const bookstores = [
+    // Add confirmed bookstore features here.
+    // Example:
+    // {
+    //   name: "Bookstore Name",
+    //   location: "City, State",
+    //   title: "The Quiet Days",
+    //   note: "Available in store.",
+    //   url: "https://example.com"
+    // }
+  ];
+
+  const list = document.getElementById("bookstore-list");
+  const empty = document.getElementById("bookstore-empty");
+
+  if (bookstores.length) {
+    empty.style.display = "none";
+
+    bookstores.forEach((store) => {
+      const card = document.createElement("article");
+      card.className = "card bookstore-card";
+
+      const location = document.createElement("div");
+      location.className = "location";
+      location.textContent = store.location || "Bookstore";
+
+      const title = document.createElement("h2");
+      title.textContent = store.name;
+
+      const note = document.createElement("p");
+      note.textContent = store.note || "A featured bookstore carrying P.M. France titles.";
+
+      const stocked = document.createElement("p");
+      stocked.className = "stocked-title";
+      stocked.textContent = store.title ? `Featured title: ${store.title}` : "P.M. France titles available";
+
+      card.append(location, title, note, stocked);
+
+      if (store.url) {
+        const link = document.createElement("a");
+        link.className = "btn secondary";
+        link.href = store.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Visit Bookstore";
+        card.appendChild(link);
+      }
+
+      list.appendChild(card);
+    });
+  }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="auth.js"></script>
+<script src="script.js"></script>
+<script src="navbar.js"></script>
+</body>
+</html>
