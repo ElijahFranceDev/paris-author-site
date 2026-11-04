@@ -3,85 +3,64 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <meta name="description" content="Explore the books of P.M. France, previously publishing as Paris M. France: psychological thrillers, psychological horror, and earlier fiction."/>
+  <meta name="description" content="Browse and shop books, ebooks, special editions, bundles, and collectibles from P.M. France."/>
   <link rel="canonical" href="https://parisfrance.shop/books.html"/>
-  <title>Explore the Books | P.M. France</title>
+  <title>Books | P.M. France</title>
   <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="books-explore.css"/>
+  <link rel="stylesheet" href="pmf-store.css"/>
 </head>
 <body>
 <div id="navbar-placeholder"></div>
+
 <header class="page-hero">
   <div>
-    <div class="kicker">The Worlds of P.M. France</div>
-    <h1>Every Story Leaves a Mark.</h1>
-    <p>Explore psychological thrillers, psychological horror, dark fiction, and earlier works from P.M. France—previously published as Paris M. France.</p>
-    <div class="btn-row">
-      <a href="pm-france.html" class="btn secondary">Meet the Author</a>
-    </div>
+    <div class="kicker">The Official P.M. France Book Collection</div>
+    <h1>Books by P.M. France</h1>
+    <p>Browse current releases, ebooks, special editions, bundles, and other official P.M. France offerings in one place.</p>
   </div>
 </header>
-<main class="section page-shell">
-  <div class="book-grid explore-book-grid">
-    <article class="book-card">
-      <a href="quiet-days.html" aria-label="Explore The Quiet Days">
-        <img class="book-cover" src="images/the-quiet-days.png" alt="The Quiet Days by Paris M. France book cover"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"/>
-        <div class="placeholder-cover" style="display:none;">
-          <div class="placeholder-copy"><small>Published Novel</small><strong>The Quiet Days</strong><span>by Paris M. France</span></div>
-        </div>
-      </a>
-      <div class="book-info">
-        <h3>The Quiet Days</h3>
-        <h4>By Paris M. France • Psychological Horror / Thriller</h4>
-        <p>A haunting novel about grief, memory, silence, and a disturbing sense of unnatural calm.</p>
-        <p><strong>Originally published under the author's previous name, Paris M. France.</strong></p>
-        <a href="quiet-days.html" class="btn secondary">Explore the Story</a>
-      </div>
-    </article>
-    <article class="book-card">
-      <a href="smile-for-me.html" aria-label="Explore Smile For Me">
-        <div class="placeholder-cover">
-          <div class="placeholder-copy"><small>Coming Soon</small><strong>Smile For Me</strong><span>by P.M. France</span></div>
-        </div>
-      </a>
-      <div class="book-info">
-        <h3>Smile For Me</h3>
-        <h4>By P.M. France • Psychological Thriller • Coming Soon</h4>
-        <p>Simone Reed follows questions that refuse to stay buried while evidence, perception, obsession, and reality begin refusing to stay separate.</p>
-        <a href="smile-for-me.html" class="btn secondary">Explore the Story</a>
-      </div>
-    </article>
-    <article class="book-card">
-      <a href="if-love.html" aria-label="Explore If Love Could Talk">
-        <img class="book-cover" src="images/if-love.png" alt="If Love Could Talk cover"/>
-      </a>
-      <div class="book-info">
-        <h3>If Love Could Talk</h3>
-        <h4>Earlier Work • Dark Romance Tragedy</h4>
-        <p>An intimate, emotional story built around the words love never got to say.</p>
-        <a href="if-love.html" class="btn secondary">Explore the Story</a>
-      </div>
-    </article>
-    <article class="book-card">
-      <a href="summer-kings.html" aria-label="Explore Summer Kings">
-        <img class="book-cover" src="images/leek.png" alt="Summer Kings cover"/>
-      </a>
-      <div class="book-info">
-        <h3>Summer Kings</h3>
-        <h4>Earlier Work • Leek • Street Drama</h4>
-        <p>A tragic street drama about loyalty, ambition, betrayal, love, and survival.</p>
-        <a href="summer-kings.html" class="btn secondary">Explore the Story</a>
-      </div>
-    </article>
+
+<main class="section page-shell pmf-store">
+  <div class="pmf-shop-head">
+    <div>
+      <h2>Browse The Collection</h2>
+      <p id="store-status" class="pmf-muted" role="status">Loading the catalog…</p>
+    </div>
+    <div class="pmf-shop-controls">
+      <a href="cart.html" class="btn primary pmf-cart-link">View Cart (<span data-pmf-cart-count>0</span>)</a>
+    </div>
+    <label for="product-filter">
+      Browse by category
+      <select id="product-filter">
+        <option value="all">All products</option>
+        <option value="book">Books</option>
+        <option value="merchandise">Merchandise</option>
+        <option value="collectible">Collectibles</option>
+        <option value="bundle">Bundles & Boxes</option>
+        <option value="other">Other</option>
+      </select>
+    </label>
+  </div>
+
+  <p id="cart-feedback" class="pmf-muted pmf-cart-feedback" role="status" aria-live="polite">
+    Add available books and collectibles to one cart.
+  </p>
+
+  <section id="public-product-list" class="pmf-product-grid" aria-live="polite"></section>
+
+  <div class="pmf-shop-info">
+    <p>Add available items to one cart and pay once through Square. U.S. shipping is free when all items have free shipping; otherwise it's just $3.99 per order. Applicable taxes are confirmed at Square checkout.</p>
   </div>
 </main>
+
 <footer class="footer">
-  <p><strong>P.M. FRANCE</strong> — Official Author Site</p>
-  <p>Previously published as Paris M. France • Psychological Thrillers • Psychological Horror</p>
+  <p><strong>P.M. FRANCE</strong> — Official Books</p>
+  <p>Previously published as Paris M. France</p>
+  <p><a href="admin.html" class="pmf-admin-footer-link">Author Admin Sign In</a></p>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js"></script>
+
+<script src="pmf-cart-core.js"></script>
+<script src="pmf-store.js"></script>
 <script src="navbar.js"></script>
 </body>
 </html>
