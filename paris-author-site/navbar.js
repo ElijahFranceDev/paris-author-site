@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <a href="index.html">Home</a>
           <a href="pm-france.html">About P.M. France</a>
           <a href="books.html">Books</a>
+          <a href="bookstores.html">Bookstores</a>
           <a href="store.html">Author Store</a>
           <a href="cart.html" id="pmf-cart-nav" style="display:none">Shopping Cart (<span data-pmf-cart-count>0</span>)</a>
           <a href="smile-for-me.html">Smile For Me</a>
