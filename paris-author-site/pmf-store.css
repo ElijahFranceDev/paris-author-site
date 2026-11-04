@@ -97,3 +97,21 @@
 .pmf-preorder-notice p{line-height:1.6;margin:0 0 12px}
 .pmf-preorder-acknowledge{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:.9rem;line-height:1.5}
 .pmf-preorder-acknowledge input{margin-top:4px;flex:none;width:17px;height:17px}
+
+
+/* Click-to-open storefront product details */
+.pmf-product-card-clickable{cursor:pointer;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.pmf-product-card-clickable:hover,.pmf-product-card-clickable:focus-visible{transform:translateY(-4px);border-color:rgba(228,163,171,.48);box-shadow:0 22px 55px rgba(0,0,0,.3);outline:none}
+.pmf-open-product{display:inline-flex;color:#e4a3ab;font-weight:800;font-size:.88rem;letter-spacing:.02em}
+.pmf-card-action{margin-top:2px}
+.pmf-modal-open{overflow:hidden}
+.pmf-product-modal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);display:grid;place-items:center;padding:24px}
+.pmf-product-modal-panel{position:relative;width:min(980px,96vw);max-height:90vh;overflow:auto;display:grid;grid-template-columns:minmax(280px,.82fr) minmax(320px,1.18fr);background:#0d0d10;border:1px solid var(--pmf-line);border-radius:22px;box-shadow:0 35px 110px rgba(0,0,0,.7)}
+.pmf-product-modal-close{position:absolute;right:16px;top:14px;z-index:2;width:42px;height:42px;border-radius:50%;border:1px solid var(--pmf-line);background:rgba(7,7,9,.82);color:var(--text);font-size:1.6rem;line-height:1;cursor:pointer}
+.pmf-product-modal-media{min-height:520px;display:grid;place-items:center;padding:34px;background:radial-gradient(circle at top,rgba(157,49,61,.2),#080709 72%)}
+.pmf-product-modal-image{width:100%;max-width:360px;max-height:560px;object-fit:contain;filter:drop-shadow(0 24px 35px rgba(0,0,0,.45))}
+.pmf-product-modal-detail{padding:clamp(30px,5vw,58px);display:flex;flex-direction:column;justify-content:center;gap:16px}
+.pmf-product-modal-detail h2{font-family:var(--serif);font-size:clamp(2.2rem,5vw,4rem);line-height:.98}
+.pmf-product-modal-description{white-space:pre-wrap;color:#d0c7c4;line-height:1.75;max-width:64ch}
+.pmf-product-modal-price-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding-top:8px}
+@media(max-width:760px){.pmf-product-modal{padding:10px}.pmf-product-modal-panel{grid-template-columns:1fr}.pmf-product-modal-media{min-height:340px;padding:28px}.pmf-product-modal-image{max-height:390px}.pmf-product-modal-detail{padding:30px 24px 36px}}
