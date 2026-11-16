@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta name="robots" content="noindex,nofollow"/><title>Bookstore Manager | P.M. France</title>
 <link rel="stylesheet" href="style.css"/><link rel="stylesheet" href="pmf-store.css"/>
-</head><body>
+<style>#gift-admin{margin:30px 0}#gift-admin button{margin:5px}.gift-editor{border:1px solid #60444d;padding:20px;margin:20px 0}.gift-editor legend{font-size:20px}#gift-settings input:not([type=checkbox]),#gift-settings textarea,#gift-bookstore{box-sizing:border-box;width:100%;display:block;margin:8px 0 18px;padding:12px}#gift-settings label{display:block;margin-top:12px}#gift-cards a{overflow-wrap:anywhere}</style></head><body>
 <div id="navbar-placeholder"></div>
 <header class="page-hero"><div><div class="kicker">Private • P.M. France</div><h1>Bookstore Manager</h1><p>Your catalog, covers and products. Square payments stay as they are.</p></div></header>
 <main class="section page-shell admin-shell">
@@ -20,7 +20,7 @@
 <div class="pmf-actions"><a href="store.html" class="btn secondary">View Store</a><a href="/.netlify/functions/pmf-admin-checkout-status" class="btn secondary" target="_blank" rel="noopener noreferrer">Check Square Readiness</a>
 <button type="button" class="btn secondary" id="admin-logout">Sign Out</button></div>
 </div>
-<div class="pmf-metrics">
+<section id="gift-admin" class="pmf-panel"><h2>Birthday Giveaway · 21 on the 21st</h2><p>Manage the collection here after signing in. Start locked while you polish the novellas.</p><a href="birthday.html" target="_blank" rel="noopener">Preview collection</a><button id="gift-load" type="button">Load giveaway settings</button><p id="gift-feedback" role="status"></p><form id="gift-settings" hidden><label><input id="gift-locked" type="checkbox"> Lock collection and downloads</label><label>Locked message<textarea id="gift-message" maxlength="500"></textarea></label><div id="gift-editors"></div><button id="gift-add" type="button">Add book</button><button type="submit">Save giveaway</button></form><div class="gift-editor"><h3>Bookstore cards</h3><label>Bookstore name<input id="gift-bookstore" maxlength="150"></label><button id="gift-batch" type="button">Create 21 card links</button><p>Each link is unique and claims one title. Save the downloaded CSV for your QR cards.</p><div id="gift-cards"></div></div></section><div class="pmf-metrics">
 <div class="pmf-panel"><span>Products</span><strong id="stat-total">0</strong></div>
 <div class="pmf-panel"><span>Published</span><strong id="stat-published">0</strong></div>
 <div class="pmf-panel"><span>Drafts</span><strong id="stat-drafts">0</strong></div>
@@ -72,4 +72,4 @@
 </div></div>
 </main>
 <script src="navbar.js"></script><script src="pmf-admin.js"></script>
-</body></html>
+<script src="birthday-admin.js"></script></body></html>
