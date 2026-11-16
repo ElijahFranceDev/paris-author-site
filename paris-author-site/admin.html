@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta name="robots" content="noindex,nofollow"/><title>Bookstore Manager | P.M. France</title>
 <link rel="stylesheet" href="style.css"/><link rel="stylesheet" href="pmf-store.css"/>
-<style>#gift-admin{margin:30px 0}#gift-admin button{margin:5px}.gift-editor{border:1px solid #60444d;padding:20px;margin:20px 0}.gift-editor legend{font-size:20px}#gift-settings input:not([type=checkbox]),#gift-settings textarea,#gift-bookstore{box-sizing:border-box;width:100%;display:block;margin:8px 0 18px;padding:12px}#gift-settings label{display:block;margin-top:12px}#gift-cards a{overflow-wrap:anywhere}</style></head><body>
+<link rel="stylesheet" href="birthday-admin.css"/></head><body>
 <div id="navbar-placeholder"></div>
 <header class="page-hero"><div><div class="kicker">Private • P.M. France</div><h1>Bookstore Manager</h1><p>Your catalog, covers and products. Square payments stay as they are.</p></div></header>
 <main class="section page-shell admin-shell">
@@ -65,8 +65,8 @@
 </form>
 </section>
 <section class="pmf-panel">
-<div class="pmf-panel-head"><h2>Your inventory</h2><button type="button" class="pmf-minor" id="refresh-products">Refresh</button></div>
-<p class="pmf-muted">Select Edit to change a listing. Archive removes it from the public store without deleting the record.</p>
+<div class="pmf-panel-head"><h2>Your inventory</h2><button type="button" class="btn secondary" id="toggle-deleted-products">Deleted products</button><button type="button" class="pmf-minor" id="refresh-products">Refresh</button></div>
+<p class="pmf-muted">Select Edit to change a listing. Unpublish hides a listing. Delete moves it to Deleted products, where you can restore it as a draft.</p>
 <div id="admin-products" class="pmf-stack" aria-live="polite"></div>
 </section>
 </div></div>

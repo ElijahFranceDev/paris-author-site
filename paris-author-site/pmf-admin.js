@@ -3,7 +3,7 @@
  const byId=id=>document.getElementById(id);
  const notice=byId("admin-notice");
  const endpoint="/.netlify/functions/";
- let products=[],uploadedImageId="",stockRevision=null;
+ let products=[],uploadedImageId="",stockRevision=null,showDeleted=false;
  const show=(message,isError=false)=>{notice.textContent=message;notice.className="pmf-notice"+(isError?" pmf-error":"");};
  const money=cents=>(cents/100).toLocaleString("en-US",{style:"currency",currency:"USD"});
  async function api(name,options={}){
@@ -44,18 +44,20 @@
  }
  const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;};
  function render(){
-  byId("stat-total").textContent=String(products.length);
-  const published=products.filter(p=>p.published).length;
+  const active=products.filter(p=>!p.deletedAt);
+  byId("stat-total").textContent=String(active.length);
+  const published=active.filter(p=>p.published&&!p.scheduled).length;
   byId("stat-published").textContent=String(published);
-  byId("stat-drafts").textContent=String(products.length-published);
+  byId("stat-drafts").textContent=String(active.length-published);
   const root=byId("admin-products");root.replaceChildren();
-  if(!products.length){root.append(el("p","pmf-muted","You haven't added any products yet. Start with your next book!"));return;}
-  products.forEach(p=>{
+  if(!products.some(p=>showDeleted?!!p.deletedAt:!p.deletedAt)){root.append(el("p","pmf-muted",showDeleted?"No deleted products.":"No active products. Add a new product or restore one from Deleted products."));return;}
+  products.filter(p=>showDeleted?!!p.deletedAt:!p.deletedAt).forEach(p=>{
    const card=el("article","pmf-admin-item");
    const upper=el("div","pmf-admin-item-head");
    if(p.imageUrl){const img=el("img","pmf-thumb");img.src=p.imageUrl;img.alt="Cover for "+p.title;upper.append(img);}
    const info=el("div","pmf-admin-item-main");
    info.append(el("h3","",p.title),el("p","pmf-muted",money(p.priceCents)+" · "+p.category+" · "+(p.published?"Published":"Draft")));
+   if(p.scheduled)info.append(el("p","pmf-emphasis","Scheduled for "+new Date(p.publishAt).toLocaleString("en-US",{timeZone:"America/New_York"})+" Eastern"));
    if(p.preorder) info.append(el("p","pmf-emphasis","Preorder • checkout closed"));
    if(p.comingSoon)info.append(el("p","pmf-emphasis","Coming soon • checkout closed"));
    if(p.trackStock)info.append(el("p","pmf-muted","Stock available: "+p.stock));
@@ -72,9 +74,15 @@
       show("Product unpublished.");await loadProducts();
     }catch(err){show(err.message,true);}finally{archive.disabled=false;}
    });
-   buttons.append(edit,archive);card.append(buttons);root.append(card);
+   const remove=el("button","btn secondary",p.deletedAt?"Restore":"Delete");remove.type="button";
+   remove.addEventListener("click",async()=>{
+    if(!p.deletedAt&&!confirm("Delete "+p.title+" from your inventory? You can restore it from Deleted products."))return;
+    remove.disabled=true;try{await api("pmf-admin-products",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:p.deletedAt?"restore":"delete",id:p.id})});show(p.deletedAt?"Restored as a draft.":"Deleted. You can restore this product from Deleted products.");await loadProducts();}catch(err){show(err.message,true);}finally{remove.disabled=false;}
+   });
+   if(p.deletedAt)buttons.append(remove);else buttons.append(edit,archive,remove);card.append(buttons);root.append(card);
   });
  }
+ byId("toggle-deleted-products").addEventListener("click",()=>{showDeleted=!showDeleted;byId("toggle-deleted-products").textContent=showDeleted?"Show active products":"Deleted products";render();});
  async function loadProducts(){const result=await api("pmf-admin-products");products=result.products||[];render();}
  async function loadSession(){
   try{

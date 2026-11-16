@@ -10,14 +10,14 @@ const legacyHandler=async(event)=>{
  if(!["GET","POST"].includes(method))return auth.json(405,{error:"Method not allowed"});
  try{
    const handle=await store(event);
-   if(method==="GET")return auth.json(200,{products:(await stockDB.availability(await list(handle,{production:isProductionDeploy(event)}))).map(display)});
+   if(method==="GET")return auth.json(200,{products:(await stockDB.availability(await list(handle,{production:isProductionDeploy(event),includeDeleted:true}))).map(display)});
    if((event.body||"").length>19000)return auth.json(413,{error:"Product data is too large."});
    const body=JSON.parse(event.body||"{}");
-   if(body.action==="archive"){
+   if(["archive","delete","restore"].includes(body.action)){
      if(!validId(body.id))return auth.json(400,{error:"Invalid product ID."});
      const previous=await handle.get("products/"+body.id,{type:"json",consistency:"strong"});
      if(!previous)return auth.json(404,{error:"Product not found"});
-     const archived={...previous,published:false,updatedAt:new Date().toISOString()};
+     const archived={...previous,published:false,publishAt:null,deletedAt:body.action==="delete"?new Date().toISOString():(body.action==="restore"?null:previous.deletedAt||null),updatedAt:new Date().toISOString()};
      await handle.setJSON("products/"+body.id,archived);
      return auth.json(200,{product:display(archived)});
    }

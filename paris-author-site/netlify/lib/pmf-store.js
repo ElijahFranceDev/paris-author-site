@@ -1,5 +1,6 @@
 "use strict";
 const crypto = require("node:crypto");
+const {visible}=require("./pmf-bookstore-release");
 const {seedProductionCatalog}=require("./pmf-seed");
 const {seedAdditionalCatalog}=require("./pmf-expand-catalog");
 const {setReadyForSale}=require("./pmf-release-status");
@@ -47,6 +48,7 @@ function normalize(input,prior){
   trackStock:tracked,stock:tracked?stock:null,preorder,comingSoon,
   published,squarePaymentUrl:pay,imageId,
   imagePath:prior?.imagePath||"",
+  publishAt:prior?.publishAt||null,sourceGiveawayBookId:prior?.sourceGiveawayBookId||null,deletedAt:prior?.deletedAt||null,
   createdAt:prior?.createdAt||new Date().toISOString(),
   updatedAt:new Date().toISOString()
  };
@@ -63,7 +65,7 @@ async function store(event){
   if(isProductionDeploy(event))return getStore({name:"pmf-catalog-live",consistency:"strong"});
   return getDeployStore({name:"pmf-catalog-preview",consistency:"strong"});
 }
-async function list(storeHandle,{publicOnly=false,production=false}={}){
+async function list(storeHandle,{publicOnly=false,production=false,includeDeleted=false}={}){
   await seedProductionCatalog(storeHandle,production);
   await seedAdditionalCatalog(storeHandle,production);
   await setReadyForSale(storeHandle,production);
@@ -77,7 +79,7 @@ async function list(storeHandle,{publicOnly=false,production=false}={}){
     for(const b of response.blobs||[]){
       if(items.length>=500) break;
       const value=await storeHandle.get(b.key,{type:"json",consistency:"strong"});
-      if(value && (!publicOnly||value.published))items.push(value);
+      if(value && (includeDeleted||!value.deletedAt) && (!publicOnly||visible(value)))items.push(value);
     }
     if(items.length>=500)break;
     cursor=response.cursor||undefined;
@@ -88,12 +90,12 @@ async function list(storeHandle,{publicOnly=false,production=false}={}){
 }
 const display=p=>({
   id:p.id,title:p.title,description:p.description,category:p.category,format:p.format,
-  author:p.author,priceCents:p.priceCents,sku:p.sku,shipping:p.shipping,
+  publishAt:p.publishAt||null,scheduled:p.published===true&&!!p.publishAt&&Date.parse(p.publishAt)>Date.now(),deletedAt:p.deletedAt||null,author:p.author,priceCents:p.priceCents,sku:p.sku,shipping:p.shipping,
   preorder:p.preorder,comingSoon:p.comingSoon===true,stock:p.trackStock?p.stock:null,trackStock:p.trackStock,published:p.published,
   squarePaymentUrl:p.squarePaymentUrl,
   imageUrl:p.imageId?"/.netlify/functions/pmf-store-image?id="+encodeURIComponent(p.imageId):(p.imagePath||null),
   imageId:p.imageId,inventoryVersion:p.inventoryVersion??null,createdAt:p.createdAt,updatedAt:p.updatedAt,
   // Preorders are information-only until an inventory-safe sale flow is approved.
-  canBuy:p.published&&!p.preorder&&!p.comingSoon&&(!p.trackStock||p.stock>0)&&Boolean(p.squarePaymentUrl)
+  canBuy:visible(p)&&!p.preorder&&!p.comingSoon&&(!p.trackStock||p.stock>0)&&Boolean(p.squarePaymentUrl)
 });
 module.exports={uuid,validId,normalize,store,list,display,isProductionDeploy};

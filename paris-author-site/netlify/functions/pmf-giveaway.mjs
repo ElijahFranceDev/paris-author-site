@@ -3,6 +3,7 @@ import auth from '../lib/pmf-admin-auth.js';
 import catalog from '../lib/pmf-store.js';
 import gift from '../lib/pmf-giveaway.js';
 import crypto from 'node:crypto';
+import releases from '../lib/pmf-bookstore-release.js';
 export default async function(request,context){
 const event=await toLegacyEvent(request,context), u=new URL(request.url), admin=u.searchParams.get('admin')==='1';
 const reply=(s,b)=>fromLegacyResponse(auth.json(s,b,{'Referrer-Policy':'no-referrer'}));
@@ -15,14 +16,26 @@ try{
   if(request.method==='GET')return reply(200,{config});
   if((event.body||'').length>350000)return reply(413,{error:'Request too large.'});
   const body=JSON.parse(event.body||'{}');
-  if(body.action==='save'){const next=gift.normalize(body.config);await store.setJSON('birthday/config',next);return reply(200,{config:next});}
+  if(['save','schedule','cancelSchedule'].includes(body.action)){
+   const next=gift.normalize(body.config,config);
+   // Deleted entries stay in the record so previously claimed cards keep working.
+   if(config.books.some(old=>!next.books.some(b=>b.id===old.id)))return reply(400,{error:'Use the Delete novella button to remove a title. Deleted titles can be restored.'});
+   if(body.action!=='save') {
+     const book=next.books.find(b=>b.id===body.bookId);
+     if(!book)return reply(404,{error:'Novella not found.'});
+     if(body.action==='schedule')book.storeRelease=await releases.schedule(store,book,body.release||{},catalog);
+     else {await releases.cancel(store,book);book.storeRelease=null;}
+   }
+   for(const b of next.books)if(b.deleted){await releases.cancel(store,b);b.storeRelease=null;}
+   await store.setJSON('birthday/config',next);return reply(200,{config:next});
+  }
   if(body.action==='batch'){
    const bookstore=String(body.bookstore||'').trim().slice(0,150);if(!bookstore)return reply(400,{error:'Enter the bookstore name.'});
    const cards=[];for(let i=0;i<21;i++){const code=crypto.randomBytes(18).toString('hex');await store.setJSON('birthday/cards/'+gift.hash(code),{bookstore,createdAt:new Date().toISOString()},{onlyIfNew:true});cards.push({bookstore,url:u.origin+'/birthday.html#'+code});}
    return reply(200,{cards});
   }return reply(400,{error:'Unknown action.'});
  }
- const publicConfig={locked:config.locked,message:config.message,books:config.books.filter(b=>b.enabled).map(({downloadUrl,...b})=>({...b,ready:!!downloadUrl}))};
+ const publicConfig={locked:config.locked,message:config.message,books:config.books.filter(b=>b.enabled&&!b.deleted).map(b=>({id:b.id,title:b.title,description:b.description,coverUrl:b.coverUrl,ready:!!b.downloadUrl}))};
  if(request.method==='GET')return reply(200,publicConfig);
  if((event.body||'').length>2000)return reply(413,{error:'Request too large.'});
  const body=JSON.parse(event.body||'{}'), code=String(body.code||'');
@@ -31,7 +44,7 @@ try{
  if(!await store.get('birthday/cards/'+gift.hash(code),{type:'json'}))return reply(404,{error:'This card was not found. Check your QR code.'});
  let chosen=await store.get('birthday/claims/'+gift.hash(code),{type:'json'});
  if(!chosen&&body.action==='claim'){
-  const book=config.books.find(b=>b.id===body.bookId&&b.enabled&&b.downloadUrl);if(!book)return reply(409,{error:'This book is not ready to download yet.'});
+  const book=config.books.find(b=>b.id===body.bookId&&b.enabled&&!b.deleted&&b.downloadUrl);if(!book)return reply(409,{error:'This book is not ready to download yet.'});
   chosen=await gift.claim(store,code,book.id);
  }
  if(!chosen)return reply(200,{claimed:false});
