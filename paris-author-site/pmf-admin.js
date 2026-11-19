@@ -13,7 +13,7 @@
   return body;
  }
  const loginPane=byId("admin-login"),workspace=byId("admin-workspace");
- function setAuthenticated(yes){loginPane.hidden=!!yes;workspace.hidden=!yes;}
+ function setAuthenticated(yes){loginPane.hidden=!!yes;workspace.hidden=!yes;document.dispatchEvent(new CustomEvent("pmf-auth",{detail:{authenticated:!!yes}}));}
  const field=(id)=>byId("product-"+id);
  function reset(){
   byId("product-form").reset();field("id").value="";uploadedImageId="";stockRevision=null;

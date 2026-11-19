@@ -20,6 +20,15 @@
 <div class="pmf-actions"><a href="store.html" class="btn secondary">View Store</a><a href="/.netlify/functions/pmf-admin-checkout-status" class="btn secondary" target="_blank" rel="noopener noreferrer">Check Square Readiness</a>
 <button type="button" class="btn secondary" id="admin-logout">Sign Out</button></div>
 </div>
+<section class="pmf-panel" id="author-analytics" aria-labelledby="analytics-heading">
+<div class="pmf-panel-head"><h2 id="analytics-heading">Orders &amp; Downloads</h2><button type="button" class="btn secondary" id="analytics-refresh">Refresh activity</button></div>
+<p id="analytics-status" role="status">Sign in to view activity.</p>
+<div class="pmf-metrics"><article class="pmf-panel"><p>Paid website orders</p><h3 id="analytics-orders">—</h3></article><article class="pmf-panel"><p>Website order total (USD)</p><h3 id="analytics-revenue">—</h3></article><article class="pmf-panel"><p>Ebook download requests</p><h3 id="analytics-downloads">—</h3></article></div>
+<p class="pmf-muted">Download tracking starts with this update. Counts show download links opened, including repeat downloads; a browser cannot confirm that a file finished saving. Earlier downloads and direct file links are not included.</p>
+<h3>Downloads by book</h3><div id="analytics-books"></div>
+<h3>Recent paid orders</h3><p id="analytics-order-note" class="pmf-muted"></p><div id="analytics-order-list"></div>
+<h3>Recent ebook downloads</h3><div id="analytics-download-list"></div>
+</section>
 <section id="gift-admin" class="pmf-panel"><h2>Birthday Giveaway · 21 on the 21st</h2><p>Manage the collection here after signing in. Start locked while you polish the novellas.</p><a href="birthday.html" target="_blank" rel="noopener">Preview collection</a><button id="gift-load" type="button">Load giveaway settings</button><p id="gift-feedback" role="status"></p><form id="gift-settings" hidden><label><input id="gift-locked" type="checkbox"> Lock collection and downloads</label><label>Locked message<textarea id="gift-message" maxlength="500"></textarea></label><div id="gift-editors"></div><button id="gift-add" type="button">Add book</button><button type="submit">Save giveaway</button></form><div class="gift-editor"><h3>Bookstore cards</h3><label>Bookstore name<input id="gift-bookstore" maxlength="150"></label><button id="gift-batch" type="button">Create 21 card links</button><p>Each link is unique and claims one title. Save the downloaded CSV for your QR cards.</p><div id="gift-cards"></div></div></section><div class="pmf-metrics">
 <div class="pmf-panel"><span>Products</span><strong id="stat-total">0</strong></div>
 <div class="pmf-panel"><span>Published</span><strong id="stat-published">0</strong></div>
@@ -72,4 +81,4 @@
 </div></div>
 </main>
 <script src="navbar.js"></script><script src="pmf-admin.js"></script>
-<script src="birthday-admin.js"></script></body></html>
+<script src="pmf-analytics.js"></script><script src="birthday-admin.js"></script></body></html>

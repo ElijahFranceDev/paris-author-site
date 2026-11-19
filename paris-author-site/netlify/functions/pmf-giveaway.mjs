@@ -51,6 +51,6 @@ try{
  if(!chosen)return reply(200,{claimed:false});
  const book=config.books.find(b=>b.id===chosen.bookId);
  if(!book?.downloadUrl)return reply(409,{error:'Your book is reserved. Its download is temporarily unavailable.'});
- return reply(200,{claimed:true,book:{id:book.id,title:book.title,downloadUrl:book.downloadUrl}});
+ return reply(200,{claimed:true,book:{id:book.id,title:book.title,downloadUrl:u.origin+'/.netlify/functions/pmf-gift-download?'+new URLSearchParams({code,reader:body.readerId})}});
 }catch(err){console.error('Birthday giveaway',err);return reply(500,{error:admin?String(err.message):'The collection could not be loaded. Please try again.'});}
 }
