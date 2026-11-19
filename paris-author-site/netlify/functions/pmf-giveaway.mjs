@@ -40,12 +40,13 @@ try{
  if((event.body||'').length>2000)return reply(413,{error:'Request too large.'});
  const body=JSON.parse(event.body||'{}'), code=String(body.code||'');
  if(!/^[a-f0-9]{36}$/.test(code))return reply(400,{error:'Scan the QR code on your bookstore card.'});
+ if(!/^[a-f0-9]{32}$/.test(String(body.readerId||'')))return reply(400,{error:'Reload this page to start your personal gift selection.'});
  if(config.locked)return reply(423,{error:config.message});
  if(!await store.get('birthday/cards/'+gift.hash(code),{type:'json'}))return reply(404,{error:'This card was not found. Check your QR code.'});
- let chosen=await store.get('birthday/claims/'+gift.hash(code),{type:'json'});
+ let chosen=await store.get(gift.claimKey(code,body.readerId),{type:'json'});
  if(!chosen&&body.action==='claim'){
   const book=config.books.find(b=>b.id===body.bookId&&b.enabled&&!b.deleted&&b.downloadUrl);if(!book)return reply(409,{error:'This book is not ready to download yet.'});
-  chosen=await gift.claim(store,code,book.id);
+  chosen=await gift.claim(store,code,book.id,body.readerId);
  }
  if(!chosen)return reply(200,{claimed:false});
  const book=config.books.find(b=>b.id===chosen.bookId);
