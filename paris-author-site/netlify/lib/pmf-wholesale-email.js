@@ -1,14 +1,17 @@
 "use strict";
 const emailPattern=/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9.-]*[a-zA-Z0-9])?\.[a-zA-Z]{2,63}$/;
 const validEmail=v=>typeof v==="string"&&v.length<=254&&emailPattern.test(v);
+const {summarize}=require("../../trade-pricing.js");
 const money=c=>c==null?"Quote on request":(c/100).toLocaleString("en-US",{style:"currency",currency:"USD"});
 function config(env=process.env){
  const key=env.PMF_WHOLESALE_RESEND_API_KEY,from=env.PMF_WHOLESALE_FROM_EMAIL,owner=env.PMF_WHOLESALE_OWNER_EMAIL;
  return key&&validEmail(from)&&validEmail(owner)?{key,from,owner}:null;
 }
 function messages(order,c){
- const summary=order.lines.map(i=>i.title+" ("+i.format+") × "+i.quantity+" — "+money(i.unitCents)+" per copy").join("\n");
- const totals="Reference: "+order.id+"\nTotal copies: "+order.quantity+"\nDiscount: "+order.discount+"% off MSRP\nEstimated subtotal: "+money(order.subtotalCents)+"\nShipping and applicable taxes confirmed on invoice.";
+ const summary=order.lines.map(i=>i.title+" ("+i.format+") × "+i.quantity+" — "+money(i.unitCents)+" per copy — "+money(i.unitCents==null?null:i.unitCents*i.quantity)+" line total").join("\n");
+  const amounts=summarize(order.lines);
+ const subtotal=amounts.pendingQuantity?"Priced books subtotal: "+money(amounts.knownSubtotalCents)+"\n"+amounts.pendingQuantity+" copies require pricing; complete subtotal pending.":"Estimated subtotal: "+money(amounts.subtotalCents);
+ const totals="Reference: "+order.id+"\nTotal copies: "+order.quantity+"\nDiscount: "+order.discount+"% off MSRP\n"+subtotal+"\nShipping and applicable taxes confirmed on invoice.";
  const common={from:"P.M. France Wholesale <"+c.from+">"};
  return {
  owner:{...common,to:[c.owner],reply_to:order.email,subject:"New P.M. France wholesale order request",text:"A new wholesale order was saved.\n\nBookstore/library: "+order.organization+"\nContact: "+order.contact+"\nEmail: "+order.email+"\nShipping address: "+order.address+"\nNotes: "+(order.notes||"None")+"\n\n"+summary+"\n\n"+totals+"\n\nReview in https://parisfrance.shop/admin.html — send your Square invoice manually. No payment or stock reservation has occurred."},
