@@ -29,6 +29,7 @@
 <h3>Recent paid orders</h3><p id="analytics-order-note" class="pmf-muted"></p><div id="analytics-order-list"></div>
 <h3>Recent ebook downloads</h3><div id="analytics-download-list"></div>
 </section>
+<section class="pmf-panel" id="wholesale-admin"><div class="pmf-panel-head"><h2>Wholesale Orders</h2><button id="trade-refresh" type="button" class="btn secondary">Refresh requests</button></div><p>Review bookstore orders and send Square invoices manually. Status changes here do not charge customers or change stock.</p><p id="trade-admin-status" role="status"></p><div id="trade-orders"></div></section>
 <section id="gift-admin" class="pmf-panel"><h2>Birthday Giveaway · 21 on the 21st</h2><p>Manage the collection here after signing in. Start locked while you polish the novellas.</p><a href="birthday.html" target="_blank" rel="noopener">Preview collection</a><button id="gift-load" type="button">Load giveaway settings</button><p id="gift-feedback" role="status"></p><form id="gift-settings" hidden><label><input id="gift-locked" type="checkbox"> Lock collection and downloads</label><label>Locked message<textarea id="gift-message" maxlength="500"></textarea></label><div id="gift-editors"></div><button id="gift-add" type="button">Add book</button><button type="submit">Save giveaway</button></form><div class="gift-editor"><h3>Bookstore cards</h3><label>Bookstore name<input id="gift-bookstore" maxlength="150"></label><button id="gift-batch" type="button">Create 21 card links</button><p>Each link is unique and claims one title. Save the downloaded CSV for your QR cards.</p><div id="gift-cards"></div></div></section><div class="pmf-metrics">
 <div class="pmf-panel"><span>Products</span><strong id="stat-total">0</strong></div>
 <div class="pmf-panel"><span>Published</span><strong id="stat-published">0</strong></div>
@@ -45,9 +46,11 @@
 <label>Format <select id="product-format"><option>Paperback</option><option>Hardcover</option><option>Ebook</option><option>Signed edition</option><option>Special edition</option><option>Physical product</option><option>Digital product</option><option>Other</option></select></label>
 </div>
 <div class="pmf-form-row">
-<label>Price (USD) <span>*</span><input id="product-price" type="number" min="0" max="10000" step="0.01" value="0.00" required/></label>
+<label>Author-direct price (USD) <span>*</span><input id="product-price" type="number" min="0" max="10000" step="0.01" value="0.00" required/></label>
 <label>SKU (optional)<input id="product-sku" type="text" maxlength="60" placeholder="PMF-BOOK-001"/></label>
 </div>
+<div class="pmf-form-row"><label>Official MSRP (USD)<input id="product-msrp" type="number" min="0.01" max="10000" step="0.01" placeholder="Confirm distributor price"/></label><label>Recommended bookstore price (USD)<input id="product-resale" type="number" min="0.01" max="10000" step="0.01" placeholder="Optional"/></label></div>
+<p class="pmf-muted">Trade discounts use MSRP only. Blank MSRP means quote on request; blank recommended price means no recommendation. Reader checkout price is unchanged.</p>
 <label>Author / creator<input id="product-author" type="text" maxlength="120" placeholder="P.M. France"/></label>
 <label>Description<textarea id="product-description" rows="5" maxlength="4000" placeholder="Tell readers what is included…"></textarea></label>
 <div class="pmf-form-row">
@@ -80,5 +83,5 @@
 </section>
 </div></div>
 </main>
-<script src="navbar.js"></script><script src="pmf-admin.js"></script>
+<script src="navbar.js"></script><script src="trade-admin.js"></script><script src="pmf-admin.js"></script>
 <script src="pmf-analytics.js"></script><script src="birthday-admin.js"></script></body></html>

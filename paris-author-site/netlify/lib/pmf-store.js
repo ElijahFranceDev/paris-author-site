@@ -25,6 +25,11 @@ const squareUrl=s=>{
     return url.toString();
   }catch{return null;}
 };
+function optionalTradePrice(value){
+ if(value===null||value===undefined||value==="")return null;
+ if(!Number.isSafeInteger(value)||value<1||value>1000000)throw Error("Enter a valid trade price.");
+ return value;
+}
 function normalize(input,prior){
  if(!input||typeof input!=="object"||Array.isArray(input))throw Error("Invalid product");
  const title=str(input.title,150),description=str(input.description,4000);
@@ -45,6 +50,8 @@ function normalize(input,prior){
  return {
   id:prior?.id||uuid(),title,description,category,format,sku,
   author:str(input.author,120),priceCents:cents,shipping,
+  wholesaleMsrpCents:optionalTradePrice(input.wholesaleMsrpCents===undefined?prior?.wholesaleMsrpCents:input.wholesaleMsrpCents),
+  wholesaleResaleCents:optionalTradePrice(input.wholesaleResaleCents===undefined?prior?.wholesaleResaleCents:input.wholesaleResaleCents),
   trackStock:tracked,stock:tracked?stock:null,preorder,comingSoon,
   published,squarePaymentUrl:pay,imageId,
   imagePath:prior?.imagePath||"",
@@ -91,6 +98,7 @@ async function list(storeHandle,{publicOnly=false,production=false,includeDelete
 const display=p=>({
   id:p.id,title:p.title,description:p.description,category:p.category,format:p.format,
   publishAt:p.publishAt||null,scheduled:p.published===true&&!!p.publishAt&&Date.parse(p.publishAt)>Date.now(),deletedAt:p.deletedAt||null,author:p.author,priceCents:p.priceCents,sku:p.sku,shipping:p.shipping,
+  wholesaleMsrpCents:p.wholesaleMsrpCents??null,wholesaleResaleCents:p.wholesaleResaleCents??null,
   preorder:p.preorder,comingSoon:p.comingSoon===true,stock:p.trackStock?p.stock:null,trackStock:p.trackStock,published:p.published,
   squarePaymentUrl:p.squarePaymentUrl,
   imageUrl:p.imageId?"/.netlify/functions/pmf-store-image?id="+encodeURIComponent(p.imageId):(p.imagePath||null),

@@ -1,0 +1,6 @@
+const {test}=require("node:test");const assert=require("node:assert/strict");const T=require("../trade-pricing.js");const {normalize,display}=require("../netlify/lib/pmf-store.js");
+test("all volume boundaries",()=>{assert.deepEqual([0,1,4,5,9,10,24,25,49,50,100].map(T.discount),[0,45,45,50,50,55,55,60,60,65,65]);});
+test("mixed titles receive same tier, never consumer price",()=>{const q=T.quote([{quantity:25,wholesaleMsrpCents:2699,priceCents:1999},{quantity:25,wholesaleMsrpCents:2899,priceCents:2199}]);assert.equal(q.discount,65);assert.deepEqual(q.lines.map(x=>x.unitCents),[945,1015]);assert.equal(q.subtotalCents,49000);});
+test("unknown MSRP is quote-only",()=>{assert.equal(T.quote([{quantity:1,priceCents:1999}]).subtotalCents,null);});
+test("only released print books",()=>{const p={category:"book",format:"Paperback",shipping:"free-us"};assert.equal(T.eligible(p),true);assert.equal(T.eligible({...p,preorder:true}),false);assert.equal(T.eligible({...p,format:"Ebook"}),false);});
+test("catalog prices remain separate",()=>{const raw={title:"Test book",priceCents:1999,wholesaleMsrpCents:2699,wholesaleResaleCents:2199,category:"book",format:"Paperback",shipping:"free-us"};const p=normalize(raw);assert.equal(display(p).priceCents,1999);assert.equal(display(p).wholesaleMsrpCents,2699);assert.equal(display(p).wholesaleResaleCents,2199);});
