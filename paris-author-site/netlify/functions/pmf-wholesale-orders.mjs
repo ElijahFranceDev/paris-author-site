@@ -4,7 +4,8 @@ import catalog from "../lib/pmf-store.js";
 import trade from "../../trade-pricing.js";
 import {randomUUID} from "node:crypto";
 import mail from "../lib/pmf-wholesale-email.js";
-const states=["Order received","Under review","Invoice sent","Payment received","Printing / Processing","Shipped","Delivered","Cancelled"];
+import lifecycle from "../lib/pmf-wholesale-lifecycle.js";
+const {states,actions,OrderActionError,changeOrder}=lifecycle;
 const clean=(s,max)=>typeof s==="string"&&s.trim().length<=max?s.trim():"";
 async function handler(e){
  if(e.httpMethod==="GET"&&!auth.authorized(e))return auth.json(401,{error:"Sign in to view wholesale orders."});
@@ -16,7 +17,8 @@ async function handler(e){
   if((e.body||"").length>24000)return auth.json(413,{error:"Request too large."});
   let raw;try{raw=JSON.parse(e.body||"{}");}catch{return auth.json(400,{error:"Invalid request."});}
   if(!raw||typeof raw!=="object")return auth.json(400,{error:"Invalid request."});
-  if(raw.action==="status"){const denied=auth.reject(e);if(denied)return denied;if(!catalog.validId(raw.id)||!states.includes(raw.status))return auth.json(400,{error:"Invalid status."});const key="wholesale-orders/"+raw.id,prior=await handle.get(key,{type:"json",consistency:"strong"});if(!prior)return auth.json(404,{error:"Order not found."});await handle.setJSON(key,{...prior,status:raw.status,updatedAt:new Date().toISOString()});return auth.json(200,{ok:true});}
+  if(actions.includes(raw.action)){const denied=auth.reject(e);if(denied)return denied;try{return auth.json(200,await changeOrder(handle,raw,{validId:catalog.validId}));}catch(err){if(err instanceof OrderActionError)return auth.json(err.status,{error:err.message});throw err;}}
+  if(raw.action!==undefined)return auth.json(400,{error:"Invalid order action."});
   if(raw.website)return auth.json(400,{error:"Invalid request."});
   const organization=clean(raw.organization,150),contact=clean(raw.contact,150),email=clean(raw.email,254),address=clean(raw.address,500),notes=clean(raw.notes,1000);
   if(!organization||!contact||!address||!mail.validEmail(email))return auth.json(400,{error:"Enter your organization, contact, email and shipping address."});

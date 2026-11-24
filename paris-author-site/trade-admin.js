@@ -8,7 +8,26 @@ function block(label,value){const e=node("div",undefined,"trade-detail");e.appen
 function metric(label,value){const e=node("div",undefined,"trade-metric");e.append(node("span",label,"trade-label"),node("strong",value));return e;}
 const statesText={accepted:"Accepted by email provider (delivery not confirmed)",failed:"Send failed — follow up manually",not_configured:"Not configured",preview_disabled:"Disabled in preview",invalid_email:"Invalid address"};
 const emailState=v=>statesText[v]||"Not recorded";
-let signed=false,version=0;
+let signed=false,version=0,view="active",orders=[];
+const terminal=o=>o.status==="Delivered"||o.status==="Cancelled";
+function actionButton(label,o,action,confirmMessage){
+ const b=node("button",label,"btn secondary");b.type="button";
+ b.addEventListener("click",async()=>{
+  if(confirmMessage&&!window.confirm(confirmMessage))return;
+  b.disabled=true;
+  try{const r=await fetch(endpoint,{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({action,id:o.id,...(action==="delete"?{confirm:true}:{})})});const d=await r.json();if(!r.ok)throw Error(d.error||"Order action failed.");await load();}
+  catch(err){status.textContent=err.message||"Order action failed.";}finally{b.disabled=false;}
+ });return b;
+}
+function render(){
+ root.replaceChildren();
+ const active=orders.filter(o=>!o.archivedAt),archived=orders.filter(o=>!!o.archivedAt);
+ $("trade-active").textContent="Current orders ("+active.length+")";$("trade-archived").textContent="Archived orders ("+archived.length+")";
+ $("trade-active").setAttribute("aria-pressed",String(view==="active"));$("trade-archived").setAttribute("aria-pressed",String(view==="archived"));
+ const shown=view==="archived"?archived:active;
+ if(!shown.length)root.append(node("p",view==="archived"?"No archived orders yet.":"No current wholesale orders.","trade-muted"));
+ shown.forEach(o=>root.append(orderCard(o)));
+}
 function orderCard(o){
  const a=node("article",undefined,"trade-order"),amounts=T.summarize(o.lines);
  const header=node("div",undefined,"trade-order-header"),heading=node("div");
@@ -27,9 +46,16 @@ function orderCard(o){
  totals.append(node("p","Shipping and applicable taxes are finalized on the Square invoice.","trade-muted"));items.append(totals);a.append(items);
  const notifications=node("section",undefined,"trade-order-section");notifications.append(node("h4","Email notifications"));
  const notices=node("div",undefined,"trade-details");notices.append(block("Author alert",emailState(o.notification?.owner)),block("Bookstore confirmation",emailState(o.notification?.customer)));notifications.append(notices);a.append(notifications);
- const controls=node("div",undefined,"trade-order-controls"),label=node("label","Order status"),select=node("select");states.forEach(s=>{const opt=node("option",s);opt.value=s;select.append(opt);});select.value=o.status;label.append(select);
- const save=node("button","Save status","btn secondary");save.type="button";save.addEventListener("click",async()=>{save.disabled=true;try{const r=await fetch(endpoint,{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"status",id:o.id,status:select.value})});if(!r.ok)throw Error((await r.json()).error);await load();}catch(err){status.textContent=err.message||"Unable to update status.";}finally{save.disabled=false;}});controls.append(label,save);a.append(controls);return a;
+ const controls=node("div",undefined,"trade-order-controls");
+ if(o.archivedAt){
+  controls.append(node("p","Archived "+new Date(o.archivedAt).toLocaleString(),"trade-muted"),actionButton("Restore order",o,"restore"));
+  if(terminal(o)){const del=actionButton("Delete permanently",o,"delete","Permanently delete this archived order for "+o.organization+"? This cannot be undone. Keep completed sales records for accounting. Square records and stock are unchanged.");del.classList.add("trade-delete");controls.append(del);}
+  a.append(controls);return a;
+ }
+ const label=node("label","Order status"),select=node("select");states.forEach(s=>{const opt=node("option",s);opt.value=s;select.append(opt);});select.value=o.status;label.append(select);
+ const save=node("button","Save status","btn secondary");save.type="button";save.addEventListener("click",async()=>{save.disabled=true;try{const r=await fetch(endpoint,{method:"POST",credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"status",id:o.id,status:select.value})});if(!r.ok)throw Error((await r.json()).error);await load();}catch(err){status.textContent=err.message||"Unable to update status.";}finally{save.disabled=false;}});controls.append(label,save);if(terminal(o))controls.append(actionButton("Archive order",o,"archive"));a.append(controls);return a;
 }
-async function load(){if(!signed)return;const v=++version;status.textContent="Loading requests…";try{const r=await fetch(endpoint,{cache:"no-store",credentials:"same-origin"}),d=await r.json();if(!r.ok)throw Error(d.error);if(!signed||v!==version)return;root.replaceChildren();status.textContent=d.orders.length+" "+(d.orders.length===1?"request":"requests")+" · "+(d.emailConfigured?"Email notifications configured":"Email notifications not configured or preview disabled");if(!d.orders.length)root.append(node("p","No wholesale requests yet.","trade-muted"));d.orders.forEach(o=>root.append(orderCard(o)));}catch(err){if(signed&&v===version)status.textContent=err.message||"Unable to load requests.";}}
-document.addEventListener("pmf-auth",e=>{signed=e.detail.authenticated;if(signed)load();else{version++;root.replaceChildren();status.textContent="";}});$("trade-refresh").addEventListener("click",load);
+async function load(){if(!signed)return;const v=++version;status.textContent="Loading requests…";try{const r=await fetch(endpoint,{cache:"no-store",credentials:"same-origin"}),d=await r.json();if(!r.ok)throw Error(d.error);if(!signed||v!==version)return;orders=d.orders;status.textContent=orders.length+" "+(orders.length===1?"request":"requests")+" · "+(d.emailConfigured?"Email notifications configured":"Email notifications not configured or preview disabled");render();}catch(err){if(signed&&v===version)status.textContent=err.message||"Unable to load requests.";}}
+document.addEventListener("pmf-auth",e=>{signed=e.detail.authenticated;if(signed)load();else{version++;orders=[];view="active";root.replaceChildren();status.textContent="";$("trade-active").textContent="Current orders";$("trade-archived").textContent="Archived orders";$("trade-active").setAttribute("aria-pressed","true");$("trade-archived").setAttribute("aria-pressed","false");}});$("trade-refresh").addEventListener("click",load);
+$("trade-active").addEventListener("click",()=>{if(signed){view="active";render();}});$("trade-archived").addEventListener("click",()=>{if(signed){view="archived";render();}});
 })();
