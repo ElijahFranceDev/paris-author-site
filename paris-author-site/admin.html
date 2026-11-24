@@ -2,9 +2,9 @@
 <html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta name="robots" content="noindex,nofollow"/><title>Bookstore Manager | P.M. France</title>
 <link rel="stylesheet" href="style.css"/><link rel="stylesheet" href="pmf-store.css"/>
-<link rel="stylesheet" href="birthday-admin.css"/><link rel="stylesheet" href="trade-admin.css"/></head><body>
+<link rel="stylesheet" href="birthday-admin.css"/><link rel="stylesheet" href="trade-admin.css"/><link rel="stylesheet" href="author-workspace.css"/></head><body class="author-workspace-page">
 <div id="navbar-placeholder"></div>
-<header class="page-hero"><div><div class="kicker">Private • P.M. France</div><h1>Bookstore Manager</h1><p>Your catalog, covers and products. Square payments stay as they are.</p></div></header>
+<header class="author-workspace-header"><div><div class="kicker">P.M. France / Private workspace</div><h1>Author Portal</h1><p>Manage your publishing business in one place.</p></div></header>
 <main class="section page-shell admin-shell">
 <div id="admin-notice" class="pmf-notice" role="status"></div>
 <section id="admin-login" class="pmf-panel pmf-login" hidden>
@@ -15,22 +15,33 @@
 <p class="pmf-muted">Your password is verified securely on the server and isn't saved in the browser.</p>
 </section>
 <div id="admin-workspace" hidden>
-<div class="pmf-dashboard-head">
-<div><h2>Manage Products</h2><p>Add books, signed copies, collectibles, bundles and merchandise.</p></div>
-<div class="pmf-actions"><a href="store.html" class="btn secondary">View Store</a><a href="/.netlify/functions/pmf-admin-checkout-status" class="btn secondary" target="_blank" rel="noopener noreferrer">Check Square Readiness</a>
-<button type="button" class="btn secondary" id="admin-logout">Sign Out</button></div>
-</div>
+<div class="aw-layout">
+<aside class="aw-sidebar" aria-label="Author portal navigation"><div class="aw-sidebar-brand"><span>PMF</span><div><strong>Author workspace</strong><small>Publishing management</small></div></div>
+<nav class="aw-nav" aria-label="Workspace sections">
+<a href="#overview" data-aw-view="overview"><span class="aw-nav-icon" aria-hidden="true">▦</span>Overview</a>
+<a href="#wholesale" data-aw-view="wholesale"><span class="aw-nav-icon" aria-hidden="true">▤</span>Wholesale orders</a>
+<a href="#catalog" data-aw-view="catalog"><span class="aw-nav-icon" aria-hidden="true">▥</span>Books &amp; inventory</a>
+<a href="#sales" data-aw-view="sales"><span class="aw-nav-icon" aria-hidden="true">↗</span>Sales &amp; downloads</a>
+<a href="#giveaway" data-aw-view="giveaway"><span class="aw-nav-icon" aria-hidden="true">◇</span>Birthday giveaway</a>
+</nav><div class="aw-sidebar-links"><span class="aw-sidebar-label">Quick links</span><a href="store.html" target="_blank" rel="noopener noreferrer">View reader store ↗</a><a href="wholesale.html" target="_blank" rel="noopener noreferrer">View wholesale portal ↗</a><a href="/.netlify/functions/pmf-admin-checkout-status" target="_blank" rel="noopener noreferrer">Square readiness ↗</a><button type="button" class="btn secondary" id="admin-logout">Sign out</button></div></aside>
+<div class="aw-content" id="aw-content"><section class="aw-view" id="overview" data-aw-panel="overview"><header class="aw-view-header"><div><div class="aw-eyebrow">Dashboard</div><h2>Overview</h2><p>Your catalog and reader activity at a glance.</p></div><a href="#catalog" class="btn secondary">Manage catalog</a></header>
+<div class="aw-overview-metrics" id="aw-overview-metrics"></div>
+<h3 class="aw-section-heading">Your workspace</h3><div class="aw-quick-grid">
+<a class="aw-quick-card" href="#wholesale"><span>01 / Trade</span><strong>Wholesale orders</strong><p>Review bookstore requests, prepare invoices and manage archived orders.</p><span>Manage orders →</span></a>
+<a class="aw-quick-card" href="#catalog"><span>02 / Catalog</span><strong>Books &amp; inventory</strong><p>Manage titles, covers, retail and trade prices, stock and publishing status.</p><span>Manage catalog →</span></a>
+<a class="aw-quick-card" href="#sales"><span>03 / Activity</span><strong>Sales &amp; downloads</strong><p>Review confirmed website sales and ebook download activity.</p><span>View activity →</span></a>
+<a class="aw-quick-card" href="#giveaway"><span>04 / Readers</span><strong>Birthday giveaway</strong><p>Manage free novellas, release schedules and bookstore QR cards.</p><span>Manage giveaway →</span></a>
+</div><p class="pmf-muted aw-footnote">Website sales metrics exclude manually invoiced wholesale orders. Download counts represent requests, not confirmed completed downloads.</p></section>
+<section class="aw-view" id="sales" data-aw-panel="sales"><header class="aw-view-header"><div><div class="aw-eyebrow">Reporting</div><h2>Sales &amp; downloads</h2><p>Monitor confirmed website orders and reader activity.</p></div></header>
 <section class="pmf-panel" id="author-analytics" aria-labelledby="analytics-heading">
 <div class="pmf-panel-head"><h2 id="analytics-heading">Orders &amp; Downloads</h2><button type="button" class="btn secondary" id="analytics-refresh">Refresh activity</button></div>
 <p id="analytics-status" role="status">Sign in to view activity.</p>
-<div class="pmf-metrics"><article class="pmf-panel"><p>Paid website orders</p><h3 id="analytics-orders">—</h3></article><article class="pmf-panel"><p>Website order total (USD)</p><h3 id="analytics-revenue">—</h3></article><article class="pmf-panel"><p>Ebook download requests</p><h3 id="analytics-downloads">—</h3></article></div>
+<div class="pmf-metrics aw-metric-grid"><article class="pmf-panel"><p>Paid website orders</p><h3 id="analytics-orders">—</h3></article><article class="pmf-panel"><p>Website order total (USD)</p><h3 id="analytics-revenue">—</h3></article><article class="pmf-panel"><p>Ebook download requests</p><h3 id="analytics-downloads">—</h3></article></div>
 <p class="pmf-muted">Download tracking starts with this update. Counts show download links opened, including repeat downloads; a browser cannot confirm that a file finished saving. Earlier downloads and direct file links are not included.</p>
-<h3>Downloads by book</h3><div id="analytics-books"></div>
-<h3>Recent paid orders</h3><p id="analytics-order-note" class="pmf-muted"></p><div id="analytics-order-list"></div>
-<h3>Recent ebook downloads</h3><div id="analytics-download-list"></div>
-</section>
-<section class="pmf-panel" id="wholesale-admin"><div class="pmf-panel-head"><h2>Wholesale Orders</h2><button id="trade-refresh" type="button" class="btn secondary">Refresh requests</button></div><p>Review bookstore orders and send Square invoices manually. Status changes here do not charge customers or change stock.</p><p id="trade-admin-status" role="status"></p><div class="trade-filter" aria-label="Wholesale order views"><button id="trade-active" type="button" class="btn secondary" aria-pressed="true">Current orders</button><button id="trade-archived" type="button" class="btn secondary" aria-pressed="false">Archived orders</button></div><p class="trade-muted">Archive delivered or cancelled orders to keep your workspace clean without losing the record. Restore archived orders or permanently delete them only if you no longer need the record.</p><div id="trade-orders"></div></section>
-<section id="gift-admin" class="pmf-panel"><h2>Birthday Giveaway · 21 on the 21st</h2><p>Manage the collection here after signing in. Start locked while you polish the novellas.</p><a href="birthday.html" target="_blank" rel="noopener">Preview collection</a><button id="gift-load" type="button">Load giveaway settings</button><p id="gift-feedback" role="status"></p><form id="gift-settings" hidden><label><input id="gift-locked" type="checkbox"> Lock collection and downloads</label><label>Locked message<textarea id="gift-message" maxlength="500"></textarea></label><div id="gift-editors"></div><button id="gift-add" type="button">Add book</button><button type="submit">Save giveaway</button></form><div class="gift-editor"><h3>Bookstore cards</h3><label>Bookstore name<input id="gift-bookstore" maxlength="150"></label><button id="gift-batch" type="button">Create 21 card links</button><p>Each link is unique and claims one title. Save the downloaded CSV for your QR cards.</p><div id="gift-cards"></div></div></section><div class="pmf-metrics">
+<div class="aw-report-grid"><section class="aw-report-card aw-report-wide"><h3>Recent paid orders</h3><p id="analytics-order-note" class="pmf-muted"></p><div id="analytics-order-list"></div></section><section class="aw-report-card"><h3>Downloads by book</h3><div id="analytics-books"></div></section><section class="aw-report-card"><h3>Recent ebook downloads</h3><div id="analytics-download-list"></div></section></div>
+</section></section>
+<section class="aw-view" id="wholesale" data-aw-panel="wholesale"><header class="aw-view-header"><div><div class="aw-eyebrow">Trade services</div><h2>Wholesale orders</h2><p>Manage bookstore and library requests, from invoice to delivery.</p></div><a href="wholesale.html" target="_blank" rel="noopener noreferrer" class="btn secondary">Open wholesale storefront ↗</a></header><section class="pmf-panel" id="wholesale-admin"><div class="pmf-panel-head"><h2>Wholesale Orders</h2><button id="trade-refresh" type="button" class="btn secondary">Refresh requests</button></div><p>Review bookstore orders and send Square invoices manually. Status changes here do not charge customers or change stock.</p><p id="trade-admin-status" role="status"></p><div class="trade-filter" aria-label="Wholesale order views"><button id="trade-active" type="button" class="btn secondary" aria-pressed="true">Current orders</button><button id="trade-archived" type="button" class="btn secondary" aria-pressed="false">Archived orders</button></div><p class="trade-muted">Archive delivered or cancelled orders to keep your workspace clean without losing the record. Restore archived orders or permanently delete them only if you no longer need the record.</p><div id="trade-orders"></div></section></section>
+<section class="aw-view" id="giveaway" data-aw-panel="giveaway"><header class="aw-view-header"><div><div class="aw-eyebrow">Reader programs</div><h2>Birthday giveaway</h2><p>Manage the collection and bookstore access cards.</p></div></header><section id="gift-admin" class="pmf-panel"><h2>Birthday Giveaway · 21 on the 21st</h2><p>Manage the collection here after signing in. Start locked while you polish the novellas.</p><div class="aw-inline-actions"><a class="btn secondary" href="birthday.html" target="_blank" rel="noopener">Preview collection</a><button id="gift-load" type="button">Load giveaway settings</button></div><p id="gift-feedback" role="status"></p><form id="gift-settings" hidden><label><input id="gift-locked" type="checkbox"> Lock collection and downloads</label><label>Locked message<textarea id="gift-message" maxlength="500"></textarea></label><div id="gift-editors"></div><button id="gift-add" type="button">Add book</button><button type="submit">Save giveaway</button></form><div class="gift-editor"><h3>Bookstore cards</h3><label>Bookstore name<input id="gift-bookstore" maxlength="150"></label><button id="gift-batch" type="button">Create 21 card links</button><p>Each link is unique and claims one title. Save the downloaded CSV for your QR cards.</p><div id="gift-cards"></div></div></section></section><section class="aw-view" id="catalog" data-aw-panel="catalog"><header class="aw-view-header"><div><div class="aw-eyebrow">Publishing catalog</div><h2>Books &amp; inventory</h2><p>Manage products, editions, pricing, availability and cover images.</p></div><a href="#editor-panel" class="btn secondary">Product editor</a></header><div class="pmf-metrics aw-metric-grid">
 <div class="pmf-panel"><span>Products</span><strong id="stat-total">0</strong></div>
 <div class="pmf-panel"><span>Published</span><strong id="stat-published">0</strong></div>
 <div class="pmf-panel"><span>Drafts</span><strong id="stat-drafts">0</strong></div>
@@ -76,12 +87,11 @@
 </div>
 </form>
 </section>
-<section class="pmf-panel">
+<section class="pmf-panel" id="aw-inventory">
 <div class="pmf-panel-head"><h2>Your inventory</h2><button type="button" class="btn secondary" id="toggle-deleted-products">Deleted products</button><button type="button" class="pmf-minor" id="refresh-products">Refresh</button></div>
 <p class="pmf-muted">Select Edit to change a listing. Unpublish hides a listing. Delete moves it to Deleted products, where you can restore it as a draft.</p>
 <div id="admin-products" class="pmf-stack" aria-live="polite"></div>
 </section>
-</div></div>
+</div></section></div></div></div>
 </main>
-<script src="navbar.js"></script><script src="trade-pricing.js"></script><script src="trade-admin.js"></script><script src="pmf-admin.js"></script>
-<script src="pmf-analytics.js"></script><script src="birthday-admin.js"></script></body></html>
+<script src="navbar.js"></script><script src="author-workspace.js"></script><script src="trade-pricing.js"></script><script src="trade-admin.js"></script><script src="pmf-analytics.js"></script><script src="birthday-admin.js"></script><script src="pmf-admin.js"></script></body></html>
