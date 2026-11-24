@@ -30,6 +30,8 @@
   stockRevision=p.inventoryVersion??null;field("id").value=p.id;field("title").value=p.title;
   field("category").value=p.category;field("format").value=p.format;
   field("price").value=(p.priceCents/100).toFixed(2);
+  field("msrp").value=p.wholesaleMsrpCents==null?"":(p.wholesaleMsrpCents/100).toFixed(2);
+  field("resale").value=p.wholesaleResaleCents==null?"":(p.wholesaleResaleCents/100).toFixed(2);
   field("sku").value=p.sku||"";field("author").value=p.author||"";
   field("description").value=p.description||"";field("shipping").value=p.shipping;
   field("track-stock").checked=!!p.trackStock;field("stock").value=p.stock||0;
@@ -130,7 +132,9 @@
   const p={
     id:field("id").value||undefined,title:field("title").value,
     category:field("category").value,format:field("format").value,
-    priceCents:Math.round(price*100),sku:field("sku").value,author:field("author").value,
+    priceCents:Math.round(price*100),
+    wholesaleMsrpCents:field("msrp").value===""?null:Math.round(Number(field("msrp").value)*100),
+    wholesaleResaleCents:field("resale").value===""?null:Math.round(Number(field("resale").value)*100),sku:field("sku").value,author:field("author").value,
     description:field("description").value,shipping:field("shipping").value,
     trackStock:field("track-stock").checked,stock:Number(field("stock").value),
     preorder:field("preorder").checked,comingSoon:field("coming-soon").checked,squarePaymentUrl:field("square").value,

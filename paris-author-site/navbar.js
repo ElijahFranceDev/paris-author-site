@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <a href="pm-france.html">About P.M. France</a>
           <a href="books.html">Books</a>
           <a href="bookstores.html">Bookstores</a>
+          <a href="wholesale.html">Wholesale Orders</a>
           <a href="birthday.html">21 on the 21st · Birthday Gift</a>
           <a href="cart.html" id="pmf-cart-nav" style="display:none">Shopping Cart (<span data-pmf-cart-count>0</span>)</a>
           <a href="smile-for-me.html">Smile For Me</a>
