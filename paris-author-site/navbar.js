@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="dropdown" id="site-dropdown">
           <a href="index.html">Home</a>
           <a href="pm-france.html">About P.M. France</a>
+          <a href="verravism.html">Verravism</a>
           <a href="books.html">Books</a>
           <a href="bookstores.html">Bookstores</a>
           <a href="wholesale.html">Wholesale Orders</a>
