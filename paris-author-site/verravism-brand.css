@@ -1,0 +1,22 @@
+/* Verravism movement branding. Scoped to preserve the P.M. France identity and storefront. */
+.vr-hero.page-hero{min-height:0;padding:clamp(32px,6vw,78px) 7%;background:radial-gradient(ellipse at 24% 50%,rgba(185,147,74,.105),transparent 48%);}
+.vr-hero.page-hero::before{background:linear-gradient(135deg,rgba(197,160,89,.035),transparent 60%);}
+.vr-hero-layout{width:min(1020px,100%);display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:clamp(24px,5vw,68px);align-items:center;text-align:left;}
+.vr-hero-emblem,.vr-home-emblem,.vr-founder-emblem{display:block;width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 12px 28px rgba(0,0,0,.38));}
+.vr-hero-main .vr-hero-emblem{max-width:320px;margin:auto;}
+.vr-hero-secondary .vr-hero-layout{grid-template-columns:minmax(0,205px) minmax(0,1fr);max-width:900px;}
+.vr-hero-secondary .vr-hero-emblem{max-width:205px;margin:auto;}
+.vr-hero .kicker,.vr-home-section .section-label{color:#d3b478;letter-spacing:.15em;}
+.vr-hero.page-hero h1{font-size:clamp(2.55rem,5.7vw,5.4rem);line-height:1.02;margin-bottom:16px;overflow-wrap:anywhere;}
+.vr-hero.page-hero p{margin:0;max-width:620px;}
+.vr-home-section{background:radial-gradient(ellipse at 24% 50%,rgba(185,147,74,.085),transparent 52%);}
+.vr-home-layout{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr);gap:clamp(24px,5vw,64px);align-items:center;}
+.vr-home-emblem-link{display:block;width:min(100%,290px);margin:auto;}
+.vr-home-copy .thriller-title{margin-bottom:16px;}
+.vr-home-copy .section-intro{margin-bottom:24px;}
+.vr-founder-note{display:grid;grid-template-columns:minmax(0,108px) minmax(0,1fr);align-items:center;gap:18px;}
+.vr-founder-note a:not(.vr-founder-emblem-link){color:#d3b478;text-decoration:underline;text-underline-offset:.16em;}
+.vr-founder-emblem-link{display:block;}
+.vr-home-emblem-link:focus-visible,.vr-founder-emblem-link:focus-visible{outline:2px solid #d3b478;outline-offset:4px;border-radius:8px;}
+@media(max-width:720px){.vr-hero-layout,.vr-hero-secondary .vr-hero-layout,.vr-home-layout{grid-template-columns:minmax(0,1fr);text-align:center;gap:20px;}.vr-hero-main .vr-hero-emblem{max-width:min(240px,70vw);}.vr-hero-secondary .vr-hero-emblem{max-width:min(160px,55vw);}.vr-hero.page-hero p{margin:auto;}.vr-home-emblem-link{width:min(230px,68vw);}.vr-home-copy .section-intro{margin-left:auto;margin-right:auto;}.vr-home-copy .thriller-actions{justify-content:center;}.vr-founder-note{grid-template-columns:minmax(0,1fr);}.vr-founder-emblem-link{width:110px;margin:auto;}}
+@media print{.vr-hero.page-hero{padding:0!important;background:none!important;}.vr-hero-layout,.vr-hero-secondary .vr-hero-layout{display:flex;align-items:center;gap:16px;text-align:left;}.vr-hero-main .vr-hero-emblem,.vr-hero-secondary .vr-hero-emblem{width:95px;height:auto;filter:none;}.vr-hero.page-hero h1{font-size:27pt;}.vr-hero .kicker{color:#222!important;}}
